@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    >
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/background_image_circular"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/iniciar_sesion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:autoSizeTextType="uniform"
+        android:background="@android:color/transparent"
+        android:text="@string/usar_email"
+        android:textAlignment="center"
+        android:textColor="@color/colorWithe"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:targetApi="o"
+        android:gravity="center_horizontal" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/email"
+        android:textAlignment="viewStart"
+        android:textColorHint="@color/colorWhite"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        app:boxStrokeColor="@color/colorAccent"
+        app:hintTextColor="@color/colorWhite"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/passwordLayout"
+        app:layout_constraintEnd_toEndOf="@+id/iniciar_sesion"
+        app:layout_constraintStart_toStartOf="@+id/iniciar_sesion"
+
+        app:layout_constraintTop_toBottomOf="@+id/iniciar_sesion"
+        android:gravity="start">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id = "@+id/passwordLayout"
+        style = "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width = "0dp"
+        android:layout_height = "wrap_content"
+        android:layout_marginTop = "8dp"
+        android:hint = "@string/password"
+        android:textAlignment = "viewStart"
+        android:textColorHint = "@color/colorWhite"
+        android:textSize = "20sp"
+        android:textStyle = "normal"
+        app:boxStrokeColor = "@color/colorAccent"
+        app:counterEnabled = "true"
+        app:hintTextColor = "@color/colorWhite"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf = "@+id/emailLayout"
+        app:layout_constraintStart_toStartOf = "@+id/emailLayout"
+        app:layout_constraintTop_toBottomOf = "@+id/emailLayout"
+        android:gravity="start">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id = "@+id/extiTextPassword"
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:inputType = "textPassword"
+            android:maxLength = "30"
+            android:textColor = "@color/colorWhite" />
+
+    </com.google.android.material.textfield.TextInputLayout >
+
+    <Button
+        android:id="@+id/registrarme"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="@string/registarme"
+        android:textAlignment="center"
+        android:textColor="@color/colorWithe"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/iniciar_sesion"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/iniciar_sesion"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLayout"
+        android:gravity="center_horizontal" />
+
+    <ImageView
+        android:id="@+id/google_login_"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="@+id/facebook_login_"
+        app:layout_constraintStart_toStartOf="@+id/registrarme"
+        app:layout_constraintTop_toTopOf="@+id/facebook_login_" />
+
+    <ImageView
+        android:id="@+id/facebook_login_"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:layout_constraintEnd_toStartOf="@+id/instagram_login_"
+        app:layout_constraintStart_toEndOf="@+id/google_login_"
+        app:layout_constraintTop_toBottomOf="@+id/registrarme" />
+
+    <ImageView
+        android:id="@+id/instagram_login_"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="@+id/facebook_login_"
+        app:layout_constraintEnd_toEndOf="@+id/registrarme"
+        app:layout_constraintTop_toTopOf="@+id/facebook_login_" />
+
+    <TextView
+        android:id="@+id/terminos_condiciones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/terminos_y_condiciones"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
