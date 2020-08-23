@@ -1,17 +1,19 @@
 package wsl.com.tepeheapp.Utils.retrofit
 
 import com.wsl.login.model.EUser
+import com.wsl.login.retrofit.LoginResponse
+import com.wsl.login.retrofit.RegisterResponse
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.http.*
 
 interface RetrofitServices {
 
-    @POST("signin/")
-    fun login(@Body user: EUser): Observable<ResponseBody>
+    @POST("login/")
+    fun login(@Body parameters: EUser): Observable<LoginResponse>
 
 
     @POST("register/")
-    fun registerUser(@Body user: EUser ): Observable<ResponseBody>
+    fun registerUser(@Body user: EUser ): Observable<RegisterResponse>
 
 }

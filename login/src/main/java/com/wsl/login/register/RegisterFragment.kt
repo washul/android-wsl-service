@@ -1,22 +1,53 @@
-package wsl.com.tepeheapp.fragments
+package com.wsl.login.register
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.RadioButton
+import android.widget.ProgressBar
+import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputLayout
 import com.wsl.login.R
+import com.wsl.login.helpers.Preferences
+import com.wsl.login.helpers.ProgressBarCustom
+import com.wsl.login.helpers.getDeviceID
+import com.wsl.login.helpers.showSnackBarMessage
 import com.wsl.login.model.EUser
 import com.wsl.login.view_model.LoginViewModel
+import com.wsl.login.view_model.RepositoryLogin
 import kotlinx.android.synthetic.main.fragment_register.*
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : DialogFragment() {
 
     private var UIView: View? = null
+
+    companion object {
+        const val TAG = "RegisterFragment"
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val dialog = dialog
+
+        if ( dialog != null ) {
+
+            val width = ViewGroup.LayoutParams.MATCH_PARENT
+            val height = ViewGroup.LayoutParams.MATCH_PARENT
+            dialog.window?.setLayout(width, height)
+
+        }
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.FullScreenDialogStyle)
+
+    }
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?,  savedInstanceState: Bundle? ): View? {
 
@@ -33,40 +64,87 @@ class RegisterFragment : Fragment() {
 //        MARK: OBJECTS
         private lateinit var loginViewModel: LoginViewModel
 
-//        MARK: UI
-        private var holder_name = UIView?.findViewById<TextInputLayout>( R.id.holder_name )
-        private var last_name = UIView?.findViewById<TextInputLayout>( R.id.last_name )
-        private var email       = UIView?.findViewById<TextInputLayout>( R.id.emailLayout )
-        private var country_    = UIView?.findViewById<TextInputLayout>( R.id.country_ )
-        private var state_      = UIView?.findViewById<TextInputLayout>( R.id.state_ )
-        private var city_       = UIView?.findViewById<TextInputLayout>( R.id.city_ )
-        private var phone_      = UIView?.findViewById<TextInputLayout>( R.id.phone_ )
-        private var first       = UIView?.findViewById<RadioButton>( R.id.first )
+
+//        MARK: UI OBJECTS
+        private val progress_bar_ = UIView?.findViewById<ProgressBar>( R.id.progress_bar_)
+        private val holder_name = UIView?.findViewById<TextInputLayout>( R.id.holder_name)
+        private val last_name = UIView?.findViewById<TextInputLayout>( R.id.last_name)
+        private val email = UIView?.findViewById<TextInputLayout>( R.id.email_)
+        private val passwordLayout1 = UIView?.findViewById<TextInputLayout>( R.id.passwordLayout1)
+        private val passwordLayout2 = UIView?.findViewById<TextInputLayout>( R.id.passwordLayout2)
+        private val country_ = UIView?.findViewById<TextInputLayout>( R.id.country_)
+        private val state_ = UIView?.findViewById<TextInputLayout>( R.id.state_)
+        private val city_ = UIView?.findViewById<TextInputLayout>( R.id.city_)
+        private val phone_ = UIView?.findViewById<TextInputLayout>( R.id.phone_)
+        private val registrarse_ = UIView?.findViewById<Button>( R.id.registrarse_)
+
+
+        private lateinit var progressBarCustom: ProgressBarCustom
 
         override fun run() {
             super.run()
 
+            progressBarCustom = ProgressBarCustom.build( activity!!, progress_bar_!! )
+            progressBarCustom.show()
+
             this.loginViewModel = ViewModelProviders
                 .of( this@RegisterFragment )
-                .get( LoginViewModel::class.java )
+                .get( LoginViewModel()::class.java )
+                .apply {
+                    this.repository = RepositoryLogin.build( context!! )
+                    this.prefs = Preferences( context!! )
+                }
 
-            UIView?.findViewById<Button>( R.id.registrarse_ )?.setOnClickListener {
+            loginViewModel.user.observe( this@RegisterFragment, Observer { user ->
+
+//                Send to register on the cloud
+                loginViewModel.register( user ){ registerResponse ->
+
+                    progressBarCustom.dismiss()
+
+                    if ( registerResponse == null ){
+                        UIView?.showSnackBarMessage( getString(R.string.intentelo_mas_tarde) )
+                        return@register
+                    }
+
+                    user.uuid = registerResponse.uuid
+                    loginViewModel.saveUser( user )
+
+                    activity?.onBackPressed()
+
+                }
+
+            })
+
+            initRegisterButton()
+
+            progressBarCustom.dismiss()
+
+        }
+
+        private fun initRegisterButton(){
+
+            registrarse_?.setOnClickListener { _ ->
+
+                holder_name?.editText?.setText( "Alejandro" )
+                last_name?.editText?.setText( "Carrillo" )
+                email?.editText?.setText( "develop.wsl2@gmail.com" )
+                passwordLayout1?.editText?.setText( "12345678" )
+                passwordLayout2?.editText?.setText( "12345678" )
+                country_?.editText?.setText( "Mexico" )
+                state_?.editText?.setText( "Jalisco" )
+                city_?.editText?.setText( "Zapopan" )
+                phone_?.editText?.setText( "1234567890" )
+                
+                first?.isSelected = true
+
+                progressBarCustom.show()
 
                 //Validate text fields
                 if ( !validateAllFields() )
                     returnTransition
 
-//                Send to register on the cloud
-                loginViewModel.register( getUser() ){
-
-                    if ( !it ){
-//                        TODO: message to not register user
-                        return@register
-                    }
-
-                    activity?.onBackPressed()
-
-                }
+                loginViewModel.user.value = getUser()
 
             }
 
@@ -179,6 +257,7 @@ class RegisterFragment : Fragment() {
                 phone= phone,
                 sex= sex,
                 typeOfUser= "wsl.com.tepeheapp",
+                tokendevice = context?.getDeviceID(),
                 password= password )
 
         }

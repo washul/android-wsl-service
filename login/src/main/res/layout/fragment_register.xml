@@ -7,6 +7,23 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
         >
+    <ProgressBar
+        android:id="@+id/progress_bar_"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:backgroundTint="@color/colorAccent"
+        android:max="100"
+        android:minWidth="200dp"
+        android:minHeight="50dp"
+        android:progress="0"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UnusedAttribute" />
 
     <ImageView
         android:id="@+id/image_profile_"
@@ -38,7 +55,7 @@
         app:helperText="@string/requerido"
         app:helperTextTextColor="@color/colorWithe"
         app:hintTextColor="@color/colorWithe"
-        app:layout_constraintBottom_toTopOf="@+id/emailLayout"
+        app:layout_constraintBottom_toTopOf="@+id/email_"
         app:layout_constraintEnd_toStartOf="@+id/last_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_profile_">
@@ -69,7 +86,7 @@
         app:helperText="@string/requerido"
         app:helperTextTextColor="@color/colorWithe"
         app:hintTextColor="@color/colorWithe"
-        app:layout_constraintBottom_toTopOf="@+id/emailLayout"
+        app:layout_constraintBottom_toTopOf="@+id/email_"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/holder_name"
         app:layout_constraintTop_toBottomOf="@+id/image_profile_">
@@ -87,7 +104,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailLayout"
+        android:id="@+id/email_"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -131,7 +148,7 @@
         app:helperTextTextColor="@color/colorWithe"
         app:hintTextColor="@color/colorWithe"
         app:layout_constraintBottom_toTopOf="@+id/passwordLayout2"
-        app:layout_constraintEnd_toEndOf="@+id/emailLayout"
+        app:layout_constraintEnd_toEndOf="@+id/email_"
         app:layout_constraintStart_toStartOf="@+id/holder_name"
         app:layout_constraintTop_toBottomOf="@+id/phone_">
 
@@ -187,9 +204,9 @@
         android:background="@color/colorWithe"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/country_"
-        app:layout_constraintEnd_toEndOf="@+id/emailLayout"
-        app:layout_constraintStart_toStartOf="@+id/emailLayout"
-        app:layout_constraintTop_toBottomOf="@+id/emailLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/email_"
+        app:layout_constraintStart_toStartOf="@+id/email_"
+        app:layout_constraintTop_toBottomOf="@+id/email_" />
 
         <TextView
             android:id="@+id/textView3"
@@ -246,7 +263,7 @@
             app:helperTextTextColor="@color/colorWithe"
             app:layout_constraintBottom_toTopOf="@+id/phone_"
             app:layout_constraintEnd_toStartOf="@+id/state_"
-            app:layout_constraintStart_toStartOf="@+id/emailLayout"
+            app:layout_constraintStart_toStartOf="@+id/email_"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -301,7 +318,7 @@
             app:helperText="@string/requerido"
             app:helperTextTextColor="@color/colorWithe"
             app:layout_constraintBottom_toBottomOf="@+id/state_"
-            app:layout_constraintEnd_toEndOf="@+id/emailLayout"
+            app:layout_constraintEnd_toEndOf="@+id/email_"
             app:layout_constraintStart_toEndOf="@+id/state_"
             app:layout_constraintTop_toTopOf="@+id/state_">
 

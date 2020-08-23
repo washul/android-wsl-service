@@ -128,6 +128,8 @@
     <string name="contraseña_8_caracteres">El password debe tener al menos 8 caracteres</string>
     <string name="password_debe_ser_similar">El password debe ser similar</string>
     <string name="last_name">Apellidos</string>
+    <string name="loading">Cargando</string>
+    <string name="intentelo_mas_tarde">Algo sucedio durante la peticion, intentelo mas tarde</string>
 
 
 </resources>

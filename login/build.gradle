@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
+group='wsl-services'
+version='0.0.1'
 
 android {
     compileSdkVersion 29
@@ -13,7 +15,6 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        group = 'com.github.washul'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -43,7 +44,8 @@ dependencies {
     //    MULTIDEX
     implementation 'com.android.support:multidex:1.0.3'
 
-    implementation 'com.google.android.material:material:1.1.0'
+//    Meterial Design
+    implementation 'com.google.android.material:material:1.2.0'
 
     // Kotlin Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"

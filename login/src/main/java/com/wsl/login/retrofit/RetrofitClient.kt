@@ -1,7 +1,7 @@
 package wsl.com.tepeheapp.Utils.retrofit
 
 import com.google.gson.Gson
-import com.wsl.login.URL_BASE
+import com.wsl.login.helpers.URL_BASE
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

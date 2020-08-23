@@ -26,6 +26,7 @@ data class EUser(
     @SerializedName("longitude")    var longitude:      String? = null,
     @SerializedName("sex")          var sex:            String? = null,
     @SerializedName("usr_type")     var typeOfUser:     String? = null,
+    @SerializedName("tokendevice")  var tokendevice:    String? = null,
     @SerializedName("password")     var password:       String? = null //this is used only on login form, we never use this data
 
 )
