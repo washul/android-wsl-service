@@ -2,8 +2,9 @@ package com.wsl.login.helpers
 
 import android.content.Context
 import android.content.SharedPreferences
+import javax.inject.Inject
 
-class Preferences( context: Context ) {
+class Preferences @Inject constructor ( context: Context ) {
 
     companion object{
         const val PREFS_NAME = "com.wsl.login"
@@ -12,8 +13,8 @@ class Preferences( context: Context ) {
 
     private val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, 0)
 
-    var tokenUser: String?
-        get() = prefs.getString(TOKEN_PARAMETER, "")
+    var tokenUser: String
+        get() = prefs.getString(TOKEN_PARAMETER, "").toString()
         set(value) = prefs.edit().putString(TOKEN_PARAMETER, value).apply()
 
 }

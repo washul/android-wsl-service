@@ -19,6 +19,7 @@ import com.wsl.login.model.EUser
 import com.wsl.login.view_model.LoginViewModel
 import com.wsl.login.view_model.RepositoryLogin
 import kotlinx.android.synthetic.main.fragment_register.*
+import java.util.*
 
 class RegisterFragment : DialogFragment() {
 
@@ -87,15 +88,29 @@ class RegisterFragment : DialogFragment() {
             progressBarCustom = ProgressBarCustom.build( activity!!, progress_bar_!! )
             progressBarCustom.show()
 
+//            Tmp just for testing
+            holder_name?.editText?.setText( "Alejandro" )
+            last_name?.editText?.setText( "Carrillo" )
+            email?.editText?.setText( "develop.wsl5@gmail.com" )
+            passwordLayout1?.editText?.setText( "12345678" )
+            passwordLayout2?.editText?.setText( "12345678" )
+            country_?.editText?.setText( "Mexico" )
+            state_?.editText?.setText( "Jalisco" )
+            city_?.editText?.setText( "Zapopan" )
+            phone_?.editText?.setText( "1234567890" )
+
             this.loginViewModel = ViewModelProviders
                 .of( this@RegisterFragment )
                 .get( LoginViewModel()::class.java )
                 .apply {
-                    this.repository = RepositoryLogin.build( context!! )
-                    this.prefs = Preferences( context!! )
+//                    this.repository = RepositoryLogin.build( context!! )
+//                    this.prefs = Preferences( context!! )
                 }
 
-            loginViewModel.user.observe( this@RegisterFragment, Observer { user ->
+            loginViewModel.userRegister.observe( this@RegisterFragment, Observer { user ->
+
+//                temps just for testing
+                user.uuid = UUID.randomUUID().toString()
 
 //                Send to register on the cloud
                 loginViewModel.register( user ){ registerResponse ->
@@ -107,7 +122,14 @@ class RegisterFragment : DialogFragment() {
                         return@register
                     }
 
+                    if ( registerResponse.uuid == "0" ){
+                        UIView?.showSnackBarMessage( registerResponse.message )
+                        return@register
+                    }
+
                     user.uuid = registerResponse.uuid
+                    loginViewModel.tokenUser = registerResponse.token
+
                     loginViewModel.saveUser( user )
 
                     activity?.onBackPressed()
@@ -125,16 +147,6 @@ class RegisterFragment : DialogFragment() {
         private fun initRegisterButton(){
 
             registrarse_?.setOnClickListener { _ ->
-
-                holder_name?.editText?.setText( "Alejandro" )
-                last_name?.editText?.setText( "Carrillo" )
-                email?.editText?.setText( "develop.wsl2@gmail.com" )
-                passwordLayout1?.editText?.setText( "12345678" )
-                passwordLayout2?.editText?.setText( "12345678" )
-                country_?.editText?.setText( "Mexico" )
-                state_?.editText?.setText( "Jalisco" )
-                city_?.editText?.setText( "Zapopan" )
-                phone_?.editText?.setText( "1234567890" )
                 
                 first?.isSelected = true
 
@@ -144,7 +156,7 @@ class RegisterFragment : DialogFragment() {
                 if ( !validateAllFields() )
                     returnTransition
 
-                loginViewModel.user.value = getUser()
+                loginViewModel.userRegister.value = getUser()
 
             }
 

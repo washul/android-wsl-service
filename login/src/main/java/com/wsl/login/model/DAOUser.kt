@@ -15,6 +15,9 @@ interface DAOUser {
     @Query("SELECT * FROM User ")
     fun getUser(): EUser
 
+    @Query("SELECT * FROM User ")
+    fun getUserLiveData(): LiveData<EUser?>
+
     @Delete
     fun deleteUser( user: EUser )
 

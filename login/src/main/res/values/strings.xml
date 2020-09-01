@@ -130,6 +130,7 @@
     <string name="last_name">Apellidos</string>
     <string name="loading">Cargando</string>
     <string name="intentelo_mas_tarde">Algo sucedio durante la peticion, intentelo mas tarde</string>
+    <string name="email_ya_registrado">Este email ya fue registrado</string>
 
 
 </resources>

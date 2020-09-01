@@ -1,45 +1,44 @@
 package com.wsl.login.view_model
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavDirections
-import com.wsl.login.ILoginService
-import com.wsl.login.WSLoginActivity
-import com.wsl.login.helpers.Preferences
 import com.wsl.login.model.EUser
 import com.wsl.login.retrofit.LoginResponse
 import com.wsl.login.retrofit.RegisterResponse
+import javax.inject.Inject
 
-class LoginViewModel: ViewModel() {
+class LoginViewModel @Inject constructor(): ViewModel() {
 
+    @Inject
     lateinit var repository: RepositoryLogin
-    lateinit var prefs: Preferences
 
-    val user = MutableLiveData<EUser>()
+    var tokenUser: String = ""
+        set(value) {
+            field = value
 
-    companion object {
+            repository.prefs.tokenUser = value
+        }
+        get(){
 
-        lateinit var instance: LoginViewModel
-
-        fun build() : LoginViewModel {
-
-            if ( !::instance.isInitialized ){
-
-                instance = LoginViewModel()
-
+            if ( field == "" ){
+                field = repository.prefs.tokenUser
             }
 
-            return instance
+            return field
         }
-    }
+
+    val userRegister = MutableLiveData<EUser>()
+
 
 //    LOCAL METHODS
     fun saveUser( user: EUser ) = repository.saveUser( user )
 
+    fun getUserLiveData() = repository.getUserLiveData()
 
 //    CLOUD METHODS
     fun login( user: EUser, function: (LoginResponse?) -> Unit ) = repository.login( user, function )
+
+    fun loginAuto( function: (LoginResponse?) -> Unit ) = repository.loginAuto( function )
 
     fun register( user: EUser, function: (RegisterResponse?) -> Unit ) = repository.register( user, function )
 

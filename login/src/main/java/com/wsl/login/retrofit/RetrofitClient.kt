@@ -1,39 +1,102 @@
-package wsl.com.tepeheapp.Utils.retrofit
+package com.wsl.login.Utils.retrofit
 
+import android.app.Application
 import com.google.gson.Gson
+import com.wsl.login.dagger.AppComponent
+import com.wsl.login.dagger.DaggerApplication
+import com.wsl.login.helpers.APPID
+import com.wsl.login.helpers.Preferences
 import com.wsl.login.helpers.URL_BASE
+import com.wsl.login.view_model.RepositoryLogin
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-
-object RetrofitClient {
+class RetrofitClient @Inject constructor() {
 
     private var retrofit: Retrofit? = null
 
-    val instance: Retrofit
-        get() {
+    @Inject
+    lateinit var repository: RepositoryLogin
 
-            if ( retrofit == null ) {
+    @Inject
+    lateinit var prefs: Preferences
 
-                val client = OkHttpClient
-                    .Builder()
-                    .addInterceptor( RequestInterceptorAddHeaders() )
-                    .build()
+    companion object {
 
-                retrofit = Retrofit.Builder()
-                    .baseUrl("http://$URL_BASE")
-                    .client( client )
-                    .addConverterFactory( GsonConverterFactory.create() )
-                    .addCallAdapterFactory( RxJava2CallAdapterFactory.create() )
-                    .build()
+        private lateinit var instance: RetrofitClient
+
+        fun build( application: Application ): RetrofitClient {
+
+            if ( !::instance.isInitialized ){
+
+                instance = RetrofitClient()
+
+                val appComponent = DaggerApplication().initDaggerComponent( application )
+                appComponent.inject(instance)
 
             }
 
-            return retrofit!!
+            return instance
 
         }
+
+    }
+
+    fun buildRetrofit(): Retrofit {
+
+        if ( retrofit == null ) {
+
+            val client = OkHttpClient
+                .Builder()
+                .addInterceptor( RequestInterceptorAddHeaders() )
+                .build()
+
+            retrofit = Retrofit.Builder()
+                .baseUrl("http://$URL_BASE")
+                .client( client )
+                .addConverterFactory( GsonConverterFactory.create() )
+                .addCallAdapterFactory( RxJava2CallAdapterFactory.create() )
+                .build()
+
+        }
+
+        return retrofit!!
+
+    }
+
+    inner class RequestInterceptorAddHeaders: Interceptor {
+
+        override fun intercept(chain: Interceptor.Chain): Response {
+
+            val original = chain.request()
+            val originalHttpUrl = original.url()
+
+            val url = originalHttpUrl.newBuilder()
+                .build()
+
+            var requestBuilder = original.newBuilder().url(url)
+
+            /**If the instance is not initialized, the metod returned the same request*/
+            if ( !::prefs.isInitialized || !::repository.isInitialized || prefs.tokenUser == "" )
+                return  chain.proceed(requestBuilder.build())
+
+            val user = repository.getLocalUser()
+
+            requestBuilder = original.newBuilder()
+                .addHeader("auth", prefs.tokenUser )
+                .addHeader("uuid_user", user.uuid )
+                .addHeader("tokendevice", user.tokendevice )
+                .addHeader("appID", APPID )
+                .url(url)
+
+
+            return chain.proceed(requestBuilder.build())
+        }
+
+    }
 
 }
 
@@ -59,30 +122,7 @@ private class RequestInterceptorSetJsonModel : Interceptor {
 
 }
 
-private class RequestInterceptorAddHeaders : Interceptor {
-
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val original = chain.request()
-        val originalHttpUrl = original.url()
-
-        val auth = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dXNlcl93aXRoX25vX29wZW5wYXlfYWNjb3VudCIsImVtYWlsIjoiZGV2ZWxvcC53c2wxQGdtYWlsLmNvbSIsInRva2VuZGV2aWNlIjoidG9rZW50ZXN0MCIsIm5vdyI6MTU5NTAxMzA2OSwiZXhwIjoxNTk2MjIyNjY5fQ.tg06CfUndqGFHFyZ7kCdZBvXtICmLvQ8eoWc-O0nCbo"
-        val uuid_user = "testuser_with_no_openpay_account"
-        val tokendevice = "tokentest0"
 
 
-        val url = originalHttpUrl.newBuilder()
-            .build()
 
-        val requestBuilder = original.newBuilder()
-            .addHeader("auth", auth)
-            .addHeader("uuid_user", uuid_user)
-            .addHeader("tokendevice", tokendevice)
-            .addHeader("appID", "wsl.com.tepeheapp")
-            .url(url)
 
-        val request = requestBuilder.build()
-
-        return chain.proceed(request)
-    }
-
-}
