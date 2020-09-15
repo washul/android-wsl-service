@@ -1,4 +1,4 @@
-package com.wsl.login.Utils.retrofit
+package com.wsl.login.retrofit
 
 import android.app.Application
 import com.google.gson.Gson
@@ -69,7 +69,7 @@ class RetrofitClient @Inject constructor() {
 
     inner class RequestInterceptorAddHeaders: Interceptor {
 
-        override fun intercept(chain: Interceptor.Chain): Response {
+        override fun intercept(chain: Interceptor.Chain): Response? {
 
             val original = chain.request()
             val originalHttpUrl = original.url()
@@ -81,7 +81,7 @@ class RetrofitClient @Inject constructor() {
 
             /**If the instance is not initialized, the metod returned the same request*/
             if ( !::prefs.isInitialized || !::repository.isInitialized || prefs.tokenUser == "" )
-                return  chain.proceed(requestBuilder.build())
+                return null
 
             val user = repository.getLocalUser()
 

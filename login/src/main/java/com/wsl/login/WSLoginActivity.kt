@@ -1,37 +1,61 @@
 package com.wsl.login
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import com.facebook.*
+import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.squareup.picasso.Picasso
 import com.wsl.login.dagger.DaggerApplication
 import com.wsl.login.dagger.RetroViewModelFactory
-import com.wsl.login.helpers.ProgressBarCustom
-import com.wsl.login.helpers.changeImageTo
-import com.wsl.login.helpers.showSnackBarMessage
+import com.wsl.login.helpers.*
 import com.wsl.login.model.EUser
 import com.wsl.login.register.RegisterFragment
 import com.wsl.login.view_model.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*
+import javax.inject.Inject
 
 class WSLoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
 
+    @Inject
+    lateinit var callbackManager: CallbackManager
+
+    @Inject
+    lateinit var gso: GoogleSignInOptions
+
+    @Inject
+    lateinit var mGoogleSignInClient: GoogleSignInClient
+
+    @Inject
+    lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewModelFactory = RetroViewModelFactory( DaggerApplication().initDaggerComponent(application) )
+        initFacebookSDK()
+        loginViewModel = initDaggerViewModel()
 
-        loginViewModel = ViewModelProviders
-            .of( this, viewModelFactory )
-            .get(LoginViewModel::class.java)
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
 
-        if ( loginViewModel.tokenUser == "" ){
+        if ( loginViewModel.tokenUser == "" && currentUser == null  ){
 
             BuildAll().run()
 
@@ -55,15 +79,88 @@ class WSLoginActivity : AppCompatActivity() {
 
     }
 
-    internal fun userLoggedCorrectly( uuid: String ){
-        this@WSLoginActivity.intent.putExtra("uuid", uuid )
-        setResult( Activity.RESULT_OK,  this@WSLoginActivity.intent )
+    private fun userLoggedCorrectly(uuid: String){
+        this@WSLoginActivity.intent.putExtra("uuid", uuid)
+        setResult(Activity.RESULT_OK, this@WSLoginActivity.intent)
         finish()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+
+        when ( requestCode ){
+            RC_SIGN_IN -> {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+                try {
+
+                    val account = task.getResult(ApiException::class.java)!!
+                    Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+                    firebaseAuth(GoogleAuthProvider.getCredential(account.idToken, null))
+
+                } catch (e: ApiException) {
+                    Log.w(TAG, "Google sign in failed", e)
+                }
+            }
+        }
+
+    }
+
+    private fun handleFacebookAccessToken(token: AccessToken) {
+        Log.d(TAG, "handleFacebookAccessToken:$token")
+        firebaseAuth(FacebookAuthProvider.getCredential(token.token))
+    }
+
+    private fun firebaseAuth(credential: AuthCredential) {
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithCredential:success")
+                    val user = auth.currentUser
+                    val name = user!!.displayName
+                    val email = user.email
+                    val photoUrl: Uri? = user.photoUrl
+
+                    email?.let { loginWSL(it, user.providerId, true ) }
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+//                    Snackbar.make(t, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
+
+                }
+
+            }
+    }
+
+    private fun loginWSL( email: String, password: String, isExternalLogin: Boolean = false, viewToError: View? = null ){
+
+        loginViewModel.login(EUser(uuid = "", email = email, password = password)){ loginResponse ->
+
+//            progressBarCustom.dismiss()
+
+            if ( loginResponse == null ){
+                viewToError?.showSnackBarMessage(getString(R.string.intentelo_mas_tarde))
+                return@login
+            }
+
+            loginViewModel.tokenUser = loginResponse.token
+            loginViewModel.saveUser(loginResponse.user)
+
+            viewToError?.showSnackBarMessage(loginResponse.message)
+
+            userLoggedCorrectly(loginResponse.user.uuid)
+
+        }
+
+    }
+
+
+
     private inner class BuildAll: Thread(){
 
-        private val piccaso = Picasso.with( this@WSLoginActivity )
+        private val piccaso = Picasso.with(this@WSLoginActivity)
         private lateinit var progressBarCustom: ProgressBarCustom
 
         override fun run() {
@@ -71,7 +168,7 @@ class WSLoginActivity : AppCompatActivity() {
 
             this@WSLoginActivity.setContentView(R.layout.activity_login)
 
-            progressBarCustom = ProgressBarCustom.build( this@WSLoginActivity, progress_bar_ )
+            progressBarCustom = ProgressBarCustom.build(this@WSLoginActivity, progress_bar_)
             progressBarCustom.show()
 
             initButtons()
@@ -81,11 +178,8 @@ class WSLoginActivity : AppCompatActivity() {
         }
 
         private fun initButtons(){
-            facebook_login_?.changeImageTo( R.drawable.facebook, piccaso )
-            instagram_login_?.changeImageTo( R.drawable.instagram, piccaso )
-            google_login_?.changeImageTo( R.drawable.google, piccaso )
 
-            findViewById<Button>( R.id.iniciar_sesion)?.setOnClickListener { buttonView ->
+            findViewById<Button>(R.id.iniciar_sesion)?.setOnClickListener { buttonView ->
 
                 /**This is just to show the email and password field*/
                 if ( email_?.visibility == View.GONE ) {
@@ -139,32 +233,41 @@ class WSLoginActivity : AppCompatActivity() {
 
                 }
 
-                loginViewModel.login( EUser(uuid = "", email = email, password = password ) ){ loginResponse ->
-
-                    progressBarCustom.dismiss()
-
-                    if ( loginResponse == null ){
-                        buttonView.showSnackBarMessage( getString(R.string.intentelo_mas_tarde) )
-                        return@login
-                    }
-
-                    loginViewModel.tokenUser = loginResponse.token
-                    loginViewModel.saveUser( loginResponse.user )
-
-                    buttonView.showSnackBarMessage( loginResponse.message )
-
-                    userLoggedCorrectly( loginResponse.user.uuid )
-
-                }
+                loginWSL( email, password )
 
             }
 
-            findViewById<Button>( R.id.registrarme )?.setOnClickListener {
+            findViewById<Button>(R.id.registrarme)?.setOnClickListener {
 
                 val dialog = RegisterFragment()
                 val ft = supportFragmentManager.beginTransaction()
                 dialog.show(ft, RegisterFragment.TAG)
 
+            }
+
+
+            findViewById<LoginButton>(R.id.facebook_login_).setReadPermissions("email")
+            findViewById<LoginButton>(R.id.facebook_login_)
+                .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+                    override fun onSuccess(loginResult: LoginResult) {
+                        Log.d(TAG, "facebook:onSuccess:$loginResult")
+                        handleFacebookAccessToken(loginResult.accessToken)
+                    }
+
+                    override fun onCancel() {
+                        Log.d(TAG, "facebook:onCancel")
+                        // ...
+                    }
+
+                    override fun onError(error: FacebookException) {
+                        Log.d(TAG, "facebook:onError", error)
+                        // ...
+                    }
+                })
+
+            google_login_.setOnClickListener {
+                val signInIntent = mGoogleSignInClient.signInIntent
+                startActivityForResult(signInIntent, RC_SIGN_IN)
             }
         }
 

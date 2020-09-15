@@ -19,7 +19,7 @@ abstract class AppDataBase: RoomDatabase() {
     companion object {
 
         const val DATABASE_VERSION = 1
-        private const val DATABASE_NAME = "wsl-services-login-db"
+        private const val DATABASE_NAME = "wsl-services"
 
         private var INSTANCE: AppDataBase? = null
         fun getInstance( context: Context): AppDataBase? {

@@ -40,6 +40,11 @@
     <string name="telefono_no_valido">Telefono no valido</string>
 
 
+    <string name="facebook_app_id">1194486060921294</string>
+    <string name="fb_login_protocol_scheme">fb1194486060921294</string>
+
+
+
     <!--OPEN PAY-->
 
     <string name="card_created">Tarjeta registrada correctamente</string>
@@ -131,6 +136,7 @@
     <string name="loading">Cargando</string>
     <string name="intentelo_mas_tarde">Algo sucedio durante la peticion, intentelo mas tarde</string>
     <string name="email_ya_registrado">Este email ya fue registrado</string>
+    <string name="or">OR</string>
 
 
 </resources>

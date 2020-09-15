@@ -10,9 +10,15 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import com.facebook.FacebookSdk
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.wsl.login.R
+import com.wsl.login.WSLoginActivity
+import com.wsl.login.dagger.DaggerApplication
+import com.wsl.login.dagger.RetroViewModelFactory
+import com.wsl.login.view_model.LoginViewModel
 import java.math.BigInteger
 import java.security.MessageDigest
 
@@ -86,6 +92,21 @@ class ProgressBarCustom {
         activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 
     }
+
+}
+
+fun WSLoginActivity.initFacebookSDK() = FacebookSdk.sdkInitialize(applicationContext)
+
+fun WSLoginActivity.initDaggerViewModel(): LoginViewModel {
+
+    val appComponent = DaggerApplication().initDaggerComponent(application)
+    appComponent.inject(this)
+
+    val viewModelFactory = RetroViewModelFactory(appComponent)
+
+    return ViewModelProviders
+        .of(this, viewModelFactory)
+        .get(LoginViewModel::class.java)
 
 }
 

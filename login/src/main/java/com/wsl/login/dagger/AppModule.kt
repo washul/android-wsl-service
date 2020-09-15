@@ -3,7 +3,12 @@ package com.wsl.login.dagger
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.wsl.login.Utils.retrofit.RetrofitClient
+import com.facebook.CallbackManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.wsl.login.R
+import com.wsl.login.retrofit.RetrofitClient
 import com.wsl.login.Utils.retrofit.RetrofitServices
 import com.wsl.login.WSLoginActivity
 import com.wsl.login.helpers.Preferences
@@ -14,7 +19,6 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Inject
 import javax.inject.Singleton
-
 
 @Module
 class AppModule(private val application: Application) {
@@ -34,6 +38,26 @@ class AppModule(private val application: Application) {
     @Provides
     @Singleton
     fun retrofitServices() = provideRetrofit().create(RetrofitServices::class.java)
+
+    @Provides
+    @Singleton
+    fun callbackManager() = CallbackManager.Factory.create()
+
+    @Provides
+    @Singleton
+    fun GoogleSiginInOptions() = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestIdToken(application.getString(R.string.default_web_client_id))
+        .requestEmail()
+        .build()
+
+    @Provides
+    @Singleton
+    fun mGoogleSignInClient() = GoogleSignIn.getClient(application, GoogleSiginInOptions());
+
+    @Provides
+    @Singleton
+    fun firebaseAuth() = FirebaseAuth.getInstance()
+
 
 
 }

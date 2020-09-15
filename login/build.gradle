@@ -3,8 +3,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
-group='wsl-services'
-version='0.0.1'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'maven'
+group = 'wsl-services-login'
+version = '0.0.1'
 
 android {
     compileSdkVersion 29
@@ -87,6 +89,11 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:2.26"
     kapt "com.google.dagger:dagger-compiler:2.26"
     kapt "com.google.dagger:dagger-android-processor:2.26"
+
+//    Auth
+    implementation 'com.google.firebase:firebase-auth:19.4.0'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 
 
 }

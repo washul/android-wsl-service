@@ -1,9 +1,7 @@
 package com.wsl.login.view_model
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
-import com.wsl.login.Utils.retrofit.RetrofitClient
 import com.wsl.login.Utils.retrofit.RetrofitServices
 import com.wsl.login.dagger.AppComponent
 import com.wsl.login.dagger.DaggerApplication
@@ -13,14 +11,10 @@ import com.wsl.login.model.DAOUser
 import com.wsl.login.model.EUser
 import com.wsl.login.retrofit.LoginResponse
 import com.wsl.login.retrofit.RegisterResponse
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.disposables.Disposables
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
-import org.json.JSONObject
 import retrofit2.Retrofit
 import javax.inject.Inject
 
