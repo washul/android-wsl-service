@@ -10,8 +10,8 @@ interface RetrofitServices {
 //    @POST("login/")
 //    fun login(@Body parameters: EUser): Observable<LoginResponse>
 //
-//    @GET("login-auto/")
-//    fun loginAuto(): Observable<LoginResponse>
+    @GET("login-auto/")
+    fun loginAuto(): Observable<LoginResponse>
 //
 //
 //    @POST("register/")
