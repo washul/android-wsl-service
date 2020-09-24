@@ -13,10 +13,12 @@ import com.facebook.FacebookSdk
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.wsl.login.R
-import com.wsl.login.WSLoginActivity
+import com.wsl.login.login.WSLoginActivity
 import com.wsl.login.dagger.DaggerApplication
 import com.wsl.login.dagger.RetroViewModelFactory
-import com.wsl.login.view_model.LoginViewModel
+import com.wsl.login.login.view_model.LoginViewModel
+import com.wsl.login.payments.Payments
+import com.wsl.login.payments.viewmodel.PaymentViewModel
 import java.math.BigInteger
 import java.security.MessageDigest
 
@@ -105,6 +107,19 @@ fun WSLoginActivity.initDaggerViewModel(): LoginViewModel {
     return ViewModelProviders
         .of(this, viewModelFactory)
         .get(LoginViewModel::class.java)
+
+}
+
+fun Payments.initDaggerViewModel(): PaymentViewModel {
+
+    val appComponent = DaggerApplication().initDaggerComponent(application)
+    appComponent.inject(this)
+
+    val viewModelFactory = RetroViewModelFactory(appComponent)
+
+    return ViewModelProviders
+        .of(this, viewModelFactory)
+        .get(PaymentViewModel::class.java)
 
 }
 

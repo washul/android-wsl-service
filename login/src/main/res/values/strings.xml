@@ -124,7 +124,7 @@
     <string name="entrar">Entrar</string>
     <string name="iniciar_sesi_n">Iniciar Sesión</string>
     <string name="agregar_tarjeta">Agregar tarjeta</string>
-    <string name="agregar_metodo_de_pago">Agregar metodo de pago</string>
+    <string name="agregar_metodo_de_pago">Agregar tarjeta</string>
     <string name="_1234">••••1234</string>
     <string name="efectivo">Efectivo</string>
     <string name="metodos_de_pago">Metodos de pago</string>

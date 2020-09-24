@@ -29,8 +29,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.wsl.login.payments.Payments" />
 
-        <activity android:name=".WSLoginActivity" />
+        <activity android:name=".login.WSLoginActivity" />
     </application>
 
 

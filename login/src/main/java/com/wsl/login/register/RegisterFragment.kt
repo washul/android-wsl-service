@@ -14,8 +14,8 @@ import com.wsl.login.R
 import com.wsl.login.helpers.ProgressBarCustom
 import com.wsl.login.helpers.getDeviceID
 import com.wsl.login.helpers.showSnackBarMessage
-import com.wsl.login.view_model.LoginViewModel
-import com.wsl.utils.database.EUser
+import com.wsl.login.login.view_model.LoginViewModel
+import com.wsl.login.database.EUser
 import kotlinx.android.synthetic.main.fragment_register.*
 import java.util.*
 
@@ -108,7 +108,7 @@ class RegisterFragment : DialogFragment() {
             loginViewModel.userRegister.observe( this@RegisterFragment, Observer { user ->
 
 //                temps just for testing
-                user.uuid = UUID.randomUUID().toString()
+                user.uuid_user = UUID.randomUUID().toString()
 
 //                Send to register on the cloud
                 loginViewModel.register( user ){ registerResponse ->
@@ -125,7 +125,7 @@ class RegisterFragment : DialogFragment() {
                         return@register
                     }
 
-                    user.uuid = registerResponse.uuid
+                    user.uuid_user = registerResponse.uuid
                     loginViewModel.tokenUser = registerResponse.token
 
                     loginViewModel.saveUser( user )
@@ -257,7 +257,7 @@ class RegisterFragment : DialogFragment() {
             val sex         = if (first?.isSelected!!) "1" else "2"
 
             return EUser(
-                uuid= "0",
+                uuid_user= "0",
                 name= name,
                 last_name = last_name,
                 email= email,

@@ -9,15 +9,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.wsl.login.R
 import com.wsl.login.retrofit.RetrofitClient
-import com.wsl.login.retrofit.RetrofitServices
-import com.wsl.login.WSLoginActivity
+import com.wsl.login.login.WSLoginActivity
 import com.wsl.login.helpers.Preferences
-import com.wsl.login.view_model.LoginViewModel
-import com.wsl.login.view_model.RepositoryLogin
-import com.wsl.utils.database.AppDataBase
+import com.wsl.login.login.view_model.LoginViewModel
+import com.wsl.login.login.view_model.RepositoryLogin
+import com.wsl.login.database.AppDataBase
+import com.wsl.login.payments.Payments
+import com.wsl.login.payments.viewmodel.PaymentViewModel
+import com.wsl.login.payments.viewmodel.RepositoryPayments
+import com.wsl.login.retrofit.RetrofitServices
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,7 +34,11 @@ class AppModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun repository() = RepositoryLogin.build(application)
+    fun repositoryLogin() = RepositoryLogin.build(application)
+
+    @Provides
+    @Singleton
+    fun repositoryPayments() = RepositoryPayments.build(application)
 
     @Singleton
     @Provides
@@ -40,9 +48,13 @@ class AppModule(private val application: Application) {
     @Provides
     fun provideRetrofit() = RetrofitClient.build( application ).buildRetrofit()
 
-//    @Provides
-//    @Singleton
-//    fun retrofitServices() = provideRetrofit().create(RetrofitServices::class.java)
+    @Provides
+    @Singleton
+    fun retrofitServices() = provideRetrofit().create(RetrofitServices::class.java)
+
+    @Provides
+    @Singleton
+    fun compositeDisposable() = CompositeDisposable()
 
     @Provides
     @Singleton
@@ -72,8 +84,11 @@ class AppModule(private val application: Application) {
 @Component(modules = [AppModule::class])
 interface AppComponent {
     fun inject(activity: WSLoginActivity)
+    fun inject(activity: Payments)
     fun inject(repository: RepositoryLogin)
+    fun inject(repository: RepositoryPayments)
     fun inject(viewModelLogin: LoginViewModel)
+    fun inject(viewModelPayment: PaymentViewModel)
     fun inject(viewModelFactory: RetroViewModelFactory)
     fun inject(retrofit: RetrofitClient)
 }
@@ -82,10 +97,6 @@ interface AppComponent {
 class DaggerApplication {
 
     private lateinit var apiComponent: AppComponent
-
-    fun getMyComponent(): AppComponent {
-        return apiComponent
-    }
 
     fun initDaggerComponent(application: Application): AppComponent {
         apiComponent = DaggerAppComponent
@@ -106,6 +117,9 @@ class RetroViewModelFactory(appComponent: AppComponent) : ViewModelProvider.Fact
     @Inject
     lateinit var repositoryLogin: RepositoryLogin
 
+    @Inject
+    lateinit var repositoryPayments: RepositoryPayments
+
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
         apiComponent.inject(this)
@@ -113,6 +127,10 @@ class RetroViewModelFactory(appComponent: AppComponent) : ViewModelProvider.Fact
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
 
             return LoginViewModel().apply { this.repository = repositoryLogin } as T
+
+        }else if (modelClass.isAssignableFrom(PaymentViewModel::class.java)) {
+
+            return PaymentViewModel().apply { this.repository = repositoryPayments } as T
 
         }
         throw IllegalArgumentException("Unknown ViewModel class")

@@ -2,12 +2,11 @@ package com.wsl.login.retrofit
 
 import android.app.Application
 import com.google.gson.Gson
-import com.wsl.login.dagger.AppComponent
 import com.wsl.login.dagger.DaggerApplication
 import com.wsl.login.helpers.APPID
 import com.wsl.login.helpers.Preferences
 import com.wsl.login.helpers.URL_BASE
-import com.wsl.login.view_model.RepositoryLogin
+import com.wsl.login.login.view_model.RepositoryLogin
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -81,13 +80,13 @@ class RetrofitClient @Inject constructor() {
 
             /**If the instance is not initialized, the metod returned the same request*/
             if ( !::prefs.isInitialized || !::repository.isInitialized || prefs.tokenUser == "" )
-                return null
+                return chain.proceed( requestBuilder.build() )
 
             val user = repository.getLocalUser()
 
             requestBuilder = original.newBuilder()
                 .addHeader("auth", prefs.tokenUser )
-                .addHeader("uuid_user", user.uuid )
+                .addHeader("uuid_user", user.uuid_user )
                 .addHeader("tokendevice", user.tokendevice )
                 .addHeader("appID", APPID )
                 .url(url)
