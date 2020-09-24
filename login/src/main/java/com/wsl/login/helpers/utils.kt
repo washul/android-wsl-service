@@ -2,14 +2,12 @@ package com.wsl.login.helpers
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Context
 import android.provider.Settings
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.facebook.FacebookSdk
 import com.google.android.material.snackbar.Snackbar

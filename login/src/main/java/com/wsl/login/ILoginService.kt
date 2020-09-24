@@ -1,6 +1,6 @@
 package com.wsl.login
 
-import com.wsl.login.model.EUser
+import com.wsl.utils.database.EUser
 
 interface ILoginService {
 

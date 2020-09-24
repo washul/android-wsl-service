@@ -1,4 +1,4 @@
-package com.wsl.login.model
+package com.wsl.utils.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

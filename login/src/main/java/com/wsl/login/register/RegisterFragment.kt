@@ -11,13 +11,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputLayout
 import com.wsl.login.R
-import com.wsl.login.helpers.Preferences
 import com.wsl.login.helpers.ProgressBarCustom
 import com.wsl.login.helpers.getDeviceID
 import com.wsl.login.helpers.showSnackBarMessage
-import com.wsl.login.model.EUser
 import com.wsl.login.view_model.LoginViewModel
-import com.wsl.login.view_model.RepositoryLogin
+import com.wsl.utils.database.EUser
 import kotlinx.android.synthetic.main.fragment_register.*
 import java.util.*
 

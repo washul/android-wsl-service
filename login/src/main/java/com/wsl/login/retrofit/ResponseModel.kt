@@ -1,6 +1,6 @@
 package com.wsl.login.retrofit
 
-import com.wsl.login.model.EUser
+import com.wsl.utils.database.EUser
 
 data class LoginResponse(
 

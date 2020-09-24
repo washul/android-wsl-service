@@ -2,7 +2,7 @@ package com.wsl.login.view_model
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.wsl.login.model.EUser
+import com.wsl.utils.database.EUser
 import com.wsl.login.retrofit.LoginResponse
 import com.wsl.login.retrofit.RegisterResponse
 import javax.inject.Inject

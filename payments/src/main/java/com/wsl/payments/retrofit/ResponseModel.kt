@@ -1,6 +1,6 @@
 package com.wsl.payments.retrofit
 
-import com.wsl.payments.model.EUser
+import com.wsl.utils.database.EUser
 
 data class LoginResponse(
 

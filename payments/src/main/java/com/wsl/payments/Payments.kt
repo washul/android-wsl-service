@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
 import com.wsl.payments.dagger.DaggerApplication
 import com.wsl.payments.dagger.RetroViewModelFactory
-import com.wsl.payments.model.ECard
+import com.wsl.utils.database.ECard
 import com.wsl.payments.openpay.OpenPayAddCardFragment
 import com.wsl.payments.utils.ID_CASH_WALLET
 import com.wsl.payments.utils.buildResource
@@ -56,7 +56,7 @@ class Payments : AppCompatActivity() {
         //        private val userViewModel = ( activity!! as MainActivity).mainActivityViewModel
 //        private val user = userViewModel.user
         private lateinit var adapter: AdapterWalletCards
-        private var cards: List<ECard>? = ArrayList()
+        private var cards: List<com.wsl.utils.database.ECard>? = ArrayList()
 
         override fun run() {
             super.run()
@@ -91,7 +91,12 @@ class Payments : AppCompatActivity() {
 //
 //            })
 
-            (this.cards as ArrayList).add( ECard(id= ID_CASH_WALLET, card_number = getString(R.string.efectivo) ) )
+            (this.cards as ArrayList).add(
+                com.wsl.utils.database.ECard(
+                    id = ID_CASH_WALLET,
+                    card_number = getString(R.string.efectivo)
+                )
+            )
 
             adapter = AdapterWalletCards( this@Payments, this@BuildAll.cards!! )
 
@@ -168,7 +173,7 @@ class Payments : AppCompatActivity() {
 
             val item = cards[position]
 
-            holder.title.text = "•••• ${item.card_number?.subSequence(item.card_number.length-4, item.card_number.length)}"
+            holder.title.text = "•••• ${item.card_number?.subSequence(item.card_number!!.length-4, item.card_number!!.length)}"
 
             if (item.id == ID_CASH_WALLET){
 
@@ -185,7 +190,7 @@ class Payments : AppCompatActivity() {
 
         }
 
-        fun addItem( newItems: List<ECard> ){
+        fun addItem( newItems: List<com.wsl.utils.database.ECard> ){
 
             this.cards = newItems
             notifyItemInserted( cards.size )
@@ -194,7 +199,7 @@ class Payments : AppCompatActivity() {
 
         fun removeItem( position: Int ){
             notifyItemRemoved( position )
-            (this.cards as ArrayList<ECard>).removeAt( position )
+            (this.cards as ArrayList<com.wsl.utils.database.ECard>).removeAt( position )
 
         }
 

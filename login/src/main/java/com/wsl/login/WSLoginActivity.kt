@@ -8,8 +8,10 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
-import com.facebook.*
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -21,12 +23,12 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.squareup.picasso.Picasso
-import com.wsl.login.dagger.DaggerApplication
-import com.wsl.login.dagger.RetroViewModelFactory
 import com.wsl.login.helpers.*
-import com.wsl.login.model.EUser
 import com.wsl.login.register.RegisterFragment
 import com.wsl.login.view_model.LoginViewModel
+import com.wsl.utils.database.AppDataBase
+import com.wsl.utils.database.AppDataBase_Impl
+import com.wsl.utils.database.EUser
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
@@ -49,8 +51,10 @@ class WSLoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initFacebookSDK()
-        loginViewModel = initDaggerViewModel()
+//        initFacebookSDK()
+//        loginViewModel = initDaggerViewModel()
+
+        val database = AppDataBase.getInstance( this )
 
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
@@ -118,9 +122,9 @@ class WSLoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
-                    val name = user!!.displayName
-                    val email = user.email
-                    val photoUrl: Uri? = user.photoUrl
+//                    val name = user!!.displayName
+                    val email = user?.email
+//                    val photoUrl: Uri? = user.photoUrl
 
                     email?.let { loginWSL(it, user.providerId, true ) }
 
@@ -135,6 +139,12 @@ class WSLoginActivity : AppCompatActivity() {
     }
 
     private fun loginWSL( email: String, password: String, isExternalLogin: Boolean = false, viewToError: View? = null ){
+
+        if ( isExternalLogin ){
+
+//            TODO: hacer el metodo para logearse sin password
+
+        }
 
         loginViewModel.login(EUser(uuid = "", email = email, password = password)){ loginResponse ->
 

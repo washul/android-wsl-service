@@ -2,13 +2,13 @@ package com.wsl.login.view_model
 
 import android.app.Application
 import android.util.Log
-import com.wsl.login.Utils.retrofit.RetrofitServices
+import com.wsl.login.retrofit.RetrofitServices
 import com.wsl.login.dagger.AppComponent
 import com.wsl.login.dagger.DaggerApplication
 import com.wsl.login.helpers.Preferences
-import com.wsl.login.model.AppDataBase
-import com.wsl.login.model.DAOUser
-import com.wsl.login.model.EUser
+import com.wsl.utils.database.AppDataBase
+import com.wsl.utils.database.DAOUser
+import com.wsl.utils.database.EUser
 import com.wsl.login.retrofit.LoginResponse
 import com.wsl.login.retrofit.RegisterResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,17 +26,18 @@ class RepositoryLogin @Inject constructor() {
     @Inject
     lateinit var prefs: Preferences
 
-    @Inject
-    lateinit var service: RetrofitServices
+    private lateinit var service: RetrofitServices
 
-    private lateinit var dataBase: AppDataBase
+    @Inject
+    lateinit var dataBase: AppDataBase
+
     private lateinit var daoUser: DAOUser
 
     private val compositeDisposable = CompositeDisposable()
 
     companion object {
 
-        private lateinit var instance: RepositoryLogin
+        lateinit var instance: RepositoryLogin
 
         fun build( context: Application ): RepositoryLogin {
 
@@ -44,10 +45,12 @@ class RepositoryLogin @Inject constructor() {
 
                 instance = RepositoryLogin().apply {
 
-                    this.dataBase = AppDataBase.getInstance( context )!!
-                    this.daoUser = dataBase.daoUser()
+//                    this.dataBase = AppDataBase.getInstance( context )!!
+
                     val appComponent: AppComponent = DaggerApplication().initDaggerComponent( context )
                     appComponent.inject(this)
+                    this.service = retrofit.create(RetrofitServices::class.java)
+                    this.daoUser = this.dataBase.daoUser()
 
                 }
 

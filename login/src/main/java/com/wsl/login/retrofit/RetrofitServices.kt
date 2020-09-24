@@ -1,10 +1,10 @@
-package com.wsl.login.Utils.retrofit
+package com.wsl.login.retrofit
 
-import com.wsl.login.model.EUser
-import com.wsl.login.retrofit.LoginResponse
-import com.wsl.login.retrofit.RegisterResponse
+import com.wsl.utils.database.EUser
 import io.reactivex.Observable
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
 
 interface RetrofitServices {
 

@@ -1,4 +1,4 @@
-package com.wsl.payments.model
+package com.wsl.utils.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

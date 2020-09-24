@@ -3,7 +3,7 @@ package com.wsl.payments.viewmodel
 import android.app.Application
 import com.wsl.payments.dagger.AppComponent
 import com.wsl.payments.dagger.DaggerApplication
-import com.wsl.payments.model.AppDataBase
+import com.wsl.utils.database.AppDataBase
 import com.wsl.payments.retrofit.RetrofitServices
 import io.reactivex.disposables.CompositeDisposable
 import retrofit2.Retrofit

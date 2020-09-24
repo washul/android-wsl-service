@@ -9,11 +9,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.wsl.login.R
 import com.wsl.login.retrofit.RetrofitClient
-import com.wsl.login.Utils.retrofit.RetrofitServices
+import com.wsl.login.retrofit.RetrofitServices
 import com.wsl.login.WSLoginActivity
 import com.wsl.login.helpers.Preferences
 import com.wsl.login.view_model.LoginViewModel
 import com.wsl.login.view_model.RepositoryLogin
+import com.wsl.utils.database.AppDataBase
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -33,11 +34,15 @@ class AppModule(private val application: Application) {
 
     @Singleton
     @Provides
+    fun appDataBase() = AppDataBase.getInstance( application )!!
+
+    @Singleton
+    @Provides
     fun provideRetrofit() = RetrofitClient.build( application ).buildRetrofit()
 
-    @Provides
-    @Singleton
-    fun retrofitServices() = provideRetrofit().create(RetrofitServices::class.java)
+//    @Provides
+//    @Singleton
+//    fun retrofitServices() = provideRetrofit().create(RetrofitServices::class.java)
 
     @Provides
     @Singleton

@@ -1,28 +1,28 @@
-package com.wsl.payments.model
+package com.wsl.utils.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.wsl.payments.model.AppDataBase.Companion.DATABASE_VERSION
+import com.wsl.utils.database.AppDataBase.Companion.DATABASE_VERSION
 
 @Database(
     entities =
-    [ECard::class],
+    [EUser::class, ECard::class],
     version = DATABASE_VERSION,
     exportSchema = false
 )
 abstract class AppDataBase: RoomDatabase() {
 
-    abstract fun daoCard(): DAOCard
+    abstract fun daoUser(): DAOUser
 
     companion object {
 
-        const val DATABASE_VERSION = 1
+        internal const val DATABASE_VERSION = 1
         private const val DATABASE_NAME = "wsl-services"
 
-        private var INSTANCE: AppDataBase? = null
-        fun getInstance( context: Context): AppDataBase? {
+        var INSTANCE: AppDataBase? = null
+        fun getInstance( context: Context ): AppDataBase? {
 
             if ( INSTANCE == null ){
 
