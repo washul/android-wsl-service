@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'maven'
-group = 'wsl-services-login'
+group = 'wsl-services'
 version = '0.0.1'
 
 android {
