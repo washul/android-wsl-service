@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "145424954131",
+    "firebase_url": "https://wsl-services-288518.firebaseio.com",
+    "project_id": "wsl-services-288518",
+    "storage_bucket": "wsl-services-288518.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145424954131:android:d48bd2c562b0521b5ba0e6",
+        "android_client_info": {
+          "package_name": "com.wsl.login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145424954131-j05a9nab9ekkbflakal5g3948871n9e4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wsl.login",
+            "certificate_hash": "cc92115241581106d8efac5ead13b129574695fe"
+          }
+        },
+        {
+          "client_id": "145424954131-edanhsdnmlr2o7ksl79n3duf046nukmh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkRzAqW-Ye0_zoR-Ol1RonrYh2DvGGyjo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145424954131-edanhsdnmlr2o7ksl79n3duf046nukmh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:orientation = "vertical"
+    android:layout_width = "match_parent"
+    android:layout_height = "match_parent" >
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id = "@+id/bottomSheet_title"
+        android:layout_width = "0dp"
+        android:layout_height = "60dp"
+        android:layout_marginStart = "16dp"
+        android:layout_marginEnd = "16dp"
+        android:text = "@string/wallet"
+        android:textAlignment = "textStart"
+        android:textColor = "@color/colorBlack"
+        android:textSize = "35sp"
+        android:textStyle = "normal"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintHorizontal_bias = "0.0"
+        app:layout_constraintStart_toStartOf = "parent"
+        app:layout_constraintTop_toTopOf = "parent" />
+
+    <LinearLayout
+        android:id = "@+id/linearLayout"
+        android:layout_width = "0dp"
+        android:layout_height = "2dp"
+        android:layout_marginStart = "16dp"
+        android:layout_marginEnd = "16dp"
+        android:background = "@color/colorGrayShadow"
+        android:orientation = "vertical"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintStart_toStartOf = "parent"
+        app:layout_constraintTop_toBottomOf = "@+id/bottomSheet_title" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id = "@+id/materialTextView2"
+        android:layout_width = "0dp"
+        android:layout_height = "wrap_content"
+        android:layout_marginStart = "8dp"
+        android:layout_marginTop = "8dp"
+        android:layout_marginBottom = "8dp"
+        android:text = "@string/metodos_de_pago"
+        android:textAlignment = "textStart"
+        android:textSize = "20sp"
+        android:textStyle = "normal"
+        app:layout_constraintBottom_toTopOf = "@+id/recycler"
+        app:layout_constraintStart_toStartOf = "parent"
+        app:layout_constraintTop_toBottomOf = "@+id/linearLayout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id = "@+id/recycler"
+        android:layout_width = "0dp"
+        android:layout_height = "wrap_content"
+        android:layout_marginStart = "8dp"
+        android:layout_marginTop = "8dp"
+        android:layout_marginEnd = "8dp"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintStart_toStartOf = "@+id/materialTextView2"
+        app:layout_constraintTop_toBottomOf = "@+id/materialTextView2" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/addPaymentMethod"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/recycler"
+        app:layout_constraintTop_toBottomOf="@+id/recycler"
+        app:layout_constraintVertical_bias="1.0"
+        tools:targetApi="lollipop">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/number_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/agregar_metodo_de_pago"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorAccent"
+                android:textSize="25sp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--            <com.google.android.material.textview.MaterialTextView-->
+            <!--                android:id = "@+id/materialTextView"-->
+            <!--                android:layout_width = "0dp"-->
+            <!--                android:layout_height = "wrap_content"-->
+            <!--                android:layout_marginEnd = "8dp"-->
+            <!--                android:layout_marginBottom = "8dp"-->
+            <!--                android:text = "Tarjeta de credito/debito"-->
+            <!--                android:textAlignment = "textStart"-->
+            <!--                android:textSize = "15sp"-->
+            <!--                android:textStyle = "normal"-->
+            <!--                app:layout_constraintBottom_toBottomOf = "parent"-->
+            <!--                app:layout_constraintEnd_toEndOf = "parent"-->
+            <!--                app:layout_constraintHorizontal_bias = "0.0"-->
+            <!--                app:layout_constraintStart_toStartOf = "@+id/number_card"-->
+            <!--                app:layout_constraintTop_toBottomOf = "@+id/number_card" />-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout >

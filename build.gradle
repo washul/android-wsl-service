@@ -3,7 +3,6 @@
 buildscript {
 //    MARK: This Kotlin versions doesn't have problems with ':app:kaptDebugKotlin'.
     ext.kotlin_version = "1.3.72"
-    ext.mavPluginVersion = '1.0.3'
 
     repositories {
         google()
@@ -22,8 +21,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        mavenCentral()
-        maven{url 'https://jitpack.io'}
     }
 }
 
