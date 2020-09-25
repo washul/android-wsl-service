@@ -2,4 +2,4 @@ include ':facebook-login'
 include ':openpay-v2.0.3'
 include ':wsl-services:login'
 include ':app'
-//rootProject.name = "wsl-service"
+rootProject.name = "wsl-service"
