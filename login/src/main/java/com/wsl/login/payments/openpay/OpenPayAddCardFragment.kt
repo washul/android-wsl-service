@@ -11,9 +11,6 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.wsl.login.R
 import com.wsl.login.payments.Payments
-import com.wsl.login.payments.openpay.OpenPayuCredentials
-import com.wsl.login.payments.openpay.ProgressDialogFragment
-import com.wsl.login.payments.openpay.DeviceIdFragment
 import com.wsl.login.payments.viewmodel.PaymentViewModel
 import kotlinx.android.synthetic.main.fragment_payments.view.*
 import mx.openpay.android.OperationCallBack
