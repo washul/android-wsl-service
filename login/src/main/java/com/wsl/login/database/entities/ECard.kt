@@ -1,4 +1,4 @@
-package com.wsl.login.database
+package com.wsl.login.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -10,6 +10,7 @@ data class ECard(
 
     @PrimaryKey(autoGenerate = false)
     val id: 				String,
+
     val type: 			String? = "",
     val brand: 			String? = "",
     val address: 			String? = "",
@@ -28,6 +29,9 @@ data class ECard(
 
 data class CardsResponse(
 
-    @SerializedName("cardsList") @Expose val cards: List<ECard>?
+    @SerializedName("cardsList") @Expose val cards: List<ECard>?,
+    @SerializedName("message") @Expose val message: String?,
+    @SerializedName("code") @Expose val code: String?
 
-)
+
+    )

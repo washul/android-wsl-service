@@ -2,15 +2,17 @@ package com.wsl.login.login.view_model
 
 import android.app.Application
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.wsl.login.retrofit.RetrofitServices
 import com.wsl.login.dagger.AppComponent
 import com.wsl.login.dagger.DaggerApplication
 import com.wsl.login.helpers.Preferences
 import com.wsl.login.database.AppDataBase
-import com.wsl.login.database.DAOUser
-import com.wsl.login.database.EUser
+import com.wsl.login.database.dao.DAOUser
+import com.wsl.login.database.entities.EUser
 import com.wsl.login.retrofit.LoginResponse
 import com.wsl.login.retrofit.RegisterResponse
+import com.wsl.login.helpers.registerNetworkCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -35,6 +37,8 @@ class RepositoryLogin @Inject constructor() {
 
     private lateinit var daoUser: DAOUser
 
+    val isNetworkAvailable = MutableLiveData<Boolean>()
+
     companion object {
 
         lateinit var instance: RepositoryLogin
@@ -53,6 +57,8 @@ class RepositoryLogin @Inject constructor() {
 
                     this.service = retrofit.create(RetrofitServices::class.java)
 
+                    context.registerNetworkCallback( isNetworkAvailable )
+
                 }
 
             }
@@ -64,12 +70,24 @@ class RepositoryLogin @Inject constructor() {
     }
 
 //    MARK: LOCAL METHODS
-    fun saveUser( user: EUser ){
+    fun localSignIn( function: (EUser?) -> Unit ){
+
+        doAsync {
+
+            function(daoUser.signIn())
+
+        }
+
+    }
+
+    fun saveUser( user: EUser){
         doAsync {
             try {
-//                if (  user.uuid != daoUser.isUserExist( user.email!! ) )
-                daoUser.deleteUsers()
-                daoUser.insertUser( user )
+                if (  user.uuid_user == daoUser.isUserExist( user.email!! ) ) {
+                    daoUser.update(user)
+                }else{
+                    daoUser.insertUser( user )
+                }
             }catch ( e: Exception ){
                 e.printStackTrace()
             }
@@ -78,9 +96,17 @@ class RepositoryLogin @Inject constructor() {
 
     fun getUserLiveData() = daoUser.getUserLiveData()
 
-    fun getLocalUser() = daoUser.getUser()
+    fun getLocalUserNoAsync() = daoUser.getUser()
 
-//    MARK: CLOUD METHODS
+    fun getLocalUserAsync( function: (EUser?) -> Unit ) {
+        doAsync {
+
+            function(daoUser.getUser())
+
+        }
+    }
+
+    //    MARK: CLOUD METHODS
     fun login(user: EUser, function: (LoginResponse?) -> Unit ){
 
         try {
@@ -144,12 +170,12 @@ class RepositoryLogin @Inject constructor() {
 
     }
 
-    fun register( user: EUser, function: (RegisterResponse?) -> Unit ){
+    fun updateUser(user: EUser, function: (RegisterResponse?) -> Unit ){
 
         try {
 
             //You need to use CompositeDisposables to manage the resources.
-            compositeDisposable.add( service.registerUser( user = user )
+            compositeDisposable.add( service.updateUser( user = user )
                 .subscribeOn( Schedulers.io() )
                 .unsubscribeOn( Schedulers.computation() )
                 .observeOn( AndroidSchedulers.mainThread() )
@@ -172,6 +198,47 @@ class RepositoryLogin @Inject constructor() {
             function(null)
         }
 
+    }
+
+    fun getUser( function: (LoginResponse?) -> Unit ){
+
+        try {
+
+            //You need to use CompositeDisposables to manage the resources.
+            compositeDisposable.add( service.getUser()
+                .subscribeOn( Schedulers.io() )
+                .unsubscribeOn( Schedulers.computation() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe({ responseBody ->
+
+                    Log.e("USER RESPONSE ->  ", responseBody.toString() )
+
+                    function(responseBody)
+
+                },
+                    {
+                        it.printStackTrace()
+                        function(null)
+                    }
+                )
+
+            )
+
+        }catch ( e: Exception){
+            e.printStackTrace()
+            function(null)
+        }
+
+    }
+
+    fun logOut( function: (Boolean) -> Unit) {
+        doAsync {
+            daoUser.deleteUsers()
+            prefs.tokenDevice = ""
+            prefs.tokenUser = ""
+
+            function(true)
+        }
     }
 
  }

@@ -10,6 +10,7 @@ import android.widget.Spinner
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.wsl.login.R
+import com.wsl.login.helpers.showSnackBarMessage
 import com.wsl.login.payments.Payments
 import com.wsl.login.payments.viewmodel.PaymentViewModel
 import kotlinx.android.synthetic.main.fragment_payments.view.*
@@ -70,9 +71,7 @@ class OpenPayAddCardFragment : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         vista = inflater.inflate(R.layout.fragment_payments, container, false)
 
-        this.viewModel = ( activity!! as Payments ).paymentsViewModel
-
-        //cardRepository = CardRepository( activity!! )
+        this.viewModel = ( activity!! as Payments ).viewModel
 
         vista.findViewById<Button>( R.id.btnGuardar ).setOnClickListener {
 
@@ -155,10 +154,19 @@ class OpenPayAddCardFragment : DialogFragment() {
         openPay.createToken( card, object: OperationCallBack<Token> {
             override fun onSuccess(op: OperationResult<Token>?) {
 
-                this@OpenPayAddCardFragment.progressDialogFragment.dismiss()
-                this@OpenPayAddCardFragment.clearData()
+                viewModel.registerCard( token_id = op?.result!!.id, device_session_id = deviceID ){ listCards->
 
-                viewModel.registerCard( token_id = op?.result!!.id, device_session_id = deviceID )
+                    this@OpenPayAddCardFragment.progressDialogFragment.dismiss()
+                    this@OpenPayAddCardFragment.clearData()
+
+                    if ( listCards == null ){
+                        return@registerCard
+                    }
+
+                    viewModel.saveCards( listCards )
+                    this@OpenPayAddCardFragment.dismiss()
+
+                }
 
             }
 
@@ -205,12 +213,12 @@ class OpenPayAddCardFragment : DialogFragment() {
                         msg = this@OpenPayAddCardFragment.getString(desc)
                     }
                     else -> {
-                        desc = R.string.error_creating_card
+//                        desc = R.string.error_creating_card
                         msg = error.getDescription()
                     }
                 }
 
-//                ConfirmationMessage( context!!, this@OpenPayAddCardFragment.getString( R.string.error, msg ) )
+                vista.showSnackBarMessage( getString( R.string.error, msg ) )
 
             }
 

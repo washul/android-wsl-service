@@ -2,11 +2,13 @@ package com.wsl.login.login
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -17,22 +19,31 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.squareup.picasso.Picasso
 import com.wsl.login.R
 import com.wsl.login.helpers.*
 import com.wsl.login.register.RegisterFragment
 import com.wsl.login.login.view_model.LoginViewModel
-import com.wsl.login.database.EUser
+import com.wsl.login.database.entities.EUser
+import com.wsl.login.retrofit.LoginResponse
+import com.wsl.login.retrofit.RegisterResponse
+import com.wsl.login.helpers.buildRegisterText
+import com.wsl.login.helpers.buildResource
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.editTextEmail
+import kotlinx.android.synthetic.main.activity_login.email_
+import kotlinx.android.synthetic.main.activity_login.progress_bar_
 import javax.inject.Inject
 
-class WSLoginActivity : AppCompatActivity() {
+open class WSLoginActivity : AppCompatActivity() {
 
-    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var viewModel: LoginViewModel
+
+    private lateinit var progressBarCustom: ProgressBarCustom
 
     @Inject
     lateinit var callbackManager: CallbackManager
@@ -46,41 +57,96 @@ class WSLoginActivity : AppCompatActivity() {
     @Inject
     lateinit var auth: FirebaseAuth
 
+    @Inject
+    lateinit var commonUser: EUser
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initFacebookSDK()
-        loginViewModel = initDaggerViewModel()
+        viewModel = initDaggerViewModel()
+        viewModel.activityAction = intent.getIntExtra( WSL_ACTION_PARAM_NAME, -1 )
 
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
+    }
 
-        if ( loginViewModel.tokenUser == "" && currentUser == null  ){
+    override fun onStart() {
+        super.onStart()
 
-            BuildAll().run()
+        viewModel.isNetworkObservable().observe( this, Observer { isAvailable ->
 
-        }else {
-
-            loginViewModel.loginAuto { loginResponse ->
-
-                if (loginResponse == null) {
-
-                    BuildAll().run()
-                    return@loginAuto
-                }
-
-                Log.e("login response", loginResponse.toString())
-
-                userLoggedCorrectly(loginResponse.user.uuid_user)
-
+            if ( !isAvailable && viewModel.activityAction != WSL_LOGIN_ACTION_AUTO_SIGN_IN ){
+                signInWithNetworkNoAvailable()
+                return@Observer
             }
+
+            when( viewModel.activityAction ){
+                WSL_LOGIN_ACTION_AUTO_SIGN_IN -> {
+                    autoSignIn()
+                }
+                WSL_LOGIN_ACTION_AUTO_LOG_OUT -> {
+                    viewModel.getLogOut {
+                        intent.putExtra( WSL_FLAG_NAME, WSL_PROFILE_ANSWER_LOG_OUT)
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+                    }
+                }
+                else -> {
+                    initFacebookSDK()
+                    signInWithNetworkAvailable()
+                }
+            }
+
+        })
+
+    }
+
+    private fun signInWithNetworkNoAvailable(){
+
+        viewModel.localSignIn { user ->
+
+            if ( user == null ){
+                showSnackBarMessage("No se encontro usuario")
+                return@localSignIn
+            }
+            if ( viewModel.tokenUser == "" ){
+                showSnackBarMessage("No se encontro token de usuario")
+                return@localSignIn
+            }
+            if ( viewModel.tokenDevice == "" ){
+                showSnackBarMessage("No se encontro token de dispositivo")
+                return@localSignIn
+            }
+
+            userLoggedCorrectly(LoginResponse(user=user, token = viewModel.tokenUser, message = "", auth = true))
 
         }
 
     }
 
-    private fun userLoggedCorrectly(uuid: String){
-        this@WSLoginActivity.intent.putExtra("uuid", uuid)
+    private fun signInWithNetworkAvailable(){
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+
+        if ( viewModel.tokenUser == "" && currentUser == null  ){
+
+            BuildAll().run()
+
+        }else {
+
+            autoSignIn()
+
+        }
+    }
+
+    private fun userLoggedCorrectly( loginResponse: LoginResponse){
+
+            this.intent.putExtra(
+                WSL_ACTION_PARAM_NAME,
+                if ( loginResponse.user.uuid_user == "" )
+                    WSL_LOGIN_ANSWER_NO_SIGN_IN
+                else WSL_LOGIN_ANSWER_SIGN_IN
+            )
+        
+        this.intent.putExtra("uuid", loginResponse.user.uuid_user)
         setResult(Activity.RESULT_OK, this@WSLoginActivity.intent)
         finish()
     }
@@ -118,11 +184,35 @@ class WSLoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
-//                    val name = user!!.displayName
-                    val email = user?.email
-//                    val photoUrl: Uri? = user.photoUrl
+                    val username = user!!.displayName
+                    val email = user.email
+                    val photoUrl: Uri? = user.photoUrl
+                    val uid = user.uid
 
-                    email?.let { loginWSL(it, user.providerId, true ) }
+                    val emailVerified = auth.currentUser?.isEmailVerified
+
+                    if ( emailVerified == null || !emailVerified ) {
+                        Log.e(TAG, "signInWithCredential:failure: Email not verified" )
+                        showSnackBarMessage(getString(R.string.email_not_verified))
+                    }
+
+                    if ( email == null ){
+
+                        showSnackBarMessage(getString(R.string.email_not_verified))
+                        return@addOnCompleteListener
+
+                    }
+
+                    /**Data from firebase*/
+                    commonUser.email = email
+                    commonUser.password = "wsl-services:com.wsl.login"
+                    commonUser.uuid_user = uid
+                    commonUser.username = username
+                    commonUser.image_uri = photoUrl.toString()
+                    commonUser.typeOfUser = "wsl.com.tepeheapp"
+                    commonUser.tokendevice = getDeviceID()
+
+                    loginWSL(commonUser)
 
                 } else {
                     // If sign in fails, display a message to the user.
@@ -134,45 +224,118 @@ class WSLoginActivity : AppCompatActivity() {
             }
     }
 
-    private fun loginWSL( email: String, password: String, isExternalLogin: Boolean = false, viewToError: View? = null ){
+    private fun loginWSL( user: EUser){
 
-        if ( isExternalLogin ){
+        viewModel.login(user){ loginResponse ->
 
-//            TODO: hacer el metodo para logearse sin password
-
-        }
-
-        loginViewModel.login(EUser(uuid_user = "", email = email, password = password)){ loginResponse ->
-
-//            progressBarCustom.dismiss()
+            progressBarCustom.dismiss()
 
             if ( loginResponse == null ){
-                viewToError?.showSnackBarMessage(getString(R.string.intentelo_mas_tarde))
+                showSnackBarMessage(getString(R.string.intentelo_mas_tarde))
                 return@login
             }
 
-            loginViewModel.tokenUser = loginResponse.token
-            loginViewModel.saveUser(loginResponse.user)
+            if ( loginResponse.user.uuid_user == "" ){
 
-            viewToError?.showSnackBarMessage(loginResponse.message)
+                /**Register user with data provided from Google/Facebook*/
+                dialogNoAccountRegistered(user){ registerResponse ->
 
-            userLoggedCorrectly(loginResponse.user.uuid_user)
+                    if ( registerResponse == null ){
+                        showSnackBarMessage("No es posible acceder")
+                        return@dialogNoAccountRegistered
+                    }
+
+                    progressBarCustom.dismiss()
+
+                    if ( registerResponse.uuid_user == "" ){
+                        showSnackBarMessage( registerResponse.message )
+                        return@dialogNoAccountRegistered
+                    }
+
+                    user.uuid_user = registerResponse.uuid_user
+                    viewModel.tokenUser = registerResponse.token
+                    viewModel.tokenDevice = user.tokendevice ?: ""
+
+                    viewModel.saveUser( user )
+
+                    userLoggedCorrectly(
+                        LoginResponse(
+                            user = user,
+                            token = registerResponse.token,
+                            message = registerResponse.message,
+                            auth = true
+                        )
+                    )
+
+                }
+
+                return@login
+
+            }
+
+            viewModel.tokenUser = loginResponse.token
+            viewModel.tokenDevice = user.tokendevice ?: ""
+            viewModel.saveUser(loginResponse.user)
+
+            userLoggedCorrectly(loginResponse)
 
         }
 
     }
 
+    private fun autoSignIn(){
 
+        viewModel.loginAuto { loginResponse ->
+
+            if (loginResponse == null) {
+
+                BuildAll().run()
+                return@loginAuto
+            }
+
+            Log.e("login response", loginResponse.toString())
+
+            userLoggedCorrectly(loginResponse)
+
+        }
+    }
+
+    private fun dialogNoAccountRegistered(userToRegister: EUser? = null, function: (RegisterResponse?) -> Unit ){
+
+        MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_App_MaterialAlertDialog)
+            .setTitle(getString(R.string.desea_crear_cuenta))
+            .setMessage(getString(R.string.no_existe_cuenta_con_este_correo))
+            .setNeutralButton(getString(R.string.cancel)) { dialog, which ->
+                // Respond to neutral button press
+                function(null)
+            }
+            .setNegativeButton(getString(R.string.decline)) { dialog, which ->
+                // Respond to negative button press
+
+                function(null)
+            }
+            .setPositiveButton(getString(R.string.aceptar)) { dialog, which ->
+
+                if (userToRegister == null) {
+                    return@setPositiveButton
+                }
+
+                progressBarCustom.show()
+
+                viewModel.register(userToRegister, function)
+            }
+            .show()
+
+    }
 
     private inner class BuildAll: Thread(){
-
-        private val piccaso = Picasso.with(this@WSLoginActivity)
-        private lateinit var progressBarCustom: ProgressBarCustom
 
         override fun run() {
             super.run()
 
             this@WSLoginActivity.setContentView(R.layout.activity_login)
+
+            iconView.buildResource( R.mipmap.wsl_logo, applicationContext )
 
             progressBarCustom = ProgressBarCustom.build(this@WSLoginActivity, progress_bar_)
             progressBarCustom.show()
@@ -200,11 +363,11 @@ class WSLoginActivity : AppCompatActivity() {
                 /**Here is when the user click on sign in*/
                 progressBarCustom.show()
 
-//                val email = editTextEmail?.text.toString()
-//                val password = extiTextPassword?.text.toString()
+                val email = editTextEmail?.text.toString()
+                val password = extiTextPassword?.text.toString()
 
-                val email = "develop.wsl0@gmail.com"
-                val password = "12345"
+//                val email = "develop.wsl0@gmail.com"
+//                val password = "12345"
 
                 if ( email == "" ){
 
@@ -239,11 +402,14 @@ class WSLoginActivity : AppCompatActivity() {
 
                 }
 
-                loginWSL( email, password )
+                commonUser.email = email
+                commonUser.password = password
+
+                loginWSL( commonUser )
 
             }
 
-            findViewById<Button>(R.id.registrarme)?.setOnClickListener {
+            buildRegisterText( registrarme ).setOnClickListener {
 
                 val dialog = RegisterFragment()
                 val ft = supportFragmentManager.beginTransaction()

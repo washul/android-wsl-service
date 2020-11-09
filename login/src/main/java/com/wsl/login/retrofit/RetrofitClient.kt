@@ -1,9 +1,7 @@
 package com.wsl.login.retrofit
 
 import android.app.Application
-import com.google.gson.Gson
 import com.wsl.login.dagger.DaggerApplication
-import com.wsl.login.helpers.APPID
 import com.wsl.login.helpers.Preferences
 import com.wsl.login.helpers.URL_BASE
 import com.wsl.login.login.view_model.RepositoryLogin
@@ -50,6 +48,7 @@ class RetrofitClient @Inject constructor() {
 
             val client = OkHttpClient
                 .Builder()
+                .addInterceptor( RequestInterceptorAddAppID() )
                 .addInterceptor( RequestInterceptorAddHeaders() )
                 .build()
 
@@ -82,13 +81,14 @@ class RetrofitClient @Inject constructor() {
             if ( !::prefs.isInitialized || !::repository.isInitialized || prefs.tokenUser == "" )
                 return chain.proceed( requestBuilder.build() )
 
-            val user = repository.getLocalUser()
+            val user = repository.getLocalUserNoAsync()
+
 
             requestBuilder = original.newBuilder()
                 .addHeader("auth", prefs.tokenUser )
                 .addHeader("uuid_user", user.uuid_user )
-                .addHeader("tokendevice", user.tokendevice )
-                .addHeader("appID", APPID )
+                .addHeader("tokendevice", prefs.tokenDevice )
+                .addHeader("appID", prefs.appID )
                 .url(url)
 
 
@@ -97,26 +97,26 @@ class RetrofitClient @Inject constructor() {
 
     }
 
-}
+    inner class RequestInterceptorAddAppID: Interceptor {
 
-private class RequestInterceptorSetJsonModel : Interceptor {
+        override fun intercept(chain: Interceptor.Chain): Response? {
 
-    val JSON = MediaType.parse("application/json; charset=utf-8")
-    val GSON = Gson()
+            val original = chain.request()
+            val originalHttpUrl = original.url()
 
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val request: Request = chain.request()
-        val response = chain.proceed(request)
-        val body = response.body()
+            val url = originalHttpUrl.newBuilder()
+                .build()
 
-//        TODO: Verificar el modo de interceptar el response
-        val apiResponse = GSON.fromJson(body!!.string(), RequestBody::class.java)
-        body.close()
+            var requestBuilder = original.newBuilder().url(url)
 
-        val newResponse = response.newBuilder()
-            .body(ResponseBody.create(JSON, ( apiResponse ).toString()))
+            requestBuilder = original.newBuilder()
+                .addHeader("appID", prefs.appID )
+                .url(url)
 
-        return newResponse.build()
+
+            return chain.proceed(requestBuilder.build())
+        }
+
     }
 
 }

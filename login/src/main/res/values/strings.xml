@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">tepeheapp</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="registarme">Registrarme</string>
     <string name="iniciar_sesion">Iniciar Sesion</string>
@@ -23,7 +22,6 @@
     <string name="email">Email</string>
     <string name="telefono">Telefono</string>
     <string name="correo_electronico">Correo electronico</string>
-    <string name="premium">Premium</string>
     <string name="drum_leader">Drum leader</string>
     <string name="director_de_escuela_de_baile">Director de escuela de baile</string>
     <string name="bailarina_solista">Bailarina solista</string>
@@ -42,7 +40,6 @@
 
     <string name="facebook_app_id">1194486060921294</string>
     <string name="fb_login_protocol_scheme">fb1194486060921294</string>
-
 
 
     <!--OPEN PAY-->
@@ -137,6 +134,40 @@
     <string name="intentelo_mas_tarde">Algo sucedio durante la peticion, intentelo mas tarde</string>
     <string name="email_ya_registrado">Este email ya fue registrado</string>
     <string name="or">OR</string>
+    <string name="continuar_con_google">Continuar con Google</string>
+    <string name="no_tienes_una_cuenta">¿No tienes una cuenta?</string>
+    <string name="crear_cuenta">Crear Cuenta</string>
+    <string name="no_existe_cuenta_con_este_correo">No existe una cuenta asociada con este correo</string>
+    <string name="desea_crear_cuenta">¿Decea crear una cuenta?</string>
+    <string name="cancel">cancelar</string>
+    <string name="decline">Decline</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="email_not_verified">Email no verificado por el proveedor</string>
+    <string name="title_no_openpay_account_message">Wallet Account</string>
+    <string name="message_no_openpay_account_massage">Hemos visto que tu no has creado tarjetas, ¿deseas crear una cuenta con openPay de BBVA para manejar tus tajetas?</string>
+    <string name="province">Provincia</string>
+    <string name="address">Direccion</string>
+    <string name="postal_code">Codigo Postal</string>
+    <string name="phone">Telefono</string>
+    <string name="general">General</string>
+    <string name="save">Guardar</string>
+    <string name="month">mes</string>
+    <string name="week">semana</string>
+    <string name="year">año</string>
+    <string name="message_to_plan_pay">El plan se renovara cada</string>
+    <string name="no_pay_message">No pudimos generar el pago, descuide no se a realizado ningun cobro a su cuenta.</string>
+    <string name="actions">Acciones</string>
+    <string name="log_out">Log out</string>
+    <string name="acerca_de">Acerca de</string>
+    <string name="cancel_subscription">Cancelar subscripscion</string>
+    <string name="policy_privacy">Politica de privacidad</string>
+    <string name="no_response_from_server_try_again">No se obtuvo respuesta del servidor, vuelva a intentarlo mas tarde</string>
+    <string name="repeat_every">repeat_every</string>
+    <string name="trial_days">trial days</string>
+    <string name="amount">amount</string>
+    <string name="free_version">Free version</string>
+    <string name="premium">Premium</string>
+    <string name="card_remove_succesfully">Tarjeta removida con exito!</string>
 
 
 </resources>

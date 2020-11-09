@@ -15,7 +15,8 @@ import com.wsl.login.helpers.ProgressBarCustom
 import com.wsl.login.helpers.getDeviceID
 import com.wsl.login.helpers.showSnackBarMessage
 import com.wsl.login.login.view_model.LoginViewModel
-import com.wsl.login.database.EUser
+import com.wsl.login.database.entities.EUser
+import com.wsl.login.login.view_model.RepositoryLogin
 import kotlinx.android.synthetic.main.fragment_register.*
 import java.util.*
 
@@ -120,13 +121,14 @@ class RegisterFragment : DialogFragment() {
                         return@register
                     }
 
-                    if ( registerResponse.uuid == "0" ){
+                    if ( registerResponse.uuid_user == "0" ){
                         UIView?.showSnackBarMessage( registerResponse.message )
                         return@register
                     }
 
-                    user.uuid_user = registerResponse.uuid
+                    user.uuid_user = registerResponse.uuid_user
                     loginViewModel.tokenUser = registerResponse.token
+                    loginViewModel.tokenDevice = user.tokendevice ?: ""
 
                     loginViewModel.saveUser( user )
 
@@ -146,7 +148,7 @@ class RegisterFragment : DialogFragment() {
 
             registrarse_?.setOnClickListener { _ ->
                 
-                first?.isSelected = true
+                first?.isChecked = true
 
                 progressBarCustom.show()
 

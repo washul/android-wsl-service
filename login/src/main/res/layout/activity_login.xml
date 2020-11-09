@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/login_view"
     android:background="@color/colorPrimaryDark"
     >
 
@@ -40,7 +41,7 @@
         android:id="@+id/iniciar_sesion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:autoSizeTextType="uniform"
         android:background="@android:color/transparent"
         android:gravity="center_horizontal"
@@ -118,26 +119,27 @@
 
     <Button
         android:id="@+id/registrarme"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:background="@android:color/transparent"
-        android:text="@string/registarme"
+        android:gravity="center_horizontal"
+        android:text="@string/no_tienes_una_cuenta"
         android:textAlignment="center"
-        android:textColor="@color/colorWithe"
+        android:textColor="@color/colorGrayShadow"
         android:textSize="12sp"
-        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/iniciar_sesion"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/iniciar_sesion"
         app:layout_constraintTop_toBottomOf="@+id/passwordLayout"
-        android:gravity="center_horizontal" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:text="@string/or"
         android:textColor="@color/colorGrayShadow"
         android:textSize="15sp"
@@ -146,12 +148,17 @@
         app:layout_constraintStart_toStartOf="@+id/facebook_login_"
         app:layout_constraintTop_toBottomOf="@+id/facebook_login_" />
 
-    <com.google.android.gms.common.SignInButton
+    <androidx.appcompat.widget.AppCompatButton
+        android:background="@drawable/background_google_signin_button"
         android:id="@+id/google_login_"
+        android:textAlignment="center"
+        android:text="@string/continuar_con_google"
+        android:drawableStart="@drawable/common_google_signin_btn_icon_light"
+        android:textSize="12sp"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:fitsSystemWindows="true"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="@+id/iconView"
         app:layout_constraintStart_toStartOf="@+id/iconView"
         app:layout_constraintTop_toBottomOf="@+id/iconView" />
@@ -160,21 +167,11 @@
         android:id="@+id/facebook_login_"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:layout_marginTop="8dp"
         android:fitsSystemWindows="true"
         app:layout_constraintEnd_toEndOf="@+id/google_login_"
         app:layout_constraintStart_toStartOf="@+id/google_login_"
         app:layout_constraintTop_toBottomOf="@+id/google_login_" />
 
-    <TextView
-        android:id="@+id/terminos_condiciones"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/terminos_y_condiciones"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

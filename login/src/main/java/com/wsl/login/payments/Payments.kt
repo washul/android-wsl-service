@@ -1,235 +1,234 @@
 package com.wsl.login.payments
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
-import android.graphics.*
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
 import com.wsl.login.R
-import com.wsl.login.dagger.DaggerApplication
-import com.wsl.login.dagger.RetroViewModelFactory
-import com.wsl.login.database.ECard
+import com.wsl.login.database.entities.EPlan
+import com.wsl.login.helpers.*
+import com.wsl.login.login.WSLoginActivity
+import com.wsl.login.payments.fragments.WalletFragment
 import com.wsl.login.payments.viewmodel.PaymentViewModel
-import com.wsl.login.utils.buildResource
-import com.wsl.login.payments.openpay.OpenPayAddCardFragment
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.cardview_wallet_card.view.*
 import kotlinx.android.synthetic.main.fragment_wallet.*
+import kotlinx.android.synthetic.main.fragment_wallet.progress_bar_
 import javax.inject.Inject
-import com.wsl.login.helpers.TAG
-import com.wsl.login.helpers.initDaggerViewModel
 
 class Payments : AppCompatActivity() {
 
     @Inject
-    lateinit var paymentsViewModel: PaymentViewModel
+    lateinit var viewModel: PaymentViewModel
+
+    private lateinit var progressBarCustom: ProgressBarCustom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        paymentsViewModel = initDaggerViewModel()
+        viewModel = initDaggerViewModel()
+        viewModel.activityActions = intent.getIntegerArrayListExtra( WSL_ACTION_PARAM_NAME ) ?: ArrayList()
 
-        setContentView( R.layout.fragment_wallet )
-        BuildAll().run()
+        if ( viewModel.activityActions.isNotEmpty() && viewModel.activityActions.contains( WSL_PAYMENTS_ACTION_SHOW_WALLET ) ){
+
+            walletDialog()
+
+        }else{
+            BuildData().run()
+        }
 
     }
 
-    inner class BuildAll: Thread(){
+    internal fun paidCorrectly(subscriptionID: String ){
+        this.intent.putExtra( WSL_FLAG_NAME, WSL_PAYMENTS_ACTION_PAY_SUBSCRIPTION )
+        this.intent.putExtra( WSL_PAYMENTS_SUBSCRIPTION_ID, subscriptionID )
+        setResult(Activity.RESULT_OK, this.intent)
+        finish()
+    }
 
-/*      TODO: necesitamos recibir un usuario que este validado y/o validarlo en esta activity
-*       con el fin de que podamos tokenizar tarjetas y clientes en openpay
-*       crear los endpoints al server
-*
-* */
+    fun walletDialog() {
 
-        private lateinit var adapter: AdapterWalletCards
-        private var cards: List<ECard>? = ArrayList()
+        /**Call to wallet fragment to select the payment method and proceed to pay*/
+        val dialog = WalletFragment()
+        dialog.viewModel = viewModel
+        val ft = supportFragmentManager.beginTransaction()
+        dialog.show(ft, WalletFragment.TAG)
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if ( resultCode != Activity.RESULT_OK ){
+            return
+        }
+
+        when ( requestCode ){
+            WSL_LOGIN_VIEW_REQUEST_CODE -> {
+
+                Log.e("*****USER LOGIN", data?.extras?.getString("uuid").toString() )
+                BuildData().run()
+
+            }
+        }
+
+    }
+
+    inner class BuildData: Thread() {
+
+       override fun run() {
+           super.run()
+
+           //        TODO: TEMPORAL
+//           viewModel.openPayPlan = EPlan(
+//               id = "paz9dmysxsw0jar6az6m",
+//               name = "te pehe-hora monthly subscription",
+//               amount = "180",
+//               creation_date = "2020-07-19T11:46:18-05:00",
+//               repeat_every = "1",
+//               repeat_unit = "month",
+//               retry_times = "2",
+//               status = "active",
+//               status_after_retry = "cancelled",
+//               trial_days = "30",
+//               currency = "MXN"
+//           )
+
+           viewModel.getUserLiveData().observe( this@Payments, Observer { user ->
+
+               if ( user == null ){
+
+                   startActivityForResult( Intent(this@Payments, WSLoginActivity()::class.java), WSL_LOGIN_VIEW_REQUEST_CODE)
+                   this.interrupt()
+                   return@Observer
+               }
+           })
+
+           if ( viewModel.currentPlan == null ){
+
+               viewModel.getPlanList { planResponse ->
+
+                   if ( planResponse == null ){
+                       return@getPlanList
+                   }
+                   if ( planResponse.planList == null ){
+                       return@getPlanList
+                   }
+
+                   viewModel.planList = planResponse.planList
+
+               }
+
+           } else {
+               walletDialog()
+           }
+
+           viewModel.planListMutable.observe( this@Payments, Observer {
+
+               runOnUiThread {
+                   BuildUI().run()
+               }
+
+           })
+
+       }
+
+   }
+
+    inner class BuildUI: Thread() {
+
+        private lateinit var adapter: AdapterPlan
 
         override fun run() {
             super.run()
+            this@Payments.setContentView(R.layout.activity_payments)
 
-            paymentsViewModel.getUserLiveData().observe( this@Payments, Observer {  user ->
+            progressBarCustom = ProgressBarCustom.build(this@Payments, progress_bar_)
+            progressBarCustom.show()
 
-                if ( user == null ){
+            buildRecycler()
 
-//                    TODO: Implement error with the user or lunch login
-                    return@Observer
+            if ( viewModel.planList.isNotEmpty() ){
 
-                }
-
-                paymentsViewModel.downloadCards {
-
-                    Log.e(TAG, it.toString())
-
-                    if ( it == null ){
-                        return@downloadCards
-                    }
-
-                    paymentsViewModel.saveCards(it)
-
-                }
-
-                buildRecycler()
-
-            })
-
-            addPaymentMethod.setOnClickListener {
-
-                val dialog = OpenPayAddCardFragment()
-                val ft = supportFragmentManager.beginTransaction()
-                dialog.show(ft, OpenPayAddCardFragment.TAG)
-
+                adapter.addItem( viewModel.planList )
             }
+
+            progressBarCustom.dismiss()
 
         }
 
         private fun buildRecycler(){
 
-            paymentsViewModel.getCardsLiveData().observe(this@Payments, Observer { cardList->
-                //TODO: las tarjetas se estan duplicando por que no se limpia el recyclerview
-                if (cardList != null && cardList.isNotEmpty() ) {
+            adapter = AdapterPlan( this@Payments ){ plan ->
 
-                    (this.cards as ArrayList).addAll(cardList)
-                    adapter.notifyDataSetChanged()
-
-                }
-
-            })
-
-            (this.cards as ArrayList).add(
-                ECard(
-                    id = com.wsl.login.utils.ID_CASH_WALLET,
-                    card_number = getString(R.string.efectivo)
-                )
-            )
-
-            adapter = AdapterWalletCards( this@Payments, this@BuildAll.cards!! )
+                viewModel.currentPlan = plan
+                walletDialog()
+            }
 
             recycler?.apply {
 
-                layoutManager = LinearLayoutManager( this@Payments )
-                this.adapter = this@BuildAll.adapter
-
+                layoutManager = LinearLayoutManager( context!! )
+                this.adapter = this@BuildUI.adapter
             }
-
-            initSwipe()
 
         }
 
-        private fun initSwipe() {
+        inner class AdapterPlan(private val context: Context, private val function: (EPlan) -> Unit):
+            RecyclerView.Adapter<AdapterPlan.ViewHolder>() {
 
-            val p = Paint()
+            private var itemList = ArrayList<EPlan>()
 
-            val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @SuppressLint("SetTextI18n")
+            override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-                override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                    return false
+                val item = itemList[position]
+
+                holder.image.buildResource( R.drawable.google, context )
+                holder.name.text = item.name
+                holder.repeat_Every_.text = "${item.repeat_every} ${item.repeat_unit}"
+                holder.amount_.text = item.amount
+                holder.trial_days_.text = item.trial_days
+
+                holder.itemView.setOnClickListener {
+                    function(item)
                 }
 
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val position = viewHolder.adapterPosition
-
-                    if (direction == ItemTouchHelper.LEFT) {
-//                        userViewModel.removeCard( this@BuildAll.cards!![position] ){}
-                    } else {
-                        removeView()
-                    }
-                }
-
-                override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
-
-                    val icon: Bitmap
-                    if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-
-                        val itemView = viewHolder.itemView
-                        val height = itemView.bottom.toFloat() - itemView.top.toFloat()
-                        val width = height / 3
-
-                        if (dX < 0)  {
-                            p.color = Color.parseColor("#D32F2F")
-                            val background = RectF(itemView.right.toFloat() + dX, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat())
-                            c.drawRect(background, p)
-                            icon = BitmapFactory.decodeResource(resources, R.drawable.ic_trash)
-                            val iconDest = RectF(itemView.right.toFloat() - 2 * width, itemView.top.toFloat() + width, itemView.right.toFloat() - width, itemView.bottom.toFloat() - width)
-                            c.drawBitmap(icon, null, iconDest, p)
-                        }
-                    }
-                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                }
             }
-            val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-            itemTouchHelper.attachToRecyclerView(recycler)
-        }
 
-        private fun removeView() {
-//            if (this@Payments.parent != null) {
-//                (this@Payments.parent as ViewGroup).removeView(this@Payments.view)
-//            }
+            fun addItem( newItems: List<EPlan> ){
+
+                this.itemList = newItems as ArrayList<EPlan>
+                notifyItemInserted( itemList.size )
+
+            }
+
+            inner class ViewHolder( view: View ): RecyclerView.ViewHolder( view ) {
+
+                val image = view.image_card!!
+                val name = view.findViewById<MaterialTextView>(R.id.name_)
+                val repeat_Every_ = view.findViewById<MaterialTextView>(R.id.repeat_unit_text_)
+                val trial_days_ = view.findViewById<MaterialTextView>(R.id.trial_days_option_)
+                val amount_ = view.findViewById<MaterialTextView>(R.id.amount_)
+
+
+            }
+
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+                ViewHolder( LayoutInflater.from(context).inflate(R.layout.cardview_plan, parent, false) )
+
+            override fun getItemCount(): Int = itemList.size
+
         }
 
     }
-
-    class AdapterWalletCards(private val context: Context,
-                             private var cards: List<ECard> ):
-        RecyclerView.Adapter<AdapterWalletCards.ViewHolder>() {
-
-        @SuppressLint("SetTextI18n")
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-            val item = cards[position]
-
-            holder.title.text = "•••• ${item.card_number?.subSequence(item.card_number!!.length-4, item.card_number!!.length)}"
-
-            if (item.id == com.wsl.login.utils.ID_CASH_WALLET){
-
-                holder.title.text = item.card_number
-                holder.image.buildResource( R.drawable.money, context )
-
-            }
-
-            if ( item.brand == "visa" ){
-
-                holder.image.buildResource( R.drawable.visa_logo, context )
-
-            }
-
-        }
-
-        fun addItem( newItems: List<ECard> ){
-
-            this.cards = newItems
-            notifyItemInserted( cards.size )
-
-        }
-
-        fun removeItem( position: Int ){
-            notifyItemRemoved( position )
-            (this.cards as ArrayList<ECard>).removeAt( position )
-
-        }
-
-        inner class ViewHolder( view: View ): RecyclerView.ViewHolder( view ) {
-
-            val title = view.findViewById<MaterialTextView>(R.id.number_card)
-            val image = view.image_card!!
-
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder( LayoutInflater.from(context).inflate(R.layout.cardview_wallet_card, parent, false) )
-
-        override fun getItemCount(): Int = cards.size
-
-    }
-
 }
 

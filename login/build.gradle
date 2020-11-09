@@ -43,7 +43,8 @@ dependencies {
 
     //    Piccaso
     implementation 'com.squareup.picasso:picasso:2.5.2'
-
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
 
     // Coroutine listeners for Anko Layouts
@@ -85,9 +86,8 @@ dependencies {
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     //    OPENPAY
-    compileOnly project(':openpay-v2.0.3')
-    //noinspection GradleCompatible
-    api 'com.android.support:support-v13:28.0.0'
+    implementation project(':openpay-v2.0.3')
+//    api 'com.android.support:support-v13:28.0.0'
     api 'com.google.http-client:google-http-client:1.28.0'
     api 'com.google.http-client:google-http-client-android:1.28.0'
     api 'com.google.http-client:google-http-client-jackson2:1.28.0'

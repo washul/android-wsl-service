@@ -1,4 +1,4 @@
-package com.wsl.login.database
+package com.wsl.login.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -27,6 +27,7 @@ data class EUser @Inject constructor(
     var sex:            String? = null,
     var typeOfUser:     String? = null,
     var tokendevice:    String? = null,
+    var image_uri:      String? = null,
     var password:       String? = null //this is used only on login form, we never use this data
 
 )

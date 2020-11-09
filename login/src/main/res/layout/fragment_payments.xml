@@ -52,101 +52,95 @@
         app:layout_constraintTop_toBottomOf = "@+id/bottomSheet_title" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id = "@+id/holder_name"
-        style = "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width = "match_parent"
-        android:layout_height = "wrap_content"
-        android:layout_marginStart = "8dp"
-        android:layout_marginTop = "16dp"
-        android:layout_marginEnd = "8dp"
-        android:layout_marginBottom = "8dp"
-        android:hint = "@string/holder_name"
-        android:textAlignment = "viewStart"
-        android:textColorHint = "@color/colorBlack"
-        android:textSize = "20sp"
-        android:textStyle = "normal"
+        android:id="@+id/holder_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:hint="@string/holder_name"
+        android:textAlignment="viewStart"
+        android:textColorHint="@color/colorBlack"
+        android:textSize="20sp"
+        android:textStyle="normal"
 
+        app:helperText="@string/requerido"
         app:hintTextColor="@color/colorBlack"
-        app:helperText = "@string/requerido"
-        app:layout_constraintBottom_toTopOf = "@+id/emailLayout"
-        app:layout_constraintEnd_toEndOf = "parent"
-        app:layout_constraintStart_toStartOf = "parent"
-        app:layout_constraintTop_toBottomOf = "@+id/bottomSheet_title" >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottomSheet_title">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id = "@+id/holder_name_text"
-            android:layout_width = "match_parent"
-            android:layout_height = "wrap_content"
-            android:inputType = "textAutoComplete"
-            android:textColor = "@color/colorBlack" />
+            android:id="@+id/holder_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete"
+            android:textColor="@color/colorBlack" />
 
-    </com.google.android.material.textfield.TextInputLayout >
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id = "@+id/emailLayout"
-        style = "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width = "match_parent"
-        android:layout_height = "wrap_content"
-        android:layout_marginStart = "8dp"
-        android:layout_marginTop = "8dp"
-        android:layout_marginEnd = "8dp"
-        android:layout_marginBottom = "16dp"
-        android:fontFamily = "fonts/Roboto-Regular"
-        android:hint = "@string/email"
-        android:textAlignment = "viewStart"
-        android:textColorHint = "@color/colorBlack"
+        android:id="@+id/emailLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="fonts/Roboto-Regular"
+        android:hint="@string/email"
+        android:textAlignment="viewStart"
+        android:textColorHint="@color/colorBlack"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        app:helperText="@string/requerido"
         app:hintTextColor="@color/colorBlack"
-        android:textSize = "20sp"
-        android:textStyle = "normal"
-        app:helperText = "@string/requerido"
-        app:layout_constraintBottom_toTopOf = "@+id/passwordLayout"
-        app:layout_constraintEnd_toEndOf = "@+id/holder_name"
-        app:layout_constraintStart_toStartOf = "@+id/holder_name"
-        app:layout_constraintTop_toBottomOf = "@+id/holder_name" >
+        app:layout_constraintEnd_toEndOf="@+id/holder_name"
+        app:layout_constraintStart_toStartOf="@+id/holder_name"
+        app:layout_constraintTop_toBottomOf="@+id/holder_name">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id = "@+id/editTextEmail"
-            android:layout_width = "match_parent"
-            android:layout_height = "wrap_content"
-            android:textColorHint="@color/colorBlack"
-            android:textColor = "@color/colorBlack"
-            android:inputType = "textEmailAddress" />
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
-    </com.google.android.material.textfield.TextInputLayout >
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id = "@+id/passwordLayout"
-        style = "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width = "match_parent"
-        android:layout_height = "wrap_content"
-        android:layout_marginStart = "8dp"
+        android:id="@+id/passwordLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
 
-        android:layout_marginTop = "16dp"
-        android:layout_marginEnd = "8dp"
-        android:layout_marginBottom = "8dp"
-        android:fontFamily = "fonts/Roboto-Regular"
-        android:hint = "@string/card_number"
-        android:textAlignment = "viewStart"
-        android:textColorHint = "@color/colorBlack"
-        android:textSize = "20sp"
-        android:textStyle = "normal"
-        app:counterEnabled = "true"
-        app:helperText = "@string/requerido"
-        app:hintTextColor = "@color/colorBlack"
-        app:layout_constraintBottom_toTopOf = "@+id/cvv2"
-        app:layout_constraintEnd_toEndOf = "@+id/holder_name"
-        app:layout_constraintStart_toStartOf = "@+id/holder_name"
-        app:layout_constraintTop_toBottomOf = "@+id/emailLayout" >
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="fonts/Roboto-Regular"
+        android:hint="@string/card_number"
+        android:textAlignment="viewStart"
+        android:textColorHint="@color/colorBlack"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        app:counterEnabled="true"
+        app:helperText="@string/requerido"
+        app:hintTextColor="@color/colorBlack"
+        app:layout_constraintEnd_toEndOf="@+id/holder_name"
+        app:layout_constraintStart_toStartOf="@+id/holder_name"
+        app:layout_constraintTop_toBottomOf="@+id/emailLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/extiTextCardNumber"
-            android:layout_width = "match_parent"
-            android:layout_height = "wrap_content"
-            android:inputType = "numberDecimal"
-            android:maxLength = "16"
-            android:textColor = "@color/colorBlack" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:maxLength="16"
+            android:textColor="@color/colorBlack" />
 
-    </com.google.android.material.textfield.TextInputLayout >
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id = "@+id/year_spinner"
@@ -163,20 +157,19 @@
         app:layout_constraintTop_toTopOf = "@+id/month_spinner" />
 
     <androidx.appcompat.widget.AppCompatSpinner
-        android:id = "@+id/month_spinner"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:layout_marginBottom = "16dp"
-        android:background = "@color/colorGrayShadow"
-        android:entries = "@array/month_array"
-        android:fontFamily = "fonts/Roboto-Regular"
-        android:padding = "6dp"
-        android:paddingStart = "40dp"
-        android:paddingEnd = "40dp"
-        app:layout_constraintBottom_toTopOf = "@+id/btnGuardar"
-        app:layout_constraintEnd_toStartOf = "@+id/year_spinner"
-        app:layout_constraintStart_toStartOf = "parent"
-        app:layout_constraintTop_toBottomOf = "@+id/passwordLayout" />
+        android:id="@+id/month_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorGrayShadow"
+        android:entries="@array/month_array"
+        android:fontFamily="fonts/Roboto-Regular"
+        android:padding="6dp"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        app:layout_constraintEnd_toStartOf="@+id/year_spinner"
+        app:layout_constraintStart_toStartOf="@+id/passwordLayout"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLayout" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id = "@+id/cvv2"
@@ -209,17 +202,19 @@
     </com.google.android.material.textfield.TextInputLayout >
 
     <com.google.android.material.button.MaterialButton
-        android:id = "@+id/btnGuardar"
-        style = "@style/Widget.MaterialComponents.Button.UnelevatedButton"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:layout_marginEnd = "8dp"
-        android:layout_marginBottom = "8dp"
-        android:drawableStart = "@drawable/ic_add"
-        android:text = "@string/agregar"
-        android:textColor = "@color/colorWhite"
-        app:backgroundTint = "@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf = "parent"
-        app:layout_constraintEnd_toEndOf = "parent" />
+        android:id="@+id/btnGuardar"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:drawableStart="@drawable/ic_add"
+        android:text="@string/agregar"
+        android:textColor="@color/colorWhite"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout >

@@ -19,6 +19,9 @@ import com.wsl.login.dagger.RetroViewModelFactory
 import com.wsl.login.login.view_model.LoginViewModel
 import com.wsl.login.payments.Payments
 import com.wsl.login.payments.viewmodel.PaymentViewModel
+import com.wsl.login.profile.ProfileActivity
+import com.wsl.login.profile.view_model.ProfileViewModel
+import kotlinx.android.synthetic.main.activity_login.*
 import java.math.BigInteger
 import java.security.MessageDigest
 
@@ -39,6 +42,16 @@ fun String.md5(): String {
 fun String.sha256(): String {
     val md = MessageDigest.getInstance("SHA-256")
     return BigInteger(1, md.digest(toByteArray())).toString(16).padStart(32, '0')
+}
+
+fun WSLoginActivity.showSnackBarMessage( message: String ){
+
+    this.runOnUiThread {
+        Snackbar.make(login_view, message, Snackbar.LENGTH_LONG)
+            .setBackgroundTint(resources.getColor(R.color.colorAccent))
+            .show()
+    }
+
 }
 
 fun View.showSnackBarMessage( message: String ){
@@ -120,6 +133,19 @@ fun Payments.initDaggerViewModel(): PaymentViewModel {
     return ViewModelProviders
         .of(this, viewModelFactory)
         .get(PaymentViewModel::class.java)
+
+}
+
+fun ProfileActivity.initDaggerViewModel(): ProfileViewModel {
+
+    val appComponent = DaggerApplication().initDaggerComponent(application)
+    appComponent.inject(this)
+
+    val viewModelFactory = RetroViewModelFactory(appComponent)
+
+    return ViewModelProviders
+        .of(this, viewModelFactory)
+        .get(ProfileViewModel::class.java)
 
 }
 

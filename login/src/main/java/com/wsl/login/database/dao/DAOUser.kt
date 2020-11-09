@@ -1,13 +1,20 @@
-package com.wsl.login.database
+package com.wsl.login.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.wsl.login.database.entities.EUser
 
 @Dao
 interface DAOUser {
 
-    @Insert
-    fun insertUser( user: EUser )
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertUser( user: EUser)
+
+    @Update
+    fun update( user: EUser)
+
+    @Query("SELECT * FROM User ")
+    fun signIn(): EUser
 
     @Query("SELECT uuid_user FROM User WHERE email == :email")
     fun isUserExist( email: String ): String

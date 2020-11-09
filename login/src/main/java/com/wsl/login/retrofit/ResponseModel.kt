@@ -1,6 +1,6 @@
 package com.wsl.login.retrofit
 
-import com.wsl.login.database.EUser
+import com.wsl.login.database.entities.EUser
 
 data class LoginResponse(
 
@@ -13,7 +13,7 @@ data class LoginResponse(
 
 data class RegisterResponse(
 
-    var uuid: String,
+    var uuid_user: String,
     val token: String,
     var message: String
 
