@@ -137,16 +137,15 @@ open class WSLoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun userLoggedCorrectly( loginResponse: LoginResponse){
+    private fun userLoggedCorrectly( loginResponse: LoginResponse? = null ){
 
-            this.intent.putExtra(
-                WSL_ACTION_PARAM_NAME,
-                if ( loginResponse.user.uuid_user == "" )
-                    WSL_LOGIN_ANSWER_NO_SIGN_IN
-                else WSL_LOGIN_ANSWER_SIGN_IN
-            )
-        
-        this.intent.putExtra("uuid", loginResponse.user.uuid_user)
+        if ( loginResponse != null ) {
+            this.intent.putExtra(WSL_FLAG_NAME, WSL_LOGIN_ANSWER_SIGN_IN)
+            this.intent.putExtra(WSL_ACTION_PARAM_NAME, loginResponse.user.uuid_user)
+        } else {
+            this.intent.putExtra(WSL_FLAG_NAME, WSL_LOGIN_ANSWER_NO_SIGN_IN)
+        }
+
         setResult(Activity.RESULT_OK, this@WSLoginActivity.intent)
         finish()
     }
@@ -288,6 +287,11 @@ open class WSLoginActivity : AppCompatActivity() {
         viewModel.loginAuto { loginResponse ->
 
             if (loginResponse == null) {
+
+                if( viewModel.activityAction == WSL_LOGIN_ACTION_AUTO_SIGN_IN ){
+                    userLoggedCorrectly()
+                    return@loginAuto
+                }
 
                 BuildAll().run()
                 return@loginAuto
