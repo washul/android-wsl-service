@@ -22,9 +22,15 @@ import org.jetbrains.anko.runOnUiThread
 
 fun ImageView.buildResource(resource: Int, context: Context){
 
-    Picasso.with(context)
-        .load(resource)
-        .into(this)
+    try {
+        Picasso.with(context)
+            .load(resource)
+            .fit()
+            .onlyScaleDown()
+            .into(this)
+    }catch ( e: java.lang.Exception ){
+        e.printStackTrace()
+    }
 
 }
 
