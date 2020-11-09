@@ -171,6 +171,8 @@ class WalletFragment : DialogFragment() {
 
             }
 
+            progressBarCustom.dismiss()
+
         }
 
         private fun createSubscription( card: ECard ){
