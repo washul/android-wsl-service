@@ -72,15 +72,31 @@ class ProgressBarCustom {
 
         lateinit var instance: ProgressBarCustom
 
-        internal fun build( activity: Activity? = null, fragmentActivity: FragmentActivity? = null, progressBar: ProgressBar ): ProgressBarCustom {
+        internal fun build( activity: Activity?, progressBar: ProgressBar ): ProgressBarCustom {
 
             if ( !::instance.isInitialized ){
 
                 instance = ProgressBarCustom().apply {
 
                     this.progressBar = progressBar
+                    this.activity = activity ?: return@apply
 
-                    this.activity = activity ?: (fragmentActivity ?: return@apply)
+                }
+
+            }
+
+            return instance
+
+        }
+
+        internal fun build( activity: FragmentActivity?, progressBar: ProgressBar ): ProgressBarCustom {
+
+            if ( !::instance.isInitialized ){
+
+                instance = ProgressBarCustom().apply {
+
+                    this.progressBar = progressBar
+                    this.activity = activity ?: return@apply
 
                 }
 
