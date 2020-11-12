@@ -1,5 +1,6 @@
 package com.wsl.login.dagger
 
+import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -91,9 +92,7 @@ class AppModule(private val application: Application) {
 @Singleton
 @Component(modules = [AppModule::class])
 interface AppComponent {
-    fun inject(activity: WSLoginActivity)
-    fun inject(activity: Payments)
-    fun inject(activity: ProfileActivity)
+    fun inject(activity: Activity)
     fun inject(repository: RepositoryLogin)
     fun inject(repository: RepositoryPayments)
     fun inject(viewModelLogin: LoginViewModel)

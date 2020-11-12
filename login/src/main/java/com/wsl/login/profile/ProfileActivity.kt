@@ -34,7 +34,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        progressBarCustom = ProgressBarCustom.build(this, findViewById(R.id.progress_bar_))
+        progressBarCustom = ProgressBarCustom.build(this, progressBar = findViewById(R.id.progress_bar_))
         progressBarCustom.show()
 
         viewModel = initDaggerViewModel()

@@ -57,7 +57,7 @@ class WalletFragment : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         UI = inflater.inflate(R.layout.fragment_wallet, container, false)
 
-        progressBarCustom = ProgressBarCustom.build( activity!!, UI!!.findViewById(R.id.progress_bar_) )
+        progressBarCustom = ProgressBarCustom.build( activity!!, progressBar = UI!!.findViewById(R.id.progress_bar_) )
         progressBarCustom.show()
 
         BuildData().run()

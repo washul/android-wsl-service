@@ -8,6 +8,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import com.facebook.FacebookSdk
 import com.google.android.material.snackbar.Snackbar
@@ -71,14 +72,15 @@ class ProgressBarCustom {
 
         lateinit var instance: ProgressBarCustom
 
-        internal fun build( activity: Activity, progressBar: ProgressBar ): ProgressBarCustom {
+        internal fun build( activity: Activity? = null, fragmentActivity: FragmentActivity? = null, progressBar: ProgressBar ): ProgressBarCustom {
 
             if ( !::instance.isInitialized ){
 
                 instance = ProgressBarCustom().apply {
 
                     this.progressBar = progressBar
-                    this.activity = activity
+
+                    this.activity = activity ?: (fragmentActivity ?: return@apply)
 
                 }
 

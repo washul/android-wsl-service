@@ -341,7 +341,7 @@ open class WSLoginActivity : AppCompatActivity() {
 
             iconView.buildResource( R.mipmap.wsl_logo, applicationContext )
 
-            progressBarCustom = ProgressBarCustom.build(this@WSLoginActivity, progress_bar_)
+            progressBarCustom = ProgressBarCustom.build(this@WSLoginActivity, progressBar = progress_bar_)
             progressBarCustom.show()
 
             initButtons()

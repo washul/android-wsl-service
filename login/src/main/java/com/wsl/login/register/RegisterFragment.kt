@@ -84,7 +84,7 @@ class RegisterFragment : DialogFragment() {
         override fun run() {
             super.run()
 
-            progressBarCustom = ProgressBarCustom.build( activity!!, progress_bar_!! )
+            progressBarCustom = ProgressBarCustom.build( activity!!, progressBar = progress_bar_!! )
             progressBarCustom.show()
 
 //            Tmp just for testing

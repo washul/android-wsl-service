@@ -85,7 +85,7 @@ class UpdateProfileFragment : DialogFragment() {
         override fun run() {
             super.run()
 
-            progressBarCustom = ProgressBarCustom.build( activity!!, progress_bar_!! )
+            progressBarCustom = ProgressBarCustom.build( activity!!, progressBar = progress_bar_!! )
             progressBarCustom.show()
 
             this.profileViewModel = ( activity!! as ProfileActivity ).viewModel

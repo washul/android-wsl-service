@@ -152,7 +152,7 @@ class Payments : AppCompatActivity() {
             super.run()
             this@Payments.setContentView(R.layout.activity_payments)
 
-            progressBarCustom = ProgressBarCustom.build(this@Payments, progress_bar_)
+            progressBarCustom = ProgressBarCustom.build(this@Payments, progressBar = progress_bar_)
             progressBarCustom.show()
 
             buildRecycler()
