@@ -55,10 +55,21 @@ fun WSLoginActivity.showSnackBarMessage( message: String ){
 
 }
 
-fun View.showSnackBarMessage( message: String ){
+fun View.showSnackBarMessage(message: String ){
 
     Snackbar.make(this, message, Snackbar.LENGTH_LONG)
         .setBackgroundTint(resources.getColor(R.color.colorAccent))
+        .show()
+
+}
+
+fun View.showSnackBarMessage(message: String, actionMessage: String, function: () -> Unit){
+
+    Snackbar.make(this, message, Snackbar.LENGTH_LONG)
+        .setBackgroundTint(resources.getColor(R.color.colorAccent))
+        .setAction( actionMessage ) {
+            function()
+        }
         .show()
 
 }

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.*
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,6 @@ import com.wsl.login.payments.openpay.OpenPayAddCardFragment
 import com.wsl.login.payments.viewmodel.PaymentViewModel
 import com.wsl.login.payments.Payments
 import kotlinx.android.synthetic.main.cardview_wallet_card.view.*
-import kotlinx.android.synthetic.main.fragment_wallet.*
 
 class WalletFragment : DialogFragment() {
 
