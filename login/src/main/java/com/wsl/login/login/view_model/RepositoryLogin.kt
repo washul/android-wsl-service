@@ -16,7 +16,6 @@ import com.wsl.login.helpers.registerNetworkCallback
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.doAsync
 import retrofit2.Retrofit
 import javax.inject.Inject
 
@@ -72,16 +71,16 @@ class RepositoryLogin @Inject constructor() {
 //    MARK: LOCAL METHODS
     fun localSignIn( function: (EUser?) -> Unit ){
 
-        doAsync {
+//        doAsync {
 
             function(daoUser.signIn())
 
-        }
+//        }
 
     }
 
     fun saveUser( user: EUser){
-        doAsync {
+//        doAsync {
             try {
                 if (  user.uuid_user == daoUser.isUserExist( user.email!! ) ) {
                     daoUser.update(user)
@@ -91,7 +90,7 @@ class RepositoryLogin @Inject constructor() {
             }catch ( e: Exception ){
                 e.printStackTrace()
             }
-        }
+//        }
     }
 
     fun getUserLiveData() = daoUser.getUserLiveData()
@@ -99,11 +98,11 @@ class RepositoryLogin @Inject constructor() {
     fun getLocalUserNoAsync() = daoUser.getUser()
 
     fun getLocalUserAsync( function: (EUser?) -> Unit ) {
-        doAsync {
+//        doAsync {
 
             function(daoUser.getUser())
 
-        }
+//        }
     }
 
     //    MARK: CLOUD METHODS
@@ -232,13 +231,13 @@ class RepositoryLogin @Inject constructor() {
     }
 
     fun logOut( function: (Boolean) -> Unit) {
-        doAsync {
+//        doAsync {
             daoUser.deleteUsers()
             prefs.tokenDevice = ""
             prefs.tokenUser = ""
 
             function(true)
-        }
+//        }
     }
 
  }

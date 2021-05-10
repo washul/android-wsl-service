@@ -17,7 +17,6 @@ import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import com.squareup.picasso.Picasso
 import com.wsl.login.R
-import org.jetbrains.anko.runOnUiThread
 
 
 fun ImageView.buildResource(resource: Int, context: Context){
@@ -71,12 +70,13 @@ fun Context.registerNetworkCallback(isNetworkAvailable: MutableLiveData<Boolean>
 
                 connectivityManager.registerDefaultNetworkCallback(object : NetworkCallback() {
                     override fun onAvailable(network: Network?) {
-                        runOnUiThread { isNetworkAvailable.value = true }
-
+//                        runOnUiThread { isNetworkAvailable.value = true }
+                        isNetworkAvailable.value = true
                     }
 
                     override fun onLost(network: Network?) {
-                        runOnUiThread { isNetworkAvailable.value = true }
+//                        runOnUiThread { isNetworkAvailable.value = true }
+                        isNetworkAvailable.value = true
                     }
                 })
             }

@@ -15,7 +15,6 @@ import com.wsl.login.retrofit.RetrofitServices
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.doAsync
 import org.json.JSONObject
 import retrofit2.Retrofit
 import javax.inject.Inject
@@ -181,16 +180,16 @@ class RepositoryPayments @Inject constructor() {
 
     fun saveSubscription( subscription: ESubscription ){
 
-        doAsync {
+//        doAsync {
             daoSubscription.saveSubscription(subscription)
-        }
+//        }
 
     }
 
     fun getLocalSubscription( function: (List<ESubscription>?) -> Unit ){
-        doAsync {
+//        doAsync {
             function( daoSubscription.getSubscriptions() )
-        }
+//        }
     }
 
     /**User Methods*/
@@ -249,7 +248,7 @@ class RepositoryPayments @Inject constructor() {
     }
 
     fun registerCard( device_session_id: String, token_id: String, function: (List<ECard>?) -> Unit ) {
-        doAsync {
+//        doAsync {
 
             try{
 
@@ -279,25 +278,25 @@ class RepositoryPayments @Inject constructor() {
                 function(null)
             }
 
-        }
+//        }
     }
 
     fun getCardsLiveData() = daoCard.getCardsLiveData()
 
     fun getCards( function: (List<ECard>?) -> Unit ) {
-        doAsync {
+//        doAsync {
 
             function( daoCard.getCards() )
 
-        }
+//        }
     }
 
     fun saveCardList( list: List<ECard> ){
-        doAsync {
+//        doAsync {
 
             daoCard.saveCardList( list )
 
-        }
+//        }
     }
 
     fun removeCards( card_id: String, function: (CardsResponse?) -> Unit) {
@@ -325,9 +324,9 @@ class RepositoryPayments @Inject constructor() {
     /**Plan Methods*/
 
     fun savePlan ( plan: EPlan ) =
-        doAsync {
+//        doAsync {
             daoPlan.save( plan )
-        }
+//        }
 
 
 }

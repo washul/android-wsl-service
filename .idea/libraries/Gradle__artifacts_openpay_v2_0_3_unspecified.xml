@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: artifacts:openpay-v2.0.3:unspecified">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/openpay-v2.0.3/build/.transforms/999e9a52e56016f733c8642b1ae3c24f/jetified-openpay-v2.0.3/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/openpay-v2.0.3/build/.transforms/999e9a52e56016f733c8642b1ae3c24f/jetified-openpay-v2.0.3/res" />
+      <root url="jar://$PROJECT_DIR$/openpay-v2.0.3/build/.transforms/999e9a52e56016f733c8642b1ae3c24f/jetified-openpay-v2.0.3/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
