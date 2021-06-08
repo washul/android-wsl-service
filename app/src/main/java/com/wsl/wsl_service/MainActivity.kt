@@ -15,12 +15,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
         val loginIntent = Intent(this@MainActivity, WSLoginActivity()::class.java)
         loginIntent.putExtra( WSL_ACTION_PARAM_NAME, WSL_LOGIN_ACTION_AUTO_SIGN_IN )
         startActivityForResult( loginIntent, WSL_LOGIN_VIEW_REQUEST_CODE )
+    }
 
+    private fun loadUI() {
+        setContentView(R.layout.activity_main)
+        setOnClickListeners()
+    }
+
+    private fun setOnClickListeners() {
         button_payments.setOnClickListener {
 
             val intent = Intent(this@MainActivity, Payments()::class.java)
@@ -42,7 +47,6 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult( Intent(this@MainActivity, ProfileActivity()::class.java), WSL_PROFILE_VIEW_REQUEST_CODE )
 
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -64,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     WSL_LOGIN_ANSWER_SIGN_IN -> {
                         Log.e("*****USER LOGIN", data.extras?.getString(WSL_LOGIN_UUID_USER).toString() )
+                        loadUI()
                     }
                 }
 

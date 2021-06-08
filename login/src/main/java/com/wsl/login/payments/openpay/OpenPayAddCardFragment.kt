@@ -12,7 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.wsl.login.R
 import com.wsl.login.helpers.showSnackBarMessage
 import com.wsl.login.payments.Payments
-import com.wsl.login.payments.viewmodel.PaymentViewModel
+import com.wsl.login.payments.viewmodel.WSPaymentViewModel
 import kotlinx.android.synthetic.main.fragment_payments.view.*
 import mx.openpay.android.OperationCallBack
 import mx.openpay.android.OperationResult
@@ -27,7 +27,7 @@ class OpenPayAddCardFragment : DialogFragment() {
     private lateinit var vista: View
     private var deviceIDFragment: DeviceIdFragment? = null
     private lateinit var progressDialogFragment: ProgressDialogFragment
-    private lateinit var viewModel: PaymentViewModel
+    private lateinit var viewModel: WSPaymentViewModel
 //    private lateinit var cardRepository: CardRepository
 
     companion object {

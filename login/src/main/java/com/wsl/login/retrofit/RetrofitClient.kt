@@ -1,8 +1,6 @@
 package com.wsl.login.retrofit
 
-import android.app.Application
-import com.wsl.login.dagger.DaggerApplication
-import com.wsl.login.helpers.Preferences
+import com.wsl.login.helpers.WSPreferences
 import com.wsl.login.helpers.URL_BASE
 import com.wsl.login.login.view_model.RepositoryLogin
 import okhttp3.*
@@ -11,59 +9,49 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
-class RetrofitClient @Inject constructor() {
+class RetrofitClient @Inject constructor(
+    private val prefs: WSPreferences
+) {
 
-    private var retrofit: Retrofit? = null
-
-    @Inject
-    lateinit var repository: RepositoryLogin
-
-    @Inject
-    lateinit var prefs: Preferences
+    var retrofit: Retrofit? = null
 
     companion object {
 
-        private lateinit var instance: RetrofitClient
+        lateinit var instance: RetrofitClient
 
-        fun build( application: Application ): RetrofitClient {
+        fun build(prefs: WSPreferences): RetrofitClient {
 
             if ( !::instance.isInitialized ){
 
-                instance = RetrofitClient()
-
-                val appComponent = DaggerApplication().initDaggerComponent( application )
-                appComponent.inject(instance)
+                instance = RetrofitClient(prefs)
+                buildRetrofit()
 
             }
 
             return instance
-
         }
 
-    }
+        private fun buildRetrofit() {
+            if ( instance.retrofit == null ) {
 
-    fun buildRetrofit(): Retrofit {
+                val client = OkHttpClient
+                    .Builder()
+                    .addInterceptor( instance.RequestInterceptorAddAppID() )
+                    .addInterceptor( instance.RequestInterceptorAddHeaders() )
+                    .build()
 
-        if ( retrofit == null ) {
+                instance.retrofit = Retrofit.Builder()
+                    .baseUrl("http://$URL_BASE")
+                    .client( client )
+                    .addConverterFactory( GsonConverterFactory.create() )
+                    .addCallAdapterFactory( RxJava2CallAdapterFactory.create() )
+                    .build()
 
-            val client = OkHttpClient
-                .Builder()
-                .addInterceptor( RequestInterceptorAddAppID() )
-                .addInterceptor( RequestInterceptorAddHeaders() )
-                .build()
-
-            retrofit = Retrofit.Builder()
-                .baseUrl("http://$URL_BASE")
-                .client( client )
-                .addConverterFactory( GsonConverterFactory.create() )
-                .addCallAdapterFactory( RxJava2CallAdapterFactory.create() )
-                .build()
-
+            }
         }
-
-        return retrofit!!
-
     }
+
+
 
     inner class RequestInterceptorAddHeaders: Interceptor {
 
@@ -78,15 +66,13 @@ class RetrofitClient @Inject constructor() {
             var requestBuilder = original.newBuilder().url(url)
 
             /**If the instance is not initialized, the metod returned the same request*/
-            if ( !::prefs.isInitialized || !::repository.isInitialized || prefs.tokenUser == "" )
+            if ( prefs.tokenUser == "" )
                 return chain.proceed( requestBuilder.build() )
-
-            val user = repository.getLocalUserNoAsync()
 
 
             requestBuilder = original.newBuilder()
                 .addHeader("auth", prefs.tokenUser )
-                .addHeader("uuid_user", user.uuid_user )
+                .addHeader("uuid_user", prefs.userID )
                 .addHeader("tokendevice", prefs.tokenDevice )
                 .addHeader("appID", prefs.appID )
                 .url(url)

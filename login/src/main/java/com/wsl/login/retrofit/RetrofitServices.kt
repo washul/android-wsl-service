@@ -2,7 +2,9 @@ package com.wsl.login.retrofit
 
 import com.wsl.login.database.entities.*
 import io.reactivex.Observable
+import okhttp3.ResponseBody
 import org.json.JSONObject
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -13,50 +15,48 @@ interface RetrofitServices {
     /**Login Methods*/
 
     @POST("login/")
-    fun login(@Body parameters: EUser): Observable<LoginResponse>
+    suspend fun login(@Body parameters: EUser): Response<LoginResponse>
 
     @GET("login-auto/")
-    fun loginAuto(): Observable<LoginResponse>
+    suspend fun loginAuto(): Response<LoginResponse>
 
 
     @POST("register/")
-    fun registerUser(@Body user: EUser): Observable<RegisterResponse>
+    suspend fun registerUser(@Body user: EUser): Response<RegisterResponse>
 
     @POST("update-user/")
-    fun updateUser(@Body user: EUser): Observable<RegisterResponse>
+    suspend fun updateUser(@Body user: EUser): Response<RegisterResponse>
 
     @GET("create-openpay-account/")
-    fun createOpenPayCustomer(): Observable<CardsResponse>
+    suspend fun createOpenPayCustomer(): Response<CardsResponse>
 
     /**Plan Methods*/
 
     @GET("internal/get-plans-list/")
-    fun getPlan(): Observable<PlanResponse>
+    suspend fun getPlan(): Observable<PlanResponse>
 
     /**Subscription Methods*/
 
     @POST("pay-subscription/")
-    fun paySubscription(@Body model: JSONObject): Observable<SubscriptionResponse>
+    suspend fun paySubscription(@Body model: JSONObject): Observable<SubscriptionResponse>
 
     @GET("get-subscription/")
-    fun getSubscription(): Observable<SubscriptionResponse>
+    suspend fun getSubscription(): Observable<SubscriptionResponse>
 
     @GET("cancel-subscription/")
-    fun cancelSubscription(@Query("subscriptionID") subscriptionID: String ): Observable<SubscriptionResponse>
+    suspend fun cancelSubscription(@Query("subscriptionID") subscriptionID: String ): Observable<SubscriptionResponse>
 
     /**Cards Methods*/
 
     @GET("get-cards-list/")
-    fun getCards(): Observable<CardsResponse>
+    suspend fun getCards(): Observable<CardsResponse>
 
     @GET("remove-card/")
-    fun removeCard(@Query("card_id") card_id: String): Observable<CardsResponse>
+    suspend fun removeCard(@Query("card_id") card_id: String): Observable<CardsResponse>
 
     @POST("register-card-to-openpay-account/")
-    fun registerCard(@Body model: JSONObject): Observable<CardsResponse>
+    suspend fun registerCard(@Body model: JSONObject): Observable<CardsResponse>
 
     @GET("get-user/")
-    fun getUser(): Observable<LoginResponse>
-
-
+    suspend fun getUser(): Observable<LoginResponse>
 }

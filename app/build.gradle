@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.wsl.wsl_service"
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -21,6 +21,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    buildFeatures {
+        dataBinding true
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'

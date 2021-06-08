@@ -19,25 +19,26 @@ import com.wsl.login.database.entities.ECard
 import com.wsl.login.helpers.*
 import com.wsl.login.payments.fragments.WalletFragment
 import com.wsl.login.payments.fragments.SubscriptionFragment
-import com.wsl.login.profile.view_model.ProfileViewModel
+import com.wsl.login.profile.view_model.WSProfileViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.fragment_wallet.*
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class ProfileActivity : AppCompatActivity() {
 
-    internal lateinit var viewModel: ProfileViewModel
+    @Inject
+    lateinit var viewModel: WSProfileViewModel
 
-    private lateinit var progressBarCustom: ProgressBarCustom
+    private lateinit var progressBarCustom: WSProgressBarCustom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        progressBarCustom = ProgressBarCustom.build(this, progressBar = findViewById(R.id.progress_bar_))
+        progressBarCustom = WSProgressBarCustom.build(this, progressBar = findViewById(R.id.progress_bar_))
         progressBarCustom.show()
-
-        viewModel = initDaggerViewModel()
 
         BuildData().run()
 
@@ -58,7 +59,7 @@ class ProfileActivity : AppCompatActivity() {
                 viewModel.saveSubscription( subscriptionResponse.subscription )
 
                 viewModel.currentPlan = subscriptionResponse.plan
-                viewModel.subscriptionMutable.value = subscriptionResponse.subscription
+                viewModel.subscriptionMutable.postValue(subscriptionResponse.subscription)
             }
 
             viewModel.getUserCloud { loginResponse ->
@@ -76,7 +77,7 @@ class ProfileActivity : AppCompatActivity() {
                 }
 
                 viewModel.saveUser(loginResponse.user)
-                viewModel.userMutable.value = loginResponse.user
+                viewModel.userMutable.postValue(loginResponse.user)
 
             }
 

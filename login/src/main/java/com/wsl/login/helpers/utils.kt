@@ -9,19 +9,11 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProviders
 import com.facebook.FacebookSdk
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.wsl.login.R
 import com.wsl.login.login.WSLoginActivity
-import com.wsl.login.dagger.DaggerApplication
-import com.wsl.login.dagger.RetroViewModelFactory
-import com.wsl.login.login.view_model.LoginViewModel
-import com.wsl.login.payments.Payments
-import com.wsl.login.payments.viewmodel.PaymentViewModel
-import com.wsl.login.profile.ProfileActivity
-import com.wsl.login.profile.view_model.ProfileViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 import java.math.BigInteger
 import java.security.MessageDigest
@@ -74,109 +66,51 @@ fun View.showSnackBarMessage(message: String, actionMessage: String, function: (
 
 }
 
-class ProgressBarCustom {
+class WSProgressBarCustom {
 
     lateinit var progressBar: ProgressBar
     lateinit var activity: Activity
 
     companion object {
 
-        lateinit var instance: ProgressBarCustom
+        @SuppressLint("StaticFieldLeak")
+        lateinit var instance: WSProgressBarCustom
 
-        internal fun build( activity: Activity?, progressBar: ProgressBar ): ProgressBarCustom {
-
+        internal fun build( activity: Activity?, progressBar: ProgressBar ): WSProgressBarCustom {
             if ( !::instance.isInitialized ){
-
-                instance = ProgressBarCustom().apply {
-
+                instance = WSProgressBarCustom().apply {
                     this.progressBar = progressBar
                     this.activity = activity ?: return@apply
-
                 }
-
             }
-
             return instance
-
         }
 
-        internal fun build( activity: FragmentActivity?, progressBar: ProgressBar ): ProgressBarCustom {
-
+        internal fun build( activity: FragmentActivity?, progressBar: ProgressBar ): WSProgressBarCustom {
             if ( !::instance.isInitialized ){
-
-                instance = ProgressBarCustom().apply {
-
+                instance = WSProgressBarCustom().apply {
                     this.progressBar = progressBar
                     this.activity = activity ?: return@apply
-
                 }
-
             }
-
+            instance.dismiss()
             return instance
-
         }
-
     }
 
     fun show(){
-
         this.progressBar.visibility = View.VISIBLE
         activity.window.setFlags(
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-
     }
-
     fun dismiss(){
-
         this.progressBar.visibility = View.GONE
         activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-
     }
-
 }
 
 fun WSLoginActivity.initFacebookSDK() = FacebookSdk.sdkInitialize(applicationContext)
-
-fun WSLoginActivity.initDaggerViewModel(): LoginViewModel {
-
-    val appComponent = DaggerApplication().initDaggerComponent(application)
-    appComponent.inject(this)
-
-    val viewModelFactory = RetroViewModelFactory(appComponent)
-
-    return ViewModelProviders
-        .of(this, viewModelFactory)
-        .get(LoginViewModel::class.java)
-
-}
-
-fun Payments.initDaggerViewModel(): PaymentViewModel {
-
-    val appComponent = DaggerApplication().initDaggerComponent(application)
-    appComponent.inject(this)
-
-    val viewModelFactory = RetroViewModelFactory(appComponent)
-
-    return ViewModelProviders
-        .of(this, viewModelFactory)
-        .get(PaymentViewModel::class.java)
-
-}
-
-fun ProfileActivity.initDaggerViewModel(): ProfileViewModel {
-
-    val appComponent = DaggerApplication().initDaggerComponent(application)
-    appComponent.inject(this)
-
-    val viewModelFactory = RetroViewModelFactory(appComponent)
-
-    return ViewModelProviders
-        .of(this, viewModelFactory)
-        .get(ProfileViewModel::class.java)
-
-}
 
 
 

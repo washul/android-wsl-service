@@ -9,6 +9,14 @@
     android:background="@color/colorPrimaryDark"
     >
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/login_navigation"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/login_navigation" />
+
     <ProgressBar
         android:id="@+id/progress_bar_"
         style="?android:attr/progressBarStyle"
@@ -25,153 +33,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="UnusedAttribute" />
-
-    <ImageView
-        android:id="@+id/iconView"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/background_image_circular"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/iniciar_sesion"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:autoSizeTextType="uniform"
-        android:background="@android:color/transparent"
-        android:gravity="center_horizontal"
-        android:text="@string/usar_email"
-        android:textAlignment="center"
-        android:textColor="@color/colorWithe"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/iconView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/iconView"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:targetApi="o" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email_"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/email"
-        android:textAlignment="viewStart"
-        android:textColorHint="@color/colorWhite"
-        android:textSize="20sp"
-        android:textStyle="normal"
-        app:boxStrokeColor="@color/colorAccent"
-        app:hintTextColor="@color/colorWhite"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/passwordLayout"
-        app:layout_constraintEnd_toEndOf="@+id/iniciar_sesion"
-        app:layout_constraintStart_toStartOf="@+id/iniciar_sesion"
-
-        app:layout_constraintTop_toBottomOf="@+id/iniciar_sesion"
-        android:gravity="start">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id = "@+id/passwordLayout"
-        style = "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width = "0dp"
-        android:layout_height = "wrap_content"
-        android:layout_marginTop = "8dp"
-        android:hint = "@string/password"
-        android:textAlignment = "viewStart"
-        android:textColorHint = "@color/colorWhite"
-        android:textSize = "20sp"
-        android:textStyle = "normal"
-        app:boxStrokeColor = "@color/colorAccent"
-        app:counterEnabled = "true"
-        app:hintTextColor = "@color/colorWhite"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf = "@+id/email_"
-        app:layout_constraintStart_toStartOf = "@+id/email_"
-        app:layout_constraintTop_toBottomOf = "@+id/email_"
-        android:gravity="start">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id = "@+id/extiTextPassword"
-            android:layout_width = "match_parent"
-            android:layout_height = "wrap_content"
-            android:inputType = "textPassword"
-            android:maxLength = "30"
-            android:textColor = "@color/colorWhite" />
-
-    </com.google.android.material.textfield.TextInputLayout >
-
-    <Button
-        android:id="@+id/registrarme"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:gravity="center_horizontal"
-        android:text="@string/no_tienes_una_cuenta"
-        android:textAlignment="center"
-        android:textColor="@color/colorGrayShadow"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/iniciar_sesion"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/iniciar_sesion"
-        app:layout_constraintTop_toBottomOf="@+id/passwordLayout"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/or"
-        android:textColor="@color/colorGrayShadow"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/facebook_login_"
-        app:layout_constraintStart_toStartOf="@+id/facebook_login_"
-        app:layout_constraintTop_toBottomOf="@+id/facebook_login_" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:background="@drawable/background_google_signin_button"
-        android:id="@+id/google_login_"
-        android:textAlignment="center"
-        android:text="@string/continuar_con_google"
-        android:drawableStart="@drawable/common_google_signin_btn_icon_light"
-        android:textSize="12sp"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/iconView"
-        app:layout_constraintStart_toStartOf="@+id/iconView"
-        app:layout_constraintTop_toBottomOf="@+id/iconView" />
-
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/facebook_login_"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fitsSystemWindows="true"
-        app:layout_constraintEnd_toEndOf="@+id/google_login_"
-        app:layout_constraintStart_toStartOf="@+id/google_login_"
-        app:layout_constraintTop_toBottomOf="@+id/google_login_" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

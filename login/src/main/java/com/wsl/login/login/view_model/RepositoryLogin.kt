@@ -1,86 +1,33 @@
 package com.wsl.login.login.view_model
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.wsl.login.retrofit.RetrofitServices
-import com.wsl.login.dagger.AppComponent
-import com.wsl.login.dagger.DaggerApplication
-import com.wsl.login.helpers.Preferences
+import com.wsl.login.helpers.WSPreferences
 import com.wsl.login.database.AppDataBase
-import com.wsl.login.database.dao.DAOUser
 import com.wsl.login.database.entities.EUser
+import com.wsl.login.helpers.isOnlineNet
 import com.wsl.login.retrofit.LoginResponse
 import com.wsl.login.retrofit.RegisterResponse
-import com.wsl.login.helpers.registerNetworkCallback
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import retrofit2.Retrofit
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class RepositoryLogin @Inject constructor() {
 
-    @Inject
-    lateinit var retrofit: Retrofit
+class RepositoryLogin @Inject constructor(
+    db: AppDataBase,
+    var prefs: WSPreferences,
+    private var service: RetrofitServices
+    ) {
 
-    @Inject
-    lateinit var prefs: Preferences
-
-    @Inject
-    lateinit var compositeDisposable: CompositeDisposable
-
-    private lateinit var service: RetrofitServices
-
-    lateinit var dataBase: AppDataBase
-
-    private lateinit var daoUser: DAOUser
-
-    val isNetworkAvailable = MutableLiveData<Boolean>()
-
-    companion object {
-
-        lateinit var instance: RepositoryLogin
-
-        fun build( context: Application ): RepositoryLogin {
-
-            if ( !Companion::instance.isInitialized ){
-
-                instance = RepositoryLogin().apply {
-
-                    this.dataBase = AppDataBase.getInstance( context )!!
-                    this.daoUser = this.dataBase.daoUser()
-
-                    val appComponent: AppComponent = DaggerApplication().initDaggerComponent( context )
-                    appComponent.inject(this)
-
-                    this.service = retrofit.create(RetrofitServices::class.java)
-
-                    context.registerNetworkCallback( isNetworkAvailable )
-
-                }
-
-            }
-
-            return instance
-
-        }
-
-    }
+    private var daoUser = db.daoUser()
+    val isNetworkAvailable = isOnlineNet()
 
 //    MARK: LOCAL METHODS
-    fun localSignIn( function: (EUser?) -> Unit ){
-
-//        doAsync {
-
-            function(daoUser.signIn())
-
-//        }
-
+    fun localSignIn(): EUser? {
+            return daoUser.signIn()
     }
 
     fun saveUser( user: EUser){
-//        doAsync {
             try {
                 if (  user.uuid_user == daoUser.isUserExist( user.email!! ) ) {
                     daoUser.update(user)
@@ -90,7 +37,6 @@ class RepositoryLogin @Inject constructor() {
             }catch ( e: Exception ){
                 e.printStackTrace()
             }
-//        }
     }
 
     fun getUserLiveData() = daoUser.getUserLiveData()
@@ -106,138 +52,93 @@ class RepositoryLogin @Inject constructor() {
     }
 
     //    MARK: CLOUD METHODS
-    fun login(user: EUser, function: (LoginResponse?) -> Unit ){
-
-        try {
-
-            //You need to use CompositeDisposables to manage the resources.
-            compositeDisposable.add( service.login( parameters = user )
-                .subscribeOn( Schedulers.io() )
-                .unsubscribeOn( Schedulers.computation() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe({ responseBody ->
-
-                    Log.e("LOGIN RESPONSE ->  ", responseBody.toString() )
-
-                    function(responseBody)
-
-                },
-                    {
-                        it.printStackTrace()
-                        function(null)
-                    }
-                )
-
-            )
-
-        }catch ( e: Exception){
-            e.printStackTrace()
-            function(null)
+    suspend fun login(
+        user: EUser,
+        function: (LoginResponse?) -> Unit
+    ) {
+        val response = service.login( parameters = user )
+        withContext(Dispatchers.IO){
+            try {
+                function(response.body())
+            }catch ( e: Exception){
+                e.printStackTrace()
+                function(null)
+            }
         }
 
     }
 
-    fun loginAuto( function: (LoginResponse?) -> Unit ){
+    suspend fun loginAuto(
+        function: (LoginResponse?) -> Unit
+    ){
 
-        try {
-
-            //You need to use CompositeDisposables to manage the resources.
-            compositeDisposable.add( service.loginAuto()
-                .subscribeOn( Schedulers.io() )
-                .unsubscribeOn( Schedulers.computation() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe({ responseBody ->
-
-                    Log.e("LOGIN RESPONSE ->  ", responseBody.toString() )
-
-
-                    function(responseBody)
-
-                },
-                    {
-                        it.printStackTrace()
-                        function(null)
-                    }
-                )
-
-            )
-
-        }catch ( e: Exception){
-            e.printStackTrace()
-            function(null)
+        val response = service.loginAuto()
+        withContext(Dispatchers.IO){
+            try {
+                if (response.isSuccessful)
+                    Log.e("LOGIN RESPONSE ->  ", response.body().toString() )
+                    function(response.body())
+            }catch ( e: Exception){
+                e.printStackTrace()
+                function(null)
+            }
         }
-
     }
 
-    fun updateUser(user: EUser, function: (RegisterResponse?) -> Unit ){
-
-        try {
-
-            //You need to use CompositeDisposables to manage the resources.
-            compositeDisposable.add( service.updateUser( user = user )
-                .subscribeOn( Schedulers.io() )
-                .unsubscribeOn( Schedulers.computation() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe({ registerResponse ->
-
-                    Log.e("REGISTER RESPONSE ->  ", registerResponse.toString() )
-                    function( registerResponse )
-
-                },
-                    {
-                        it.printStackTrace()
-                        function(null)
-                    }
-                )
-
-            )
-
-        }catch ( e: Exception){
-            e.printStackTrace()
-            function(null)
+    suspend fun registerUser(
+        user: EUser,
+        function: (RegisterResponse?) -> Unit
+    ){
+        val response = service.registerUser( user = user )
+        withContext(Dispatchers.IO) {
+            try {
+                Log.e("REGISTER RESPONSE ->  ", response.body().toString() )
+                function( response.body() )
+            }catch ( e: Exception){
+                e.printStackTrace()
+                function(null)
+            }
         }
-
     }
 
-    fun getUser( function: (LoginResponse?) -> Unit ){
-
-        try {
-
-            //You need to use CompositeDisposables to manage the resources.
-            compositeDisposable.add( service.getUser()
-                .subscribeOn( Schedulers.io() )
-                .unsubscribeOn( Schedulers.computation() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe({ responseBody ->
-
-                    Log.e("USER RESPONSE ->  ", responseBody.toString() )
-
-                    function(responseBody)
-
-                },
-                    {
-                        it.printStackTrace()
-                        function(null)
-                    }
-                )
-
-            )
-
-        }catch ( e: Exception){
-            e.printStackTrace()
-            function(null)
+    suspend fun updateUser(
+        user: EUser,
+        function: (RegisterResponse?) -> Unit
+    ){
+        val response = service.updateUser( user = user )
+        withContext(Dispatchers.IO) {
+            try {
+                Log.e("REGISTER RESPONSE ->  ", response.body().toString() )
+                function( response.body() )
+            }catch ( e: Exception){
+                e.printStackTrace()
+                function(null)
+            }
         }
+    }
 
+    suspend fun getUser(
+        function: (LoginResponse?) -> Unit
+    ){
+
+        val response = service.getUser()
+        withContext(Dispatchers.IO) {
+            try {
+                Log.e("USER RESPONSE ->  ", response.blockingFirst().toString() )
+                function(response.blockingFirst())
+            }catch ( e: Exception){
+                e.printStackTrace()
+                function(null)
+            }
+        }
     }
 
     fun logOut( function: (Boolean) -> Unit) {
-//        doAsync {
             daoUser.deleteUsers()
             prefs.tokenDevice = ""
             prefs.tokenUser = ""
 
             function(true)
-//        }
     }
 
  }

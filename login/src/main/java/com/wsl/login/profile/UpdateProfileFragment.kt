@@ -11,11 +11,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputLayout
 import com.wsl.login.R
-import com.wsl.login.helpers.ProgressBarCustom
+import com.wsl.login.helpers.WSProgressBarCustom
 import com.wsl.login.helpers.getDeviceID
 import com.wsl.login.helpers.showSnackBarMessage
 import com.wsl.login.database.entities.EUser
-import com.wsl.login.profile.view_model.ProfileViewModel
+import com.wsl.login.profile.view_model.WSProfileViewModel
 import kotlinx.android.synthetic.main.fragment_register.*
 
 class UpdateProfileFragment : DialogFragment() {
@@ -60,7 +60,7 @@ class UpdateProfileFragment : DialogFragment() {
     private inner class BuildAll: Thread(){
 
 //        MARK: OBJECTS
-        private lateinit var profileViewModel: ProfileViewModel
+        private lateinit var profileViewModel: WSProfileViewModel
 
 
 //        MARK: UI OBJECTS
@@ -80,12 +80,12 @@ class UpdateProfileFragment : DialogFragment() {
         private val second = UIView?.findViewById<RadioButton>( R.id.second)
 
 
-        private lateinit var progressBarCustom: ProgressBarCustom
+        private lateinit var progressBarCustom: WSProgressBarCustom
 
         override fun run() {
             super.run()
 
-            progressBarCustom = ProgressBarCustom.build( activity!!, progressBar = progress_bar_!! )
+            progressBarCustom = WSProgressBarCustom.build( activity!!, progressBar = progress_bar_!! )
             progressBarCustom.show()
 
             this.profileViewModel = ( activity!! as ProfileActivity ).viewModel
@@ -145,7 +145,7 @@ class UpdateProfileFragment : DialogFragment() {
 
                     profileViewModel.saveUser( user )
                     profileViewModel.getUserLocalAsync {
-                        profileViewModel.userMutable.value = it
+                        profileViewModel.userMutable.postValue(it)
                     }
 
                     this@UpdateProfileFragment.dismiss()
@@ -173,7 +173,7 @@ class UpdateProfileFragment : DialogFragment() {
                 if ( !validateAllFields() )
                     returnTransition
 
-                profileViewModel.userUpdate.value = getUser()
+                profileViewModel.userUpdate.postValue(getUser())
 
             }
 

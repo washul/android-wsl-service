@@ -7,7 +7,6 @@
     <solid
         android:color="@color/colorWithe" >
     </solid>
-
     <!-- Aquí indicamos el radio a aplicar a las esquinas -->
     <corners android:radius="380dp"/>
 

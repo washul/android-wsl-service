@@ -21,14 +21,14 @@ import com.wsl.login.R
 import com.wsl.login.database.entities.ECard
 import com.wsl.login.helpers.*
 import com.wsl.login.payments.openpay.OpenPayAddCardFragment
-import com.wsl.login.payments.viewmodel.PaymentViewModel
+import com.wsl.login.payments.viewmodel.WSPaymentViewModel
 import com.wsl.login.payments.Payments
 import kotlinx.android.synthetic.main.cardview_wallet_card.view.*
 
 class WalletFragment : DialogFragment() {
 
-    lateinit var viewModel: PaymentViewModel
-    private lateinit var progressBarCustom: ProgressBarCustom
+    lateinit var viewModel: WSPaymentViewModel
+    private lateinit var progressBarCustom: WSProgressBarCustom
 
     private var UI: View? = null
 
@@ -55,7 +55,7 @@ class WalletFragment : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         UI = inflater.inflate(R.layout.fragment_wallet, container, false)
 
-        progressBarCustom = ProgressBarCustom.build( activity!!, progressBar = UI!!.findViewById(R.id.progress_bar_) )
+        progressBarCustom = WSProgressBarCustom.build( activity!!, progressBar = UI!!.findViewById(R.id.progress_bar_) )
         progressBarCustom.show()
 
         BuildData().run()

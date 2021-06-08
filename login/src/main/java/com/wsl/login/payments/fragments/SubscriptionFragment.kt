@@ -13,7 +13,7 @@ import com.google.android.material.textview.MaterialTextView
 import com.wsl.login.R
 import com.wsl.login.helpers.buildResource
 import com.wsl.login.helpers.showSnackBarMessage
-import com.wsl.login.profile.view_model.ProfileViewModel
+import com.wsl.login.profile.view_model.WSProfileViewModel
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.cardview_wallet_card.view.*
 
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.cardview_wallet_card.view.*
 class SubscriptionFragment : DialogFragment() {
 
     private var UIView: View? = null
-    private lateinit var viewModel: ProfileViewModel
+    private lateinit var viewModel: WSProfileViewModel
 
     companion object {
         const val TAG = "SubscriptionFragment"
@@ -53,7 +53,7 @@ class SubscriptionFragment : DialogFragment() {
         return UIView
     }
 
-    fun setSubscriptionData( viewModel: ProfileViewModel ){
+    fun setSubscriptionData( viewModel: WSProfileViewModel ){
         this.viewModel = viewModel
         BuildData().run()
     }
@@ -72,7 +72,7 @@ class SubscriptionFragment : DialogFragment() {
                 viewModel.saveSubscription( subscriptionResponse.subscription )
 
                 viewModel.currentPlan = subscriptionResponse.plan
-                viewModel.subscriptionMutable.value = subscriptionResponse.subscription
+                viewModel.subscriptionMutable.postValue(subscriptionResponse.subscription)
             }
 
         }

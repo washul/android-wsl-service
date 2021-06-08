@@ -1,332 +1,194 @@
 package com.wsl.login.payments.viewmodel
 
-import android.app.Application
 import android.util.Log
-import com.wsl.login.dagger.AppComponent
-import com.wsl.login.dagger.DaggerApplication
 import com.wsl.login.database.*
-import com.wsl.login.database.dao.DAOCard
-import com.wsl.login.database.dao.DAOPlan
-import com.wsl.login.database.dao.DAOSubscription
-import com.wsl.login.database.dao.DAOUser
 import com.wsl.login.database.entities.*
 import com.wsl.login.helpers.TAG
 import com.wsl.login.retrofit.RetrofitServices
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class RepositoryPayments @Inject constructor() {
+class RepositoryPayments(
+    db: AppDataBase,
+    private var service: RetrofitServices
+    ) {
 
-    @Inject
-    lateinit var retrofit: Retrofit
+    private var daoUser = db.daoUser()
+    private var daoCard = db.daoCard()
+    private var daoSubscription = db.daoSubscription()
+    private var daoPlan = db.daoPlan()
 
-    lateinit var service: RetrofitServices
+    suspend fun generateSubscription(
+        card_id: String,
+        plan_id: String,
+        function: (SubscriptionResponse?) -> Unit
+    ){
+        val rootObject= JSONObject()
+        rootObject.put("token_id", card_id)
+        rootObject.put("plan_id", plan_id)
 
-    @Inject
-    lateinit var compositeDisposable: CompositeDisposable
-
-    private lateinit var dataBase: AppDataBase
-
-    private lateinit var daoUser: DAOUser
-    private lateinit var daoCard: DAOCard
-    private lateinit var daoSubscription: DAOSubscription
-    private lateinit var daoPlan: DAOPlan
-
-    companion object {
-
-        private lateinit var instance: RepositoryPayments
-
-        fun build( context: Application): RepositoryPayments {
-
-            if ( !Companion::instance.isInitialized ){
-
-                instance = RepositoryPayments().apply {
-
-                    this.dataBase = AppDataBase.getInstance( context )!!
-                    this.daoUser = this.dataBase.daoUser()
-                    this.daoCard = this.dataBase.daoCard()
-                    this.daoSubscription = this.dataBase.daoSubscription()
-                    this.daoPlan = this.dataBase.daoPlan()
-
-                    val appComponent: AppComponent = DaggerApplication().initDaggerComponent( context )
-                    appComponent.inject(this)
-
-                    this.service = retrofit.create(RetrofitServices::class.java)
-
-                }
-
+        val service = service.paySubscription( rootObject )
+        withContext(Dispatchers.IO){
+            try{
+                function( service.blockingFirst() )
+            }catch ( e: Exception){
+                e.printStackTrace()
+                function(null)
             }
-
-            return instance
-
         }
-
     }
 
-    fun generateSubscription(card_id: String, plan_id: String, function: (SubscriptionResponse?) -> Unit ){
-
-        try{
-
-            val rootObject= JSONObject()
-            rootObject.put("token_id", card_id)
-            rootObject.put("plan_id", plan_id)
-
-            compositeDisposable.add( service.paySubscription( rootObject ).subscribeOn(Schedulers.io() )
-                .unsubscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ data ->
-
-                    function( data )
-
-                },
-                    {
-                        it.printStackTrace()
-                        function(null)
-                    }
-                )
-
-            )
-
-        }catch ( e: Exception){
-            e.printStackTrace()
-            function(null)
+    suspend fun getPlanList(
+        function: (PlanResponse? ) -> Unit
+    ) {
+        val service = service.getPlan()
+        withContext(Dispatchers.IO) {
+            try{
+                function( service.blockingFirst() )
+            }catch ( e: Exception){
+                e.printStackTrace()
+                function(null)
+            }
         }
-
     }
 
-    fun getPlanList( function: (PlanResponse? ) -> Unit ){
-
-        try{
-
-            compositeDisposable.add( service.getPlan().subscribeOn(Schedulers.io() )
-                .unsubscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ data ->
-
-                    function( data )
-
-                },
-                    {
-                        it.printStackTrace()
-                        function(null)
-                    }
-                )
-            )
-
-        }catch ( e: Exception){
-            e.printStackTrace()
-            function(null)
+    suspend fun getSubscription(
+        function: (SubscriptionResponse?) -> Unit
+    ) {
+        val service = service.getSubscription()
+        withContext(Dispatchers.IO){
+            try{
+                function( service.blockingFirst() )
+            }catch ( e: Exception){
+                e.printStackTrace()
+                function(null)
+            }
         }
-
-    }
-
-    fun getSubscription( function: (SubscriptionResponse?) -> Unit ){
-
-        try{
-            compositeDisposable.add( service.getSubscription().subscribeOn(Schedulers.io() )
-                .unsubscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ data ->
-
-                    function( data )
-
-                },
-                    {
-                        it.printStackTrace()
-                        function(null)
-                    }
-                )
-            )
-
-        }catch ( e: Exception){
-            e.printStackTrace()
-            function(null)
-        }
-
     }
 
     /**Subscription Methods*/
 
-    fun cancelSubscription( subscriptionID: String, function: (SubscriptionResponse?) -> Unit ){
+    suspend fun cancelSubscription(
+        subscriptionID: String,
+        function: (SubscriptionResponse?) -> Unit
+    ) {
+        val service = service.cancelSubscription(subscriptionID)
+        withContext(Dispatchers.IO){
+            try{
+                function( service.blockingFirst() )
+            }catch ( e: Exception){
+                e.printStackTrace()
+                function(null)
+            }
+        }
+    }
 
-        try{
-
-            compositeDisposable.add( service.cancelSubscription( subscriptionID ).subscribeOn(Schedulers.io() )
-                .unsubscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ data ->
-
-                    function( data )
-
-                },
-                    {
-                        it.printStackTrace()
-                        function(null)
-                    }
-                )
-
-            )
-
-        }catch ( e: Exception){
-            e.printStackTrace()
-            function(null)
+    suspend fun saveSubscription( subscription: ESubscription )
+        = withContext(Dispatchers.IO){
+            daoSubscription.saveSubscription(subscription)
         }
 
-    }
 
-    fun saveSubscription( subscription: ESubscription ){
-
-//        doAsync {
-            daoSubscription.saveSubscription(subscription)
-//        }
-
-    }
-
-    fun getLocalSubscription( function: (List<ESubscription>?) -> Unit ){
-//        doAsync {
+    suspend fun getLocalSubscription( function: (List<ESubscription>?) -> Unit )
+        = withContext(Dispatchers.IO){
             function( daoSubscription.getSubscriptions() )
-//        }
-    }
+        }
 
     /**User Methods*/
-    fun getLocalUserLiveData() = daoUser.getUserLiveData()
+    fun getLocalUserLiveData()
+        = daoUser.getUserLiveData()
 
-    fun createOpenPayCustomer(function: (Boolean) -> Unit) {
-        try{
-
-            compositeDisposable.add( service.createOpenPayCustomer().subscribeOn(Schedulers.io() )
-                .unsubscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ _ ->
-
+    suspend fun createOpenPayCustomer(
+        function: (Boolean) -> Unit
+    ) {
+        val service = service.createOpenPayCustomer()
+        withContext(Dispatchers.IO){
+            try{
+                if (service.body() != null)
                     function( true )
-
-                },
-                    {
-                        it.printStackTrace()
-                        function(false)
-                    }
-                )
-
-            )
-
-        }catch ( e: Exception){
-            e.printStackTrace()
-            function(false)
+            }catch ( e: Exception){
+                e.printStackTrace()
+                function(false)
+            }
         }
     }
 
     /**Cards Methods*/
 
-    fun downloadCards(function: (List<ECard>?) -> Unit) {
-        try{
-
-            compositeDisposable.add( service.getCards().subscribeOn(Schedulers.io() )
-                .unsubscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ data ->
-
-                    function( data.cards )
-
-                },
-                    {
-                        it.printStackTrace()
-                        function(null)
-                    }
-                )
-
-            )
-
-        }catch ( e: Exception){
-            e.printStackTrace()
-            function(null)
-        }
-    }
-
-    fun registerCard( device_session_id: String, token_id: String, function: (List<ECard>?) -> Unit ) {
-//        doAsync {
-
+    suspend fun downloadCards(
+        function: (List<ECard>?) -> Unit
+    ) {
+        val service = service.getCards()
+        withContext(Dispatchers.IO){
             try{
-
-                val rootObject= JSONObject()
-                rootObject.put("device_session_id",device_session_id)
-                rootObject.put("token_id",token_id)
-
-                compositeDisposable.add( service.registerCard( rootObject ).subscribeOn(Schedulers.io() )
-                    .unsubscribeOn(Schedulers.computation())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ data ->
-
-                        Log.e(TAG, data.toString())
-                        function( data.cards )
-
-                    },
-                        {
-                            it.printStackTrace()
-                            function(null)
-                        }
-                    )
-
-                )
-
+                function( service.blockingFirst().cards )
             }catch ( e: Exception){
                 e.printStackTrace()
                 function(null)
             }
-
-//        }
+        }
     }
 
-    fun getCardsLiveData() = daoCard.getCardsLiveData()
+    suspend fun registerCard(
+        device_session_id: String,
+        token_id: String,
+        function: (List<ECard>?) -> Unit
+    ) {
+        val rootObject= JSONObject()
+        rootObject.put("device_session_id",device_session_id)
+        rootObject.put("token_id",token_id)
 
-    fun getCards( function: (List<ECard>?) -> Unit ) {
-//        doAsync {
+        val service = service.registerCard(rootObject)
+        withContext(Dispatchers.IO) {
+            try{
+                Log.e(TAG, service.blockingFirst().toString())
+                function( service.blockingFirst().cards )
+            }catch ( e: Exception){
+                e.printStackTrace()
+                function(null)
+            }
+        }
+    }
 
+    fun getCardsLiveData()
+        = daoCard.getCardsLiveData()
+
+    suspend fun getCards(
+        function: (List<ECard>?) -> Unit
+    ) = withContext(Dispatchers.IO){
             function( daoCard.getCards() )
+        }
 
-//        }
-    }
 
-    fun saveCardList( list: List<ECard> ){
-//        doAsync {
-
+    suspend fun saveCardList(
+        list: List<ECard>
+    ) = withContext(Dispatchers.IO ) {
             daoCard.saveCardList( list )
-
-//        }
     }
 
-    fun removeCards( card_id: String, function: (CardsResponse?) -> Unit) {
-        try{
-            compositeDisposable.add( service.removeCard( card_id ).subscribeOn(Schedulers.io() )
-                .unsubscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ data ->
-                    function( data )
-                },
-                    {
-                        it.printStackTrace()
-                        function(null)
-                    }
-                )
-
-            )
-
-        }catch ( e: Exception){
-            e.printStackTrace()
-            function(null)
+    suspend fun removeCards(
+        card_id: String,
+        function: (CardsResponse?) -> Unit
+    ) {
+        val service = service.removeCard(card_id)
+        withContext(Dispatchers.IO){
+            try{
+                function( service.blockingFirst() )
+            }catch ( e: Exception){
+                e.printStackTrace()
+                function(null)
+            }
         }
     }
 
     /**Plan Methods*/
 
-    fun savePlan ( plan: EPlan ) =
-//        doAsync {
-            daoPlan.save( plan )
-//        }
-
-
+    suspend fun savePlan(
+        plan: EPlan
+    ) = withContext(Dispatchers.IO){
+        daoPlan.save( plan )
+    }
 }

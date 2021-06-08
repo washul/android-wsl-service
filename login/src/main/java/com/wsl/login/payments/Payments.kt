@@ -19,24 +19,25 @@ import com.wsl.login.database.entities.EPlan
 import com.wsl.login.helpers.*
 import com.wsl.login.login.WSLoginActivity
 import com.wsl.login.payments.fragments.WalletFragment
-import com.wsl.login.payments.viewmodel.PaymentViewModel
+import com.wsl.login.payments.viewmodel.WSPaymentViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.cardview_wallet_card.view.*
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import kotlinx.android.synthetic.main.fragment_wallet.progress_bar_
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class Payments : AppCompatActivity() {
 
     @Inject
-    lateinit var viewModel: PaymentViewModel
+    lateinit var viewModel: WSPaymentViewModel
 
-    private lateinit var progressBarCustom: ProgressBarCustom
+    private lateinit var progressBarCustom: WSProgressBarCustom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = initDaggerViewModel()
         viewModel.activityActions = intent.getIntegerArrayListExtra( WSL_ACTION_PARAM_NAME ) ?: ArrayList()
 
         if ( viewModel.activityActions.isNotEmpty() && viewModel.activityActions.contains( WSL_PAYMENTS_ACTION_SHOW_WALLET ) ){
@@ -152,7 +153,7 @@ class Payments : AppCompatActivity() {
             super.run()
             this@Payments.setContentView(R.layout.activity_payments)
 
-            progressBarCustom = ProgressBarCustom.build(this@Payments, progressBar = progress_bar_)
+            progressBarCustom = WSProgressBarCustom.build(this@Payments, progressBar = progress_bar_)
             progressBarCustom.show()
 
             buildRecycler()
