@@ -16,6 +16,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.firebase.auth.FirebaseAuth;
+import com.wsl.login.config.Config;
 import com.wsl.login.login.WSLoginActivity;
 import com.wsl.login.login.WSLoginActivity_MembersInjector;
 import com.wsl.login.login.fragments.LoginFragment;
@@ -56,15 +57,17 @@ import javax.inject.Provider;
 public final class DaggerWSHiltApplication_HiltComponents_ApplicationC extends WSHiltApplication_HiltComponents.ApplicationC {
   private final ApplicationContextModule applicationContextModule;
 
-  private volatile Object wSLoginViewModel = new MemoizedSentinel();
-
   private volatile Object callbackManager = new MemoizedSentinel();
+
+  private volatile Object wSLoginViewModel = new MemoizedSentinel();
 
   private volatile Object googleSignInOptions = new MemoizedSentinel();
 
   private volatile Object googleSignInClient = new MemoizedSentinel();
 
   private volatile Object firebaseAuth = new MemoizedSentinel();
+
+  private volatile Object config = new MemoizedSentinel();
 
   private volatile Object wSPaymentViewModel = new MemoizedSentinel();
 
@@ -79,20 +82,6 @@ public final class DaggerWSHiltApplication_HiltComponents_ApplicationC extends W
     return new Builder();
   }
 
-  private WSLoginViewModel getWSLoginViewModel() {
-    Object local = wSLoginViewModel;
-    if (local instanceof MemoizedSentinel) {
-      synchronized (local) {
-        local = wSLoginViewModel;
-        if (local instanceof MemoizedSentinel) {
-          local = AppModule_ProvideViewModelLoginFactory.provideViewModelLogin(ApplicationContextModule_ProvideContextFactory.provideContext(applicationContextModule));
-          wSLoginViewModel = DoubleCheck.reentrantCheck(wSLoginViewModel, local);
-        }
-      }
-    }
-    return (WSLoginViewModel) local;
-  }
-
   private CallbackManager getCallbackManager() {
     Object local = callbackManager;
     if (local instanceof MemoizedSentinel) {
@@ -105,6 +94,20 @@ public final class DaggerWSHiltApplication_HiltComponents_ApplicationC extends W
       }
     }
     return (CallbackManager) local;
+  }
+
+  private WSLoginViewModel getWSLoginViewModel() {
+    Object local = wSLoginViewModel;
+    if (local instanceof MemoizedSentinel) {
+      synchronized (local) {
+        local = wSLoginViewModel;
+        if (local instanceof MemoizedSentinel) {
+          local = AppModule_ProvideViewModelLoginFactory.provideViewModelLogin(ApplicationContextModule_ProvideContextFactory.provideContext(applicationContextModule));
+          wSLoginViewModel = DoubleCheck.reentrantCheck(wSLoginViewModel, local);
+        }
+      }
+    }
+    return (WSLoginViewModel) local;
   }
 
   private GoogleSignInOptions getGoogleSignInOptions() {
@@ -147,6 +150,20 @@ public final class DaggerWSHiltApplication_HiltComponents_ApplicationC extends W
       }
     }
     return (FirebaseAuth) local;
+  }
+
+  private Config getConfig() {
+    Object local = config;
+    if (local instanceof MemoizedSentinel) {
+      synchronized (local) {
+        local = config;
+        if (local instanceof MemoizedSentinel) {
+          local = AppModule_ProvideConfigClassFactory.provideConfigClass(ApplicationContextModule_ProvideContextFactory.provideContext(applicationContextModule));
+          config = DoubleCheck.reentrantCheck(config, local);
+        }
+      }
+    }
+    return (Config) local;
   }
 
   private WSPaymentViewModel getWSPaymentViewModel() {
@@ -293,11 +310,12 @@ public final class DaggerWSHiltApplication_HiltComponents_ApplicationC extends W
 
       @CanIgnoreReturnValue
       private WSLoginActivity injectWSLoginActivity2(WSLoginActivity instance) {
-        WSLoginActivity_MembersInjector.injectViewModel(instance, DaggerWSHiltApplication_HiltComponents_ApplicationC.this.getWSLoginViewModel());
         WSLoginActivity_MembersInjector.injectCallbackManager(instance, DaggerWSHiltApplication_HiltComponents_ApplicationC.this.getCallbackManager());
+        WSLoginActivity_MembersInjector.injectViewModel(instance, DaggerWSHiltApplication_HiltComponents_ApplicationC.this.getWSLoginViewModel());
         WSLoginActivity_MembersInjector.injectGso(instance, DaggerWSHiltApplication_HiltComponents_ApplicationC.this.getGoogleSignInOptions());
         WSLoginActivity_MembersInjector.injectMGoogleSignInClient(instance, DaggerWSHiltApplication_HiltComponents_ApplicationC.this.getGoogleSignInClient());
         WSLoginActivity_MembersInjector.injectAuth(instance, DaggerWSHiltApplication_HiltComponents_ApplicationC.this.getFirebaseAuth());
+        WSLoginActivity_MembersInjector.injectConfigClass(instance, DaggerWSHiltApplication_HiltComponents_ApplicationC.this.getConfig());
         return instance;
       }
 

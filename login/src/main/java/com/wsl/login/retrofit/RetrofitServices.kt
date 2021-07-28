@@ -15,10 +15,10 @@ interface RetrofitServices {
     /**Login Methods*/
 
     @POST("login/")
-    suspend fun login(@Body parameters: EUser): Response<LoginResponse>
+    suspend fun login(@Body parameters: EUser): Response<ResponseBody>
 
     @GET("login-auto/")
-    suspend fun loginAuto(): Response<LoginResponse>
+    suspend fun loginAuto(): Response<ResponseBody>
 
 
     @POST("register/")

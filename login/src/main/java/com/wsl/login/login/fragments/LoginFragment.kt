@@ -1,28 +1,39 @@
 package com.wsl.login.login.fragments
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.*
 import com.wsl.login.R
 import com.wsl.login.database.entities.EUser
 import com.wsl.login.databinding.LoginFragmentBinding
 import com.wsl.login.helpers.*
 import com.wsl.login.login.TAG_LOGIN
+import com.wsl.login.login.WSLoginActivity
 import com.wsl.login.login.view_model.WSLoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_login.*
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -45,6 +56,19 @@ class LoginFragment: Fragment()  {
 
     private lateinit var binding: LoginFragmentBinding
 
+    private val googleSignInActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+
+            val account = task.getResult(ApiException::class.java)!!
+            Log.d(TAG, TAG_LOGIN+"firebaseAuthWithGoogle:" + account.id)
+            firebaseAuth(GoogleAuthProvider.getCredential(account.idToken, null))
+
+        } catch (e: ApiException) {
+            Log.w(TAG, TAG_LOGIN+"Google sign in failed", e)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,66 +82,70 @@ class LoginFragment: Fragment()  {
         )
 
         context?.let { binding.iconView.buildResource( R.mipmap.ic_logo, it) }
-        setDefaultObservers()
+        callbackManager = (activity as WSLoginActivity).callbackManager
         loadButtonsClickListener()
         return binding.root
     }
 
-    private fun setDefaultObservers() {
-        viewModel.requireFirebaseAuthLiveData.observe(viewLifecycleOwner, Observer { task ->
-            if (task == null) return@Observer
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+    }
 
-            if (task.isSuccessful) {
-                // Sign in success, update UI with the signed-in user's information
-                Log.d(TAG, "signInWithCredential:success")
-                val user = auth.currentUser
-                val username = user!!.displayName
-                val email = user.email
-                val photoUrl: Uri? = user.photoUrl
-                val uid = user.uid
+    private fun requireFirebaseAuth(task: Task<AuthResult>?) {
+        if (task == null) return
 
-                val emailVerified = auth.currentUser?.isEmailVerified
+        viewModel.isTrackingAppOut = false
+        if (task.isSuccessful) {
+            // Sign in success, update UI with the signed-in user's information
+            Log.d(TAG, "signInWithCredential:success")
+            val user = auth.currentUser
+            val username = user!!.displayName
+            var email = user.email
+            val photoUrl: Uri? = user.photoUrl
+            val uid = user.uid
 
-                if ( emailVerified == null || !emailVerified ) {
-                    Log.e(TAG, "signInWithCredential:failure: Email not verified" )
-                    viewModel.onShowErrorMessage(getString(R.string.email_not_verified))
+            val emailVerified = auth.currentUser?.isEmailVerified
+
+            //TODO: crear metodos para verificar el correo
+            if ( emailVerified == null || !emailVerified ) {
+                auth.currentUser?.sendEmailVerification()
+                Log.e(TAG, "signInWithCredential:failure: Email not verified" )
+                user.providerData.forEach { provider ->
+                    if (provider.email != null)
+                        email = provider.email
                 }
-
-                if ( email == null ){
-
-                    viewModel.onShowErrorMessage(getString(R.string.email_not_verified))
-                    return@Observer
-
-                }
-
-                /**Data from firebase*/
-                val commonUser = EUser(
-                    email = email,
-                    password = "wsl-services:com.wsl.login",
-                    uuid_user = uid,
-                    username = username,
-                    image_uri = photoUrl.toString(),
-                    typeOfUser = "wsl.com.tepeheapp",
-                    tokendevice = context?.getDeviceID()
-                )
-                viewModel.commonUser = commonUser
-                viewModel.setUser(commonUser)
-                loginWSL(commonUser)
-
-            } else {
-                // If sign in fails, display a message to the user.
-                Log.w(TAG, "signInWithCredential:failure", task.exception)
-//                    Snackbar.make(t, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
-
             }
 
-            viewModel.requireFirebaseAuthDone()
-        })
+            if ( email == null ){
+                viewModel.onShowErrorMessage(getString(R.string.email_not_verified))
+                return
+            }
+
+            /**Data from firebase*/
+            val commonUser = EUser(
+                uuid_user= UUID.randomUUID().toString(),
+                email = email,
+                password = "wsl-services:com.wsl.login",
+                google_uid = uid,
+                username = username,
+                image_uri = photoUrl.toString(),
+                typeOfUser = "wsl.com.tepeheapp",
+                tokendevice = context?.getDeviceID()
+            )
+            viewModel.commonUser = commonUser
+            viewModel.setUser(commonUser)
+            loginWSL(commonUser)
+
+        } else {
+            // If sign in fails, display a message to the user.
+            Log.w(TAG, "signInWithCredential:failure", task.exception)
+
+        }
     }
 
     private fun handleFacebookAccessToken(token: AccessToken) {
         Log.d(TAG, TAG_LOGIN +"handleFacebookAccessToken:$token")
-//        firebaseAuth(FacebookAuthProvider.getCredential(token.token))
+        firebaseAuth(FacebookAuthProvider.getCredential(token.token))
     }
 
     private fun loginWSL(user: EUser){
@@ -129,20 +157,19 @@ class LoginFragment: Fragment()  {
                 return@login
             }
 
-            if ( loginResponse.user.uuid_user == "" ){
+            if ( loginResponse.uuid_user == "" ){
                 /**Register user with data provided from Google/Facebook*/
                 viewModel.setUserToRegister(user)
                 return@login
             }
 
-            viewModel.tokenUser = loginResponse.token
             viewModel.tokenDevice = user.tokendevice ?: context?.getDeviceID() ?: ""
-            viewModel.saveUser(loginResponse.user)
+            viewModel.userID = user.uuid_user
+            viewModel.saveUserOrUpdate(loginResponse)
 
             viewModel.setUserSignInCorrectly(loginResponse)
             viewModel.onShowProgressDialogDone()
         }
-
     }
 
     private fun loadButtonsClickListener(){
@@ -168,9 +195,6 @@ class LoginFragment: Fragment()  {
 
             val email = editTextEmail.text.toString()
             val password = extiTextPassword.text.toString()
-
-//                val email = "develop.wsl0@gmail.com"
-//                val password = "12345"
 
             if ( email == "" ){
                 editTextEmail.requestFocus()
@@ -209,29 +233,38 @@ class LoginFragment: Fragment()  {
             this.findNavController().navigate(LoginFragmentDirections.loginFragmentToRegisterFragment())
         }
 
-//            findViewById<LoginButton>(R.id.facebook_login_).setPermissions(listOf("email"))
-//            findViewById<LoginButton>(R.id.facebook_login_)
-//                .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-//                    override fun onSuccess(loginResult: LoginResult) {
-//                        Log.d(TAG, "facebook:onSuccess:$loginResult")
-//                        handleFacebookAccessToken(loginResult.accessToken)
-//                    }
-//
-//                    override fun onCancel() {
-//                        Log.d(TAG, "facebook:onCancel")
-//                        // ...
-//                    }
-//
-//                    override fun onError(error: FacebookException) {
-//                        Log.d(TAG, "facebook:onError", error)
-//                        // ...
-//                    }
-//                })
+        binding.facebookLogin.setPermissions(listOf("email"))
+        binding.facebookLogin.fragment = this
+        binding.facebookLogin.setOnClickListener {
+            viewModel.isTrackingAppOut = true
+        }
+        LoginManager.getInstance().registerCallback(callbackManager, object: FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult?) {
+                Log.d(TAG, "Result: $result")
+                result?.let { handleFacebookAccessToken(it.accessToken) }
+            }
+
+            override fun onCancel() {
+                Log.d(TAG, "onCancel")
+            }
+
+            override fun onError(error: FacebookException?) {
+                Log.d(TAG, "onError ${error?.stackTrace}")
+            }
+        })
 
         binding.googleLogin.setOnClickListener {
+            viewModel.isTrackingAppOut = true
             val signInIntent = mGoogleSignInClient.signInIntent
-            startActivityForResult(signInIntent, RC_SIGN_IN)
+            googleSignInActivityResult.launch(signInIntent)
         }
+    }
+
+    private fun firebaseAuth(credential: AuthCredential) {
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(requireActivity()) { task ->
+                requireFirebaseAuth(task)
+            }
     }
 
 }

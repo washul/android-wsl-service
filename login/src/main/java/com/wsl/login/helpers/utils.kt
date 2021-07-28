@@ -3,7 +3,11 @@ package com.wsl.login.helpers
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.provider.Settings
+import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
@@ -17,6 +21,7 @@ import com.wsl.login.login.WSLoginActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import java.math.BigInteger
 import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 
 fun ImageView.changeImageTo(image: Int, picasso: Picasso){
@@ -31,7 +36,31 @@ fun String.md5(): String {
     val md = MessageDigest.getInstance("MD5")
     return BigInteger(1, md.digest(toByteArray())).toString(16).padStart(32, '0')
 }
+@SuppressLint("PackageManagerGetSignatures")
+fun Context.getSHA1FromPackage(packageName: String): String? {
+    var sha: String? = null
 
+    try {
+        val info: PackageInfo = packageManager.getPackageInfo(
+            packageName,
+            PackageManager.GET_SIGNATURES
+        )
+        for (signature in info.signatures) {
+            val md: MessageDigest = MessageDigest.getInstance("SHA")
+            md.update(signature.toByteArray())
+            sha = Base64.encodeToString(md.digest(), Base64.DEFAULT)
+            Log.d("KeyHash of package ($packageName):", sha)
+        }
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+        return null
+    } catch (e: NoSuchAlgorithmException) {
+        e.printStackTrace()
+        return null
+    }
+
+    return sha
+}
 fun String.sha256(): String {
     val md = MessageDigest.getInstance("SHA-256")
     return BigInteger(1, md.digest(toByteArray())).toString(16).padStart(32, '0')

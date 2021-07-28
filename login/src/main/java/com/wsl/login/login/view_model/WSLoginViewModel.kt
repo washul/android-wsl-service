@@ -1,12 +1,10 @@
 package com.wsl.login.login.view_model
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
+import com.wsl.login.database.entities.EConfig
 import com.wsl.login.database.entities.EUser
 import com.wsl.login.retrofit.LoginResponse
 import com.wsl.login.retrofit.RegisterResponse
@@ -17,6 +15,31 @@ class WSLoginViewModel @ViewModelInject constructor(
     private var repository: RepositoryLogin
     ) : ViewModel() {
 
+    var isTrackingAppOut = false
+
+    private var _configFile = MutableLiveData<EConfig?>()
+    val configFile: LiveData<EConfig?> = _configFile
+    fun setConfigFile(configFile: EConfig?) {
+        if (configFile == null )return
+        _configFile.postValue(configFile)
+    }
+
+    val projectIcon = Transformations
+        .map(_configFile) {
+            it?.project_icon
+        }
+
+    var userID: String = ""
+        set(value) {
+            field = value
+            repository.prefs.userID = value
+        }
+        get(){
+            if ( field == "" ){
+                field = repository.prefs.userID
+            }
+            return field
+        }
     var tokenUser: String = ""
         set(value) {
             field = value
@@ -81,9 +104,9 @@ class WSLoginViewModel @ViewModelInject constructor(
      * _onUserLoginCorrectly ->
      * Notify to the activity that the user is sign in
      * */
-    private val _onUserSignInCorrectly = MutableLiveData<LoginResponse?>()
-    val onUserSignInCorrectly: LiveData<LoginResponse?> = _onUserSignInCorrectly
-    fun setUserSignInCorrectly(loginResponse: LoginResponse?){ _onUserSignInCorrectly.postValue(loginResponse) }
+    private val _onUserSignInCorrectly = MutableLiveData<EUser?>()
+    val onUserSignInCorrectly: LiveData<EUser?> = _onUserSignInCorrectly
+    fun setUserSignInCorrectly(user: EUser?){ _onUserSignInCorrectly.postValue(user) }
     fun setOnUserSignInCorrectlyDone(){ _onUserSignInCorrectly.postValue(null) }
 
     /**
@@ -95,15 +118,6 @@ class WSLoginViewModel @ViewModelInject constructor(
     fun setUserToRegister(user: EUser?){ _requireRegisterUser.postValue(user) }
     fun setUserToRegisterDone(){ _requireRegisterUser.postValue(null) }
 
-    /**
-     * _requireFirebaseAuth ->
-     * Require a authenthication by firebase
-     * */
-    private val _requireFirebaseAuth = MutableLiveData<Task<AuthResult>?>()
-    val requireFirebaseAuthLiveData: LiveData<Task<AuthResult>?> = _requireFirebaseAuth
-    fun requireFirebaseAuth(user: Task<AuthResult>?){ _requireFirebaseAuth.postValue(user) }
-    fun requireFirebaseAuthDone(){ _requireFirebaseAuth.postValue(null) }
-
 
 //    LOCAL METHODS
     fun localSignIn( function: (EUser?) -> Unit ) {
@@ -112,9 +126,9 @@ class WSLoginViewModel @ViewModelInject constructor(
         }
     }
 
-    fun saveUser( user: EUser) {
+    fun saveUserOrUpdate(user: EUser) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.saveUser( user )
+            repository.saveUserOrUpdate( user )
         }
     }
 
@@ -125,20 +139,16 @@ class WSLoginViewModel @ViewModelInject constructor(
 //    CLOUD METHODS
     fun login(
         user: EUser,
-        function: (LoginResponse?) -> Unit
+        function: (EUser?) -> Unit
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.login( user ) { response ->
-                function(response)
-            }
+            repository.login( user, function )
         }
     }
 
-    fun loginAuto( function: (LoginResponse?) -> Unit ) {
+    fun loginAuto( function: (String?) -> Unit ) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.loginAuto{ response ->
-                function(response)
-            }
+            repository.loginAuto(function)
         }
     }
 
@@ -150,5 +160,8 @@ class WSLoginViewModel @ViewModelInject constructor(
         }
     }
 
+    fun logOut(){
+        repository.logOut{}
+    }
 
 }

@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/wsl-service.iml" filepath="$PROJECT_DIR$/.idea/modules/wsl-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/wsl-service.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/wsl-service.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/facebook-login/wsl-service.facebook-login.iml" filepath="$PROJECT_DIR$/.idea/modules/facebook-login/wsl-service.facebook-login.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/login/wsl-service.login.iml" filepath="$PROJECT_DIR$/.idea/modules/login/wsl-service.login.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/openpay-v2.0.3/wsl-service.openpay-v2.0.3.iml" filepath="$PROJECT_DIR$/.idea/modules/openpay-v2.0.3/wsl-service.openpay-v2.0.3.iml" />
     </modules>

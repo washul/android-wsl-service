@@ -16,6 +16,8 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper.Callback;
 import androidx.sqlite.db.SupportSQLiteOpenHelper.Configuration;
 import com.wsl.login.database.dao.DAOCard;
 import com.wsl.login.database.dao.DAOCard_Impl;
+import com.wsl.login.database.dao.DAOConfig;
+import com.wsl.login.database.dao.DAOConfig_Impl;
 import com.wsl.login.database.dao.DAOPlan;
 import com.wsl.login.database.dao.DAOPlan_Impl;
 import com.wsl.login.database.dao.DAOSubscription;
@@ -41,17 +43,20 @@ public final class AppDataBase_Impl extends AppDataBase {
 
   private volatile DAOPlan _dAOPlan;
 
+  private volatile DAOConfig _dAOConfig;
+
   @Override
   protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration configuration) {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(1) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `User` (`uuid_user` TEXT NOT NULL, `customer_id` TEXT, `name` TEXT, `last_name` TEXT, `username` TEXT, `email` TEXT, `country` TEXT, `state` TEXT, `city` TEXT, `postal_code` TEXT, `country_code` TEXT, `phone` TEXT, `address` TEXT, `latitude` TEXT, `longitude` TEXT, `sex` TEXT, `typeOfUser` TEXT, `tokendevice` TEXT, `image_uri` TEXT, `password` TEXT, PRIMARY KEY(`uuid_user`))");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `User` (`uuid_user` TEXT NOT NULL, `google_uid` TEXT, `customer_id` TEXT, `name` TEXT, `last_name` TEXT, `username` TEXT, `email` TEXT, `country` TEXT, `state` TEXT, `city` TEXT, `postal_code` TEXT, `country_code` TEXT, `phone` TEXT, `address` TEXT, `latitude` TEXT, `longitude` TEXT, `sex` TEXT, `typeOfUser` TEXT, `tokendevice` TEXT, `image_uri` TEXT, `password` TEXT, PRIMARY KEY(`uuid_user`))");
         _db.execSQL("CREATE TABLE IF NOT EXISTS `Card` (`id` TEXT NOT NULL, `type` TEXT, `brand` TEXT, `address` TEXT, `card_number` TEXT, `holder_name` TEXT, `expiration_year` TEXT, `expiration_month` TEXT, `allows_charges` TEXT, `allows_payouts` TEXT, `creation_date` TEXT, `bank_name` TEXT, `customer_id` TEXT, `bank_code` TEXT, PRIMARY KEY(`id`))");
         _db.execSQL("CREATE TABLE IF NOT EXISTS `Subscription` (`id` TEXT NOT NULL, `cancel_at_period_end` INTEGER, `charge_date` TEXT, `creation_date` TEXT, `current_period_number` TEXT, `period_end_date` TEXT, `trial_end_date` TEXT, `plan_id` TEXT, `customer_id` TEXT, PRIMARY KEY(`id`))");
         _db.execSQL("CREATE TABLE IF NOT EXISTS `Plan` (`planID` TEXT NOT NULL, `name` TEXT NOT NULL, `amount` TEXT NOT NULL, `creation_date` TEXT NOT NULL, `repeat_every` TEXT NOT NULL, `repeat_unit` TEXT NOT NULL, `retry_times` TEXT NOT NULL, `status` TEXT NOT NULL, `status_after_retry` TEXT NOT NULL, `trial_days` TEXT NOT NULL, `currency` TEXT NOT NULL, PRIMARY KEY(`planID`))");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `config` (`project_id` TEXT NOT NULL, `project_icon` TEXT NOT NULL, `project_name` TEXT NOT NULL, PRIMARY KEY(`project_id`))");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd3b719bee96809d42a5c1aac5227fc17')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '197ff68380b78aa3484ffb4538adab63')");
       }
 
       @Override
@@ -60,6 +65,7 @@ public final class AppDataBase_Impl extends AppDataBase {
         _db.execSQL("DROP TABLE IF EXISTS `Card`");
         _db.execSQL("DROP TABLE IF EXISTS `Subscription`");
         _db.execSQL("DROP TABLE IF EXISTS `Plan`");
+        _db.execSQL("DROP TABLE IF EXISTS `config`");
         if (mCallbacks != null) {
           for (int _i = 0, _size = mCallbacks.size(); _i < _size; _i++) {
             mCallbacks.get(_i).onDestructiveMigration(_db);
@@ -98,8 +104,9 @@ public final class AppDataBase_Impl extends AppDataBase {
 
       @Override
       protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
-        final HashMap<String, TableInfo.Column> _columnsUser = new HashMap<String, TableInfo.Column>(20);
+        final HashMap<String, TableInfo.Column> _columnsUser = new HashMap<String, TableInfo.Column>(21);
         _columnsUser.put("uuid_user", new TableInfo.Column("uuid_user", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsUser.put("google_uid", new TableInfo.Column("google_uid", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUser.put("customer_id", new TableInfo.Column("customer_id", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUser.put("name", new TableInfo.Column("name", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsUser.put("last_name", new TableInfo.Column("last_name", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -192,9 +199,22 @@ public final class AppDataBase_Impl extends AppDataBase {
                   + " Expected:\n" + _infoPlan + "\n"
                   + " Found:\n" + _existingPlan);
         }
+        final HashMap<String, TableInfo.Column> _columnsConfig = new HashMap<String, TableInfo.Column>(3);
+        _columnsConfig.put("project_id", new TableInfo.Column("project_id", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsConfig.put("project_icon", new TableInfo.Column("project_icon", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsConfig.put("project_name", new TableInfo.Column("project_name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysConfig = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesConfig = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoConfig = new TableInfo("config", _columnsConfig, _foreignKeysConfig, _indicesConfig);
+        final TableInfo _existingConfig = TableInfo.read(_db, "config");
+        if (! _infoConfig.equals(_existingConfig)) {
+          return new RoomOpenHelper.ValidationResult(false, "config(com.wsl.login.database.entities.EConfig).\n"
+                  + " Expected:\n" + _infoConfig + "\n"
+                  + " Found:\n" + _existingConfig);
+        }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "d3b719bee96809d42a5c1aac5227fc17", "50845a8e2206b4cef4b68a5891513828");
+    }, "197ff68380b78aa3484ffb4538adab63", "5108060cd94a8c4e1d87834232ab2e5f");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)
@@ -207,7 +227,7 @@ public final class AppDataBase_Impl extends AppDataBase {
   protected InvalidationTracker createInvalidationTracker() {
     final HashMap<String, String> _shadowTablesMap = new HashMap<String, String>(0);
     HashMap<String, Set<String>> _viewTables = new HashMap<String, Set<String>>(0);
-    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "User","Card","Subscription","Plan");
+    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "User","Card","Subscription","Plan","config");
   }
 
   @Override
@@ -220,6 +240,7 @@ public final class AppDataBase_Impl extends AppDataBase {
       _db.execSQL("DELETE FROM `Card`");
       _db.execSQL("DELETE FROM `Subscription`");
       _db.execSQL("DELETE FROM `Plan`");
+      _db.execSQL("DELETE FROM `config`");
       super.setTransactionSuccessful();
     } finally {
       super.endTransaction();
@@ -282,6 +303,20 @@ public final class AppDataBase_Impl extends AppDataBase {
           _dAOPlan = new DAOPlan_Impl(this);
         }
         return _dAOPlan;
+      }
+    }
+  }
+
+  @Override
+  public DAOConfig daoConfig() {
+    if (_dAOConfig != null) {
+      return _dAOConfig;
+    } else {
+      synchronized(this) {
+        if(_dAOConfig == null) {
+          _dAOConfig = new DAOConfig_Impl(this);
+        }
+        return _dAOConfig;
       }
     }
   }
