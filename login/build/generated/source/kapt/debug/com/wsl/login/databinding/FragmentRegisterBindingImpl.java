@@ -15,8 +15,7 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding  {
     static {
         sIncludes = null;
         sViewsWithIds = new android.util.SparseIntArray();
-        sViewsWithIds.put(R.id.progress_bar_, 9);
-        sViewsWithIds.put(R.id.image_profile_, 10);
+        sViewsWithIds.put(R.id.progress_bar_, 10);
         sViewsWithIds.put(R.id.holder_name, 11);
         sViewsWithIds.put(R.id.last_name, 12);
         sViewsWithIds.put(R.id.email_, 13);
@@ -50,36 +49,36 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding  {
         this(bindingComponent, root, mapBindings(bindingComponent, root, 31, sIncludes, sViewsWithIds));
     }
     private FragmentRegisterBindingImpl(androidx.databinding.DataBindingComponent bindingComponent, View root, Object[] bindings) {
-        super(bindingComponent, root, 0
+        super(bindingComponent, root, 1
             , (com.google.android.material.textfield.TextInputLayout) bindings[26]
-            , (com.google.android.material.textfield.TextInputEditText) bindings[7]
+            , (com.google.android.material.textfield.TextInputEditText) bindings[8]
             , (com.google.android.material.chip.ChipGroup) bindings[29]
             , (com.google.android.material.textfield.TextInputLayout) bindings[25]
-            , (com.google.android.material.textfield.TextInputEditText) bindings[6]
+            , (com.google.android.material.textfield.TextInputEditText) bindings[7]
             , (com.google.android.material.textfield.TextInputLayout) bindings[23]
+            , (com.google.android.material.textfield.TextInputEditText) bindings[5]
             , (com.google.android.material.textfield.TextInputEditText) bindings[4]
-            , (com.google.android.material.textfield.TextInputEditText) bindings[3]
             , (com.google.android.material.textfield.TextInputEditText) bindings[15]
             , (com.google.android.material.textfield.TextInputEditText) bindings[17]
             , (com.google.android.material.textfield.TextInputLayout) bindings[13]
             , (android.widget.RadioButton) bindings[21]
             , (com.google.android.material.textfield.TextInputLayout) bindings[11]
-            , (com.google.android.material.textfield.TextInputEditText) bindings[1]
-            , (android.widget.ImageView) bindings[10]
-            , (com.google.android.material.textfield.TextInputLayout) bindings[12]
             , (com.google.android.material.textfield.TextInputEditText) bindings[2]
+            , (android.widget.ImageView) bindings[1]
+            , (com.google.android.material.textfield.TextInputLayout) bindings[12]
+            , (com.google.android.material.textfield.TextInputEditText) bindings[3]
             , (android.widget.LinearLayout) bindings[18]
             , (android.widget.LinearLayout) bindings[28]
             , (com.google.android.material.textfield.TextInputLayout) bindings[14]
             , (com.google.android.material.textfield.TextInputLayout) bindings[16]
             , (com.google.android.material.textfield.TextInputLayout) bindings[27]
-            , (com.google.android.material.textfield.TextInputEditText) bindings[8]
-            , (android.widget.ProgressBar) bindings[9]
+            , (com.google.android.material.textfield.TextInputEditText) bindings[9]
+            , (android.widget.ProgressBar) bindings[10]
             , (android.widget.RadioGroup) bindings[20]
             , (com.google.android.material.button.MaterialButton) bindings[30]
             , (android.widget.RadioButton) bindings[22]
             , (com.google.android.material.textfield.TextInputLayout) bindings[24]
-            , (com.google.android.material.textfield.TextInputEditText) bindings[5]
+            , (com.google.android.material.textfield.TextInputEditText) bindings[6]
             , (android.widget.TextView) bindings[19]
             );
         this.addressText.setTag(null);
@@ -87,6 +86,7 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding  {
         this.countryText.setTag(null);
         this.editTextEmail.setTag(null);
         this.holderNameText.setTag(null);
+        this.imageProfile.setTag(null);
         this.lastNameText.setTag(null);
         this.mboundView0 = (androidx.constraintlayout.widget.ConstraintLayout) bindings[0];
         this.mboundView0.setTag(null);
@@ -100,7 +100,7 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding  {
     @Override
     public void invalidateAll() {
         synchronized(this) {
-                mDirtyFlags = 0x2L;
+                mDirtyFlags = 0x8L;
         }
         requestRebind();
     }
@@ -118,7 +118,10 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding  {
     @Override
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
-        if (BR.user == variableId) {
+        if (BR.vm == variableId) {
+            setVm((com.wsl.login.login.view_model.WSLoginViewModel) variable);
+        }
+        else if (BR.user == variableId) {
             setUser((com.wsl.login.database.entities.EUser) variable);
         }
         else {
@@ -127,10 +130,18 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding  {
             return variableSet;
     }
 
+    public void setVm(@Nullable com.wsl.login.login.view_model.WSLoginViewModel Vm) {
+        this.mVm = Vm;
+        synchronized(this) {
+            mDirtyFlags |= 0x2L;
+        }
+        notifyPropertyChanged(BR.vm);
+        super.requestRebind();
+    }
     public void setUser(@Nullable com.wsl.login.database.entities.EUser User) {
         this.mUser = User;
         synchronized(this) {
-            mDirtyFlags |= 0x1L;
+            mDirtyFlags |= 0x4L;
         }
         notifyPropertyChanged(BR.user);
         super.requestRebind();
@@ -139,6 +150,17 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding  {
     @Override
     protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
         switch (localFieldId) {
+            case 0 :
+                return onChangeVmProjectIcon((androidx.lifecycle.LiveData<java.lang.String>) object, fieldId);
+        }
+        return false;
+    }
+    private boolean onChangeVmProjectIcon(androidx.lifecycle.LiveData<java.lang.String> VmProjectIcon, int fieldId) {
+        if (fieldId == BR._all) {
+            synchronized(this) {
+                    mDirtyFlags |= 0x1L;
+            }
+            return true;
         }
         return false;
     }
@@ -152,15 +174,34 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding  {
         }
         java.lang.String userCountry = null;
         java.lang.String userCity = null;
+        java.lang.String vmProjectIconGetValue = null;
         java.lang.String userName = null;
         java.lang.String userEmail = null;
+        com.wsl.login.login.view_model.WSLoginViewModel vm = mVm;
         java.lang.String userLastName = null;
         java.lang.String userState = null;
+        androidx.lifecycle.LiveData<java.lang.String> vmProjectIcon = null;
         java.lang.String userAddress = null;
         com.wsl.login.database.entities.EUser user = mUser;
         java.lang.String userPhone = null;
 
-        if ((dirtyFlags & 0x3L) != 0) {
+        if ((dirtyFlags & 0xbL) != 0) {
+
+
+
+                if (vm != null) {
+                    // read vm.projectIcon
+                    vmProjectIcon = vm.getProjectIcon();
+                }
+                updateLiveDataRegistration(0, vmProjectIcon);
+
+
+                if (vmProjectIcon != null) {
+                    // read vm.projectIcon.getValue()
+                    vmProjectIconGetValue = vmProjectIcon.getValue();
+                }
+        }
+        if ((dirtyFlags & 0xcL) != 0) {
 
 
 
@@ -184,7 +225,7 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding  {
                 }
         }
         // batch finished
-        if ((dirtyFlags & 0x3L) != 0) {
+        if ((dirtyFlags & 0xcL) != 0) {
             // api target 1
 
             androidx.databinding.adapters.TextViewBindingAdapter.setText(this.addressText, userAddress);
@@ -196,14 +237,21 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding  {
             androidx.databinding.adapters.TextViewBindingAdapter.setText(this.phoneText, userPhone);
             androidx.databinding.adapters.TextViewBindingAdapter.setText(this.stateText, userState);
         }
+        if ((dirtyFlags & 0xbL) != 0) {
+            // api target 1
+
+            com.wsl.login.helpers.BindingAdaptersKt.loadImage(this.imageProfile, vmProjectIconGetValue);
+        }
     }
     // Listener Stub Implementations
     // callback impls
     // dirty flag
     private  long mDirtyFlags = 0xffffffffffffffffL;
     /* flag mapping
-        flag 0 (0x1L): user
-        flag 1 (0x2L): null
+        flag 0 (0x1L): vm.projectIcon
+        flag 1 (0x2L): vm
+        flag 2 (0x3L): user
+        flag 3 (0x4L): null
     flag mapping end*/
     //end
 }

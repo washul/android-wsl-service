@@ -8,6 +8,9 @@
         <variable
             name="user"
             type="com.wsl.login.database.entities.EUser" />
+        <variable
+            name="vm"
+            type="com.wsl.login.login.view_model.WSLoginViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -40,6 +43,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/background_image_circular"
+            loadImage="@{vm.projectIcon}"
             app:layout_constraintBottom_toTopOf="@+id/holder_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

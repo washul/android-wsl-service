@@ -34,7 +34,7 @@ public final class DAOUser_Impl implements DAOUser {
     this.__insertionAdapterOfEUser = new EntityInsertionAdapter<EUser>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `User` (`uuid_user`,`customer_id`,`name`,`last_name`,`username`,`email`,`country`,`state`,`city`,`postal_code`,`country_code`,`phone`,`address`,`latitude`,`longitude`,`sex`,`typeOfUser`,`tokendevice`,`image_uri`,`password`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `User` (`uuid_user`,`google_uid`,`customer_id`,`name`,`last_name`,`username`,`email`,`country`,`state`,`city`,`postal_code`,`country_code`,`phone`,`address`,`latitude`,`longitude`,`sex`,`typeOfUser`,`tokendevice`,`image_uri`,`password`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -44,107 +44,112 @@ public final class DAOUser_Impl implements DAOUser {
         } else {
           stmt.bindString(1, value.getUuid_user());
         }
-        if (value.getCustomer_id() == null) {
+        if (value.getGoogle_uid() == null) {
           stmt.bindNull(2);
         } else {
-          stmt.bindString(2, value.getCustomer_id());
+          stmt.bindString(2, value.getGoogle_uid());
         }
-        if (value.getName() == null) {
+        if (value.getCustomer_id() == null) {
           stmt.bindNull(3);
         } else {
-          stmt.bindString(3, value.getName());
+          stmt.bindString(3, value.getCustomer_id());
         }
-        if (value.getLast_name() == null) {
+        if (value.getName() == null) {
           stmt.bindNull(4);
         } else {
-          stmt.bindString(4, value.getLast_name());
+          stmt.bindString(4, value.getName());
         }
-        if (value.getUsername() == null) {
+        if (value.getLast_name() == null) {
           stmt.bindNull(5);
         } else {
-          stmt.bindString(5, value.getUsername());
+          stmt.bindString(5, value.getLast_name());
         }
-        if (value.getEmail() == null) {
+        if (value.getUsername() == null) {
           stmt.bindNull(6);
         } else {
-          stmt.bindString(6, value.getEmail());
+          stmt.bindString(6, value.getUsername());
         }
-        if (value.getCountry() == null) {
+        if (value.getEmail() == null) {
           stmt.bindNull(7);
         } else {
-          stmt.bindString(7, value.getCountry());
+          stmt.bindString(7, value.getEmail());
         }
-        if (value.getState() == null) {
+        if (value.getCountry() == null) {
           stmt.bindNull(8);
         } else {
-          stmt.bindString(8, value.getState());
+          stmt.bindString(8, value.getCountry());
         }
-        if (value.getCity() == null) {
+        if (value.getState() == null) {
           stmt.bindNull(9);
         } else {
-          stmt.bindString(9, value.getCity());
+          stmt.bindString(9, value.getState());
         }
-        if (value.getPostal_code() == null) {
+        if (value.getCity() == null) {
           stmt.bindNull(10);
         } else {
-          stmt.bindString(10, value.getPostal_code());
+          stmt.bindString(10, value.getCity());
         }
-        if (value.getCountry_code() == null) {
+        if (value.getPostal_code() == null) {
           stmt.bindNull(11);
         } else {
-          stmt.bindString(11, value.getCountry_code());
+          stmt.bindString(11, value.getPostal_code());
         }
-        if (value.getPhone() == null) {
+        if (value.getCountry_code() == null) {
           stmt.bindNull(12);
         } else {
-          stmt.bindString(12, value.getPhone());
+          stmt.bindString(12, value.getCountry_code());
         }
-        if (value.getAddress() == null) {
+        if (value.getPhone() == null) {
           stmt.bindNull(13);
         } else {
-          stmt.bindString(13, value.getAddress());
+          stmt.bindString(13, value.getPhone());
         }
-        if (value.getLatitude() == null) {
+        if (value.getAddress() == null) {
           stmt.bindNull(14);
         } else {
-          stmt.bindString(14, value.getLatitude());
+          stmt.bindString(14, value.getAddress());
         }
-        if (value.getLongitude() == null) {
+        if (value.getLatitude() == null) {
           stmt.bindNull(15);
         } else {
-          stmt.bindString(15, value.getLongitude());
+          stmt.bindString(15, value.getLatitude());
         }
-        if (value.getSex() == null) {
+        if (value.getLongitude() == null) {
           stmt.bindNull(16);
         } else {
-          stmt.bindString(16, value.getSex());
+          stmt.bindString(16, value.getLongitude());
         }
-        if (value.getTypeOfUser() == null) {
+        if (value.getSex() == null) {
           stmt.bindNull(17);
         } else {
-          stmt.bindString(17, value.getTypeOfUser());
+          stmt.bindString(17, value.getSex());
         }
-        if (value.getTokendevice() == null) {
+        if (value.getTypeOfUser() == null) {
           stmt.bindNull(18);
         } else {
-          stmt.bindString(18, value.getTokendevice());
+          stmt.bindString(18, value.getTypeOfUser());
         }
-        if (value.getImage_uri() == null) {
+        if (value.getTokendevice() == null) {
           stmt.bindNull(19);
         } else {
-          stmt.bindString(19, value.getImage_uri());
+          stmt.bindString(19, value.getTokendevice());
         }
-        if (value.getPassword() == null) {
+        if (value.getImage_uri() == null) {
           stmt.bindNull(20);
         } else {
-          stmt.bindString(20, value.getPassword());
+          stmt.bindString(20, value.getImage_uri());
+        }
+        if (value.getPassword() == null) {
+          stmt.bindNull(21);
+        } else {
+          stmt.bindString(21, value.getPassword());
         }
       }
     };
     this.__updateAdapterOfEUser = new EntityDeletionOrUpdateAdapter<EUser>(__db) {
       @Override
       public String createQuery() {
-        return "UPDATE OR ABORT `User` SET `uuid_user` = ?,`customer_id` = ?,`name` = ?,`last_name` = ?,`username` = ?,`email` = ?,`country` = ?,`state` = ?,`city` = ?,`postal_code` = ?,`country_code` = ?,`phone` = ?,`address` = ?,`latitude` = ?,`longitude` = ?,`sex` = ?,`typeOfUser` = ?,`tokendevice` = ?,`image_uri` = ?,`password` = ? WHERE `uuid_user` = ?";
+        return "UPDATE OR ABORT `User` SET `uuid_user` = ?,`google_uid` = ?,`customer_id` = ?,`name` = ?,`last_name` = ?,`username` = ?,`email` = ?,`country` = ?,`state` = ?,`city` = ?,`postal_code` = ?,`country_code` = ?,`phone` = ?,`address` = ?,`latitude` = ?,`longitude` = ?,`sex` = ?,`typeOfUser` = ?,`tokendevice` = ?,`image_uri` = ?,`password` = ? WHERE `uuid_user` = ?";
       }
 
       @Override
@@ -154,105 +159,110 @@ public final class DAOUser_Impl implements DAOUser {
         } else {
           stmt.bindString(1, value.getUuid_user());
         }
-        if (value.getCustomer_id() == null) {
+        if (value.getGoogle_uid() == null) {
           stmt.bindNull(2);
         } else {
-          stmt.bindString(2, value.getCustomer_id());
+          stmt.bindString(2, value.getGoogle_uid());
         }
-        if (value.getName() == null) {
+        if (value.getCustomer_id() == null) {
           stmt.bindNull(3);
         } else {
-          stmt.bindString(3, value.getName());
+          stmt.bindString(3, value.getCustomer_id());
         }
-        if (value.getLast_name() == null) {
+        if (value.getName() == null) {
           stmt.bindNull(4);
         } else {
-          stmt.bindString(4, value.getLast_name());
+          stmt.bindString(4, value.getName());
         }
-        if (value.getUsername() == null) {
+        if (value.getLast_name() == null) {
           stmt.bindNull(5);
         } else {
-          stmt.bindString(5, value.getUsername());
+          stmt.bindString(5, value.getLast_name());
         }
-        if (value.getEmail() == null) {
+        if (value.getUsername() == null) {
           stmt.bindNull(6);
         } else {
-          stmt.bindString(6, value.getEmail());
+          stmt.bindString(6, value.getUsername());
         }
-        if (value.getCountry() == null) {
+        if (value.getEmail() == null) {
           stmt.bindNull(7);
         } else {
-          stmt.bindString(7, value.getCountry());
+          stmt.bindString(7, value.getEmail());
         }
-        if (value.getState() == null) {
+        if (value.getCountry() == null) {
           stmt.bindNull(8);
         } else {
-          stmt.bindString(8, value.getState());
+          stmt.bindString(8, value.getCountry());
         }
-        if (value.getCity() == null) {
+        if (value.getState() == null) {
           stmt.bindNull(9);
         } else {
-          stmt.bindString(9, value.getCity());
+          stmt.bindString(9, value.getState());
         }
-        if (value.getPostal_code() == null) {
+        if (value.getCity() == null) {
           stmt.bindNull(10);
         } else {
-          stmt.bindString(10, value.getPostal_code());
+          stmt.bindString(10, value.getCity());
         }
-        if (value.getCountry_code() == null) {
+        if (value.getPostal_code() == null) {
           stmt.bindNull(11);
         } else {
-          stmt.bindString(11, value.getCountry_code());
+          stmt.bindString(11, value.getPostal_code());
         }
-        if (value.getPhone() == null) {
+        if (value.getCountry_code() == null) {
           stmt.bindNull(12);
         } else {
-          stmt.bindString(12, value.getPhone());
+          stmt.bindString(12, value.getCountry_code());
         }
-        if (value.getAddress() == null) {
+        if (value.getPhone() == null) {
           stmt.bindNull(13);
         } else {
-          stmt.bindString(13, value.getAddress());
+          stmt.bindString(13, value.getPhone());
         }
-        if (value.getLatitude() == null) {
+        if (value.getAddress() == null) {
           stmt.bindNull(14);
         } else {
-          stmt.bindString(14, value.getLatitude());
+          stmt.bindString(14, value.getAddress());
         }
-        if (value.getLongitude() == null) {
+        if (value.getLatitude() == null) {
           stmt.bindNull(15);
         } else {
-          stmt.bindString(15, value.getLongitude());
+          stmt.bindString(15, value.getLatitude());
         }
-        if (value.getSex() == null) {
+        if (value.getLongitude() == null) {
           stmt.bindNull(16);
         } else {
-          stmt.bindString(16, value.getSex());
+          stmt.bindString(16, value.getLongitude());
         }
-        if (value.getTypeOfUser() == null) {
+        if (value.getSex() == null) {
           stmt.bindNull(17);
         } else {
-          stmt.bindString(17, value.getTypeOfUser());
+          stmt.bindString(17, value.getSex());
         }
-        if (value.getTokendevice() == null) {
+        if (value.getTypeOfUser() == null) {
           stmt.bindNull(18);
         } else {
-          stmt.bindString(18, value.getTokendevice());
+          stmt.bindString(18, value.getTypeOfUser());
         }
-        if (value.getImage_uri() == null) {
+        if (value.getTokendevice() == null) {
           stmt.bindNull(19);
         } else {
-          stmt.bindString(19, value.getImage_uri());
+          stmt.bindString(19, value.getTokendevice());
         }
-        if (value.getPassword() == null) {
+        if (value.getImage_uri() == null) {
           stmt.bindNull(20);
         } else {
-          stmt.bindString(20, value.getPassword());
+          stmt.bindString(20, value.getImage_uri());
         }
-        if (value.getUuid_user() == null) {
+        if (value.getPassword() == null) {
           stmt.bindNull(21);
         } else {
-          stmt.bindString(21, value.getUuid_user());
+          stmt.bindString(21, value.getPassword());
+        }
+        if (value.getUuid_user() == null) {
+          stmt.bindNull(22);
+        } else {
+          stmt.bindString(22, value.getUuid_user());
         }
       }
     };
@@ -311,6 +321,7 @@ public final class DAOUser_Impl implements DAOUser {
     final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
       final int _cursorIndexOfUuidUser = CursorUtil.getColumnIndexOrThrow(_cursor, "uuid_user");
+      final int _cursorIndexOfGoogleUid = CursorUtil.getColumnIndexOrThrow(_cursor, "google_uid");
       final int _cursorIndexOfCustomerId = CursorUtil.getColumnIndexOrThrow(_cursor, "customer_id");
       final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "name");
       final int _cursorIndexOfLastName = CursorUtil.getColumnIndexOrThrow(_cursor, "last_name");
@@ -334,6 +345,8 @@ public final class DAOUser_Impl implements DAOUser {
       if(_cursor.moveToFirst()) {
         final String _tmpUuid_user;
         _tmpUuid_user = _cursor.getString(_cursorIndexOfUuidUser);
+        final String _tmpGoogle_uid;
+        _tmpGoogle_uid = _cursor.getString(_cursorIndexOfGoogleUid);
         final String _tmpCustomer_id;
         _tmpCustomer_id = _cursor.getString(_cursorIndexOfCustomerId);
         final String _tmpName;
@@ -372,7 +385,7 @@ public final class DAOUser_Impl implements DAOUser {
         _tmpImage_uri = _cursor.getString(_cursorIndexOfImageUri);
         final String _tmpPassword;
         _tmpPassword = _cursor.getString(_cursorIndexOfPassword);
-        _result = new EUser(_tmpUuid_user,_tmpCustomer_id,_tmpName,_tmpLast_name,_tmpUsername,_tmpEmail,_tmpCountry,_tmpState,_tmpCity,_tmpPostal_code,_tmpCountry_code,_tmpPhone,_tmpAddress,_tmpLatitude,_tmpLongitude,_tmpSex,_tmpTypeOfUser,_tmpTokendevice,_tmpImage_uri,_tmpPassword);
+        _result = new EUser(_tmpUuid_user,_tmpGoogle_uid,_tmpCustomer_id,_tmpName,_tmpLast_name,_tmpUsername,_tmpEmail,_tmpCountry,_tmpState,_tmpCity,_tmpPostal_code,_tmpCountry_code,_tmpPhone,_tmpAddress,_tmpLatitude,_tmpLongitude,_tmpSex,_tmpTypeOfUser,_tmpTokendevice,_tmpImage_uri,_tmpPassword);
       } else {
         _result = null;
       }
@@ -417,6 +430,7 @@ public final class DAOUser_Impl implements DAOUser {
     final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
       final int _cursorIndexOfUuidUser = CursorUtil.getColumnIndexOrThrow(_cursor, "uuid_user");
+      final int _cursorIndexOfGoogleUid = CursorUtil.getColumnIndexOrThrow(_cursor, "google_uid");
       final int _cursorIndexOfCustomerId = CursorUtil.getColumnIndexOrThrow(_cursor, "customer_id");
       final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "name");
       final int _cursorIndexOfLastName = CursorUtil.getColumnIndexOrThrow(_cursor, "last_name");
@@ -440,6 +454,8 @@ public final class DAOUser_Impl implements DAOUser {
       if(_cursor.moveToFirst()) {
         final String _tmpUuid_user;
         _tmpUuid_user = _cursor.getString(_cursorIndexOfUuidUser);
+        final String _tmpGoogle_uid;
+        _tmpGoogle_uid = _cursor.getString(_cursorIndexOfGoogleUid);
         final String _tmpCustomer_id;
         _tmpCustomer_id = _cursor.getString(_cursorIndexOfCustomerId);
         final String _tmpName;
@@ -478,7 +494,7 @@ public final class DAOUser_Impl implements DAOUser {
         _tmpImage_uri = _cursor.getString(_cursorIndexOfImageUri);
         final String _tmpPassword;
         _tmpPassword = _cursor.getString(_cursorIndexOfPassword);
-        _result = new EUser(_tmpUuid_user,_tmpCustomer_id,_tmpName,_tmpLast_name,_tmpUsername,_tmpEmail,_tmpCountry,_tmpState,_tmpCity,_tmpPostal_code,_tmpCountry_code,_tmpPhone,_tmpAddress,_tmpLatitude,_tmpLongitude,_tmpSex,_tmpTypeOfUser,_tmpTokendevice,_tmpImage_uri,_tmpPassword);
+        _result = new EUser(_tmpUuid_user,_tmpGoogle_uid,_tmpCustomer_id,_tmpName,_tmpLast_name,_tmpUsername,_tmpEmail,_tmpCountry,_tmpState,_tmpCity,_tmpPostal_code,_tmpCountry_code,_tmpPhone,_tmpAddress,_tmpLatitude,_tmpLongitude,_tmpSex,_tmpTypeOfUser,_tmpTokendevice,_tmpImage_uri,_tmpPassword);
       } else {
         _result = null;
       }
@@ -499,6 +515,7 @@ public final class DAOUser_Impl implements DAOUser {
         final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
         try {
           final int _cursorIndexOfUuidUser = CursorUtil.getColumnIndexOrThrow(_cursor, "uuid_user");
+          final int _cursorIndexOfGoogleUid = CursorUtil.getColumnIndexOrThrow(_cursor, "google_uid");
           final int _cursorIndexOfCustomerId = CursorUtil.getColumnIndexOrThrow(_cursor, "customer_id");
           final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "name");
           final int _cursorIndexOfLastName = CursorUtil.getColumnIndexOrThrow(_cursor, "last_name");
@@ -522,6 +539,8 @@ public final class DAOUser_Impl implements DAOUser {
           if(_cursor.moveToFirst()) {
             final String _tmpUuid_user;
             _tmpUuid_user = _cursor.getString(_cursorIndexOfUuidUser);
+            final String _tmpGoogle_uid;
+            _tmpGoogle_uid = _cursor.getString(_cursorIndexOfGoogleUid);
             final String _tmpCustomer_id;
             _tmpCustomer_id = _cursor.getString(_cursorIndexOfCustomerId);
             final String _tmpName;
@@ -560,7 +579,7 @@ public final class DAOUser_Impl implements DAOUser {
             _tmpImage_uri = _cursor.getString(_cursorIndexOfImageUri);
             final String _tmpPassword;
             _tmpPassword = _cursor.getString(_cursorIndexOfPassword);
-            _result = new EUser(_tmpUuid_user,_tmpCustomer_id,_tmpName,_tmpLast_name,_tmpUsername,_tmpEmail,_tmpCountry,_tmpState,_tmpCity,_tmpPostal_code,_tmpCountry_code,_tmpPhone,_tmpAddress,_tmpLatitude,_tmpLongitude,_tmpSex,_tmpTypeOfUser,_tmpTokendevice,_tmpImage_uri,_tmpPassword);
+            _result = new EUser(_tmpUuid_user,_tmpGoogle_uid,_tmpCustomer_id,_tmpName,_tmpLast_name,_tmpUsername,_tmpEmail,_tmpCountry,_tmpState,_tmpCity,_tmpPostal_code,_tmpCountry_code,_tmpPhone,_tmpAddress,_tmpLatitude,_tmpLongitude,_tmpSex,_tmpTypeOfUser,_tmpTokendevice,_tmpImage_uri,_tmpPassword);
           } else {
             _result = null;
           }

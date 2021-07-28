@@ -17,7 +17,7 @@ interface DAOUser {
     fun signIn(): EUser?
 
     @Query("SELECT uuid_user FROM User WHERE email == :email")
-    fun isUserExist( email: String ): String
+    fun isUserExist( email: String ): String?
 
     @Query("SELECT * FROM User ")
     fun getUser(): EUser

@@ -93,7 +93,7 @@ class RetrofitClient @Inject constructor(
             val url = originalHttpUrl.newBuilder()
                 .build()
 
-            var requestBuilder = original.newBuilder().url(url)
+            var requestBuilder: Request.Builder? = original.newBuilder().url(url)
 
             requestBuilder = original.newBuilder()
                 .addHeader("appID", prefs.appID )

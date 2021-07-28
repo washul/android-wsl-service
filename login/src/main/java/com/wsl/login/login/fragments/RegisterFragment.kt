@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.wsl.login.R
 import com.wsl.login.database.entities.EUser
-import com.wsl.login.helpers.WSProgressBarCustom
 import com.wsl.login.helpers.getDeviceID
 import com.wsl.login.login.view_model.WSLoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -75,7 +74,7 @@ class RegisterFragment: Fragment() {
                 viewModel.tokenUser = registerResponse.token
                 viewModel.tokenDevice = user.tokendevice ?: context?.getDeviceID() ?: ""
 
-                viewModel.saveUser( user )
+                viewModel.saveUserOrUpdate( user )
 
                 viewModel.onShowProgressDialogDone()
                 activity?.runOnUiThread {

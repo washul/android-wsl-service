@@ -2,30 +2,23 @@ package com.wsl.login.login
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.facebook.CallbackManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.wsl.login.R
+import com.wsl.login.config.Config
 import com.wsl.login.database.entities.EUser
 import com.wsl.login.helpers.*
 import com.wsl.login.login.view_model.WSLoginViewModel
-import com.wsl.login.retrofit.LoginResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.login_fragment.*
 import javax.inject.Inject
 
 const val TAG_LOGIN = "WSLoginActivity "
@@ -33,12 +26,10 @@ const val TAG_LOGIN = "WSLoginActivity "
 class WSLoginActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var viewModel: WSLoginViewModel
-
-    private lateinit var progressBarCustom: WSProgressBarCustom
+    lateinit var callbackManager: CallbackManager
 
     @Inject
-    lateinit var callbackManager: CallbackManager
+    lateinit var viewModel: WSLoginViewModel
 
     @Inject
     lateinit var gso: GoogleSignInOptions
@@ -49,9 +40,15 @@ class WSLoginActivity : AppCompatActivity() {
     @Inject
     lateinit var auth: FirebaseAuth
 
+    @Inject
+    lateinit var configClass: Config
+
+    private lateinit var progressBarCustom: WSProgressBarCustom
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.activityAction = intent.getIntExtra( WSL_ACTION_PARAM_NAME, -1 )
+        viewModel.setConfigFile( configClass.readConfigFile() )
 
         setDefaultObservers()
     }
@@ -66,7 +63,8 @@ class WSLoginActivity : AppCompatActivity() {
 
         when( viewModel.activityAction ){
             WSL_LOGIN_ACTION_AUTO_SIGN_IN -> {
-                autoSignIn()
+                if (!viewModel.isTrackingAppOut)
+                    autoSignIn()
             }
             WSL_LOGIN_ACTION_AUTO_LOG_OUT -> {
                 viewModel.getLogOut {
@@ -80,6 +78,11 @@ class WSLoginActivity : AppCompatActivity() {
                 signInWithNetworkAvailable()
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private fun loadLoginUI() {
@@ -100,7 +103,9 @@ class WSLoginActivity : AppCompatActivity() {
         })
 
         viewModel.onUserSignInCorrectly.observe(this, Observer {
-            userLoggedCorrectly(it)
+            if(it == null) return@Observer
+
+            userLoggedCorrectly(it.uuid_user)
             viewModel.setOnUserSignInCorrectlyDone()
         })
 
@@ -111,18 +116,15 @@ class WSLoginActivity : AppCompatActivity() {
     }
 
     private fun autoSignIn(){
-
-        viewModel.loginAuto { loginResponse ->
-
-            if (loginResponse == null) {
-                runOnUiThread {
-                    loadLoginUI()
-                }
+        viewModel.loginAuto { userID ->
+            if(userID == null) {
+                logOut()
+                runOnUiThread {loadLoginUI()}
                 return@loginAuto
             }
 
-            Log.e(TAG_LOGIN, "Auto login response ->$loginResponse")
-            userLoggedCorrectly(loginResponse)
+            Log.e(TAG_LOGIN, "Auto login response ->$userID")
+            userLoggedCorrectly(userID)
         }
     }
 
@@ -131,9 +133,10 @@ class WSLoginActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
 
         if ( viewModel.tokenUser == "" && currentUser == null  ){
-
+            runOnUiThread { loadLoginUI() }
         }else {
-            autoSignIn()
+            if (!viewModel.isTrackingAppOut)
+                autoSignIn()
         }
     }
 
@@ -154,42 +157,21 @@ class WSLoginActivity : AppCompatActivity() {
                 return@localSignIn
             }
 
-            userLoggedCorrectly(LoginResponse(user=user, token = viewModel.tokenUser, message = "", auth = true))
+            userLoggedCorrectly(user.uuid_user)
         }
     }
 
-    private fun userLoggedCorrectly( loginResponse: LoginResponse? = null ){
+    private fun userLoggedCorrectly(userID: String? = null ){
 
-        if ( loginResponse != null ) {
+        if ( userID != null ) {
             this.intent.putExtra(WSL_FLAG_NAME, WSL_LOGIN_ANSWER_SIGN_IN)
-            this.intent.putExtra(WSL_ACTION_PARAM_NAME, loginResponse.user.uuid_user)
+            this.intent.putExtra(WSL_ACTION_PARAM_NAME, userID)
         } else {
             this.intent.putExtra(WSL_FLAG_NAME, WSL_LOGIN_ANSWER_NO_SIGN_IN)
         }
 
         setResult(Activity.RESULT_OK, this@WSLoginActivity.intent)
         finish()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        callbackManager.onActivityResult(requestCode, resultCode, data)
-
-        when ( requestCode ){
-            RC_SIGN_IN -> {
-                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-                try {
-
-                    val account = task.getResult(ApiException::class.java)!!
-                    Log.d(TAG, TAG_LOGIN+"firebaseAuthWithGoogle:" + account.id)
-                    firebaseAuth(GoogleAuthProvider.getCredential(account.idToken, null))
-
-                } catch (e: ApiException) {
-                    Log.w(TAG, TAG_LOGIN+"Google sign in failed", e)
-                }
-            }
-        }
-
     }
 
     private fun dialogNoAccountRegistered(user: EUser? = null ){
@@ -221,25 +203,15 @@ class WSLoginActivity : AppCompatActivity() {
                     viewModel.tokenUser = registerResponse.token
                     viewModel.tokenDevice = user.tokendevice ?: ""
 
-                    viewModel.saveUser( user )
+                    viewModel.saveUserOrUpdate( user )
 
-                    viewModel.setUserSignInCorrectly(
-                        LoginResponse(
-                            user = user,
-                            token = registerResponse.token,
-                            message = registerResponse.message,
-                            auth = true
-                        )
-                    )
+                    viewModel.setUserSignInCorrectly(user)
                 }
             }
             .show()
     }
 
-    private fun firebaseAuth(credential: AuthCredential) {
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                viewModel.requireFirebaseAuth(task)
-            }
+    private fun logOut() {
+        viewModel.logOut()
     }
 }

@@ -70,7 +70,7 @@ class WSProfileViewModel @ViewModelInject constructor(
     /**User Methods*/
     fun saveUser( user: EUser) {
         viewModelScope.launch(Dispatchers.IO) {
-            repositoryLogin.saveUser( user )
+            repositoryLogin.saveUserOrUpdate( user )
         }
     }
 

@@ -6,6 +6,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.wsl.login.R
+import com.wsl.login.config.Config
 import com.wsl.login.retrofit.RetrofitClient
 import com.wsl.login.helpers.WSPreferences
 import com.wsl.login.login.view_model.RepositoryLogin
@@ -112,4 +113,8 @@ object AppModule {
     @Provides
     @Singleton
     fun firebaseAuth() = FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideConfigClass(@ApplicationContext context: Context) = Config(context)
 }

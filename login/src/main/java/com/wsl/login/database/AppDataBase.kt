@@ -5,18 +5,18 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.wsl.login.database.AppDataBase.Companion.DATABASE_VERSION
-import com.wsl.login.database.dao.DAOCard
-import com.wsl.login.database.dao.DAOPlan
-import com.wsl.login.database.dao.DAOSubscription
-import com.wsl.login.database.dao.DAOUser
-import com.wsl.login.database.entities.ECard
-import com.wsl.login.database.entities.EPlan
-import com.wsl.login.database.entities.ESubscription
-import com.wsl.login.database.entities.EUser
+import com.wsl.login.database.dao.*
+import com.wsl.login.database.entities.*
 
 @Database(
     entities =
-    [EUser::class, ECard::class, ESubscription::class, EPlan::class],
+    [
+        EUser::class,
+        ECard::class,
+        ESubscription::class,
+        EPlan::class,
+        EConfig::class
+    ],
     version = DATABASE_VERSION,
     exportSchema = false
 )
@@ -26,6 +26,7 @@ abstract class AppDataBase: RoomDatabase() {
     abstract fun daoCard(): DAOCard
     abstract fun daoSubscription(): DAOSubscription
     abstract fun daoPlan(): DAOPlan
+    abstract fun daoConfig(): DAOConfig
 
     companion object {
 
