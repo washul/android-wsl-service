@@ -9,12 +9,12 @@ apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.washul'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        minSdkVersion 23
-        targetSdkVersion 30
+        minSdkVersion 19
+        targetSdkVersion 29
         versionCode 1
         versionName "0.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -34,11 +34,8 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-    dataBinding {
-        enabled = true
-    }
-    kapt {
-        generateStubs = true
+    buildFeatures {
+        viewBinding = true
     }
 }
 dependencies {
@@ -113,16 +110,16 @@ dependencies {
     
 }
 
-tasks.register("initConfig", Copy) {
-    println("Init config of Login project:::")
-    println("Copy wsl-services.json file from: $rootDir/app/wsl-services.json")
-    try {
-        def jsonFile = file("$rootDir/app/wsl-services.json")
-        println(jsonFile.text)
-        new File("$projectDir/src/main/assets", "wsl-services.json").text = jsonFile.text
-        println("Copy file completed succesfully")
-    } catch (Exception e) {
-        e.printStackTrace()
-        println(e.toString())
-    }
-}
+//tasks.register("initConfig", Copy) {
+//    println("Init config of Login project:::")
+//    println("Copy wsl-services.json file from: $rootDir/app/wsl-services.json")
+//    try {
+//        def jsonFile = file("$rootDir/app/wsl-services.json")
+//        println(jsonFile.text)
+//        new File("$projectDir/src/main/assets", "wsl-services.json").text = jsonFile.text
+//        println("Copy file completed succesfully")
+//    } catch (Exception e) {
+//        e.printStackTrace()
+//        println(e.toString())
+//    }
+//}
