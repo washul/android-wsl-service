@@ -17,13 +17,14 @@ import com.wsl.login.database.entities.EUser
 import com.wsl.login.helpers.*
 import com.wsl.login.login.view_model.WSLoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.login_fragment.*
 import javax.inject.Inject
+import com.wsl.login.databinding.ActivityLoginBinding
 
 const val TAG_LOGIN = "WSLoginActivity "
 @AndroidEntryPoint
 class WSLoginActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivityLoginBinding
 
     @Inject
     lateinit var callbackManager: CallbackManager
@@ -47,6 +48,8 @@ class WSLoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+
         viewModel.activityAction = intent.getIntExtra( WSL_ACTION_PARAM_NAME, -1 )
         viewModel.setConfigFile( configClass.readConfigFile() )
 
@@ -74,7 +77,7 @@ class WSLoginActivity : AppCompatActivity() {
                 }
             }
             else -> {
-                initFacebookSDK()
+//                initFacebookSDK()
                 signInWithNetworkAvailable()
             }
         }
@@ -86,8 +89,8 @@ class WSLoginActivity : AppCompatActivity() {
     }
 
     private fun loadLoginUI() {
-        this@WSLoginActivity.setContentView(R.layout.activity_login)
-        progressBarCustom = WSProgressBarCustom.build(this@WSLoginActivity, progressBar = progress_bar_)
+        this@WSLoginActivity.setContentView(binding.root)
+        progressBarCustom = WSProgressBarCustom.build(this@WSLoginActivity, progressBar = binding.progressBar)
     }
 
     private fun setDefaultObservers() {

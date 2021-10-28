@@ -14,8 +14,6 @@ import com.wsl.login.R
 import com.wsl.login.helpers.buildResource
 import com.wsl.login.helpers.showSnackBarMessage
 import com.wsl.login.profile.view_model.WSProfileViewModel
-import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.cardview_wallet_card.view.*
 
 
 class SubscriptionFragment : DialogFragment() {
@@ -91,7 +89,7 @@ class SubscriptionFragment : DialogFragment() {
                 viewModel.cancelSubscription( viewModel.subscriptions[0].id ){ subscriptionResponse ->
 
                     if ( subscriptionResponse == null ){
-                        scrollview_parent_.showSnackBarMessage(getString(R.string.no_response_from_server_try_again))
+//                        scrollview_parent_.showSnackBarMessage(getString(R.string.no_response_from_server_try_again))
                         return@cancelSubscription
                     }
 
@@ -107,13 +105,13 @@ class SubscriptionFragment : DialogFragment() {
 
             viewModel.subscriptionMutable.observe( this@SubscriptionFragment, Observer { subscription ->
                 if ( subscription == null ){
-                    account_status.text = getString(R.string.free_version)
+//                    account_status.text = getString(R.string.free_version)
                     return@Observer
                 }
                 val item = viewModel.currentPlan
 
                 UIView?.findViewById<TextView>(R.id.name_)?.text = item?.name
-                UIView?.image_card?.buildResource( R.drawable.google, context!! )
+//                UIView?.image_card?.buildResource( R.drawable.google, context!! )
                 UIView?.findViewById<MaterialTextView>(R.id.repeat_unit_text_)?.text = "${item?.repeat_every} ${item?.repeat_unit}"
                 UIView?.findViewById<MaterialTextView>(R.id.trial_days_option_)?.text = item?.trial_days
                 UIView?.findViewById<MaterialTextView>(R.id.amount_)?.text = item?.amount

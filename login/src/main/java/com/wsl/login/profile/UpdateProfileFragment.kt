@@ -16,7 +16,6 @@ import com.wsl.login.helpers.getDeviceID
 import com.wsl.login.helpers.showSnackBarMessage
 import com.wsl.login.database.entities.EUser
 import com.wsl.login.profile.view_model.WSProfileViewModel
-import kotlinx.android.synthetic.main.fragment_register.*
 
 class UpdateProfileFragment : DialogFragment() {
 

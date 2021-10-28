@@ -2,7 +2,6 @@ package com.wsl.login.retrofit
 
 import com.wsl.login.helpers.WSPreferences
 import com.wsl.login.helpers.URL_BASE
-import com.wsl.login.login.view_model.RepositoryLogin
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -85,22 +84,14 @@ class RetrofitClient @Inject constructor(
 
     inner class RequestInterceptorAddAppID: Interceptor {
 
-        override fun intercept(chain: Interceptor.Chain): Response? {
+        override fun intercept(chain: Interceptor.Chain): Response? = chain.run {
+            proceed(
+                request()
+                    .newBuilder()
+                    .addHeader("appID", prefs.appID)
+                    .build()
+            )
 
-            val original = chain.request()
-            val originalHttpUrl = original.url()
-
-            val url = originalHttpUrl.newBuilder()
-                .build()
-
-            var requestBuilder: Request.Builder? = original.newBuilder().url(url)
-
-            requestBuilder = original.newBuilder()
-                .addHeader("appID", prefs.appID )
-                .url(url)
-
-
-            return chain.proceed(requestBuilder.build())
         }
 
     }

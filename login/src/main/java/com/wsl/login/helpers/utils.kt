@@ -18,7 +18,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.wsl.login.R
 import com.wsl.login.login.WSLoginActivity
-import kotlinx.android.synthetic.main.activity_login.*
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -69,7 +68,7 @@ fun String.sha256(): String {
 fun WSLoginActivity.showSnackBarMessage( message: String ){
 
     this.runOnUiThread {
-        Snackbar.make(login_view, message, Snackbar.LENGTH_LONG)
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
             .setBackgroundTint(resources.getColor(R.color.colorAccent))
             .show()
     }

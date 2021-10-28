@@ -91,9 +91,10 @@ class RepositoryLogin @Inject constructor(
     suspend fun loginAuto(
         function: (String?) -> Unit
     ){
-        val response = service.loginAuto()
-        withContext(Dispatchers.IO){
-            try {
+        try {
+            val response = service.loginAuto()
+            withContext(Dispatchers.IO){
+
                 if (response.isSuccessful) {
                     val responseString = response.body()?.string() ?: return@withContext
                     Log.d("LOGIN RESPONSE ->  ", responseString)
@@ -103,10 +104,10 @@ class RepositoryLogin @Inject constructor(
                 } else {
                     function(null)
                 }
-            }catch ( e: Exception){
-                e.printStackTrace()
-                function(null)
             }
+        }catch ( e: Exception){
+            e.printStackTrace()
+            function(null)
         }
     }
 

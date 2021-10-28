@@ -21,10 +21,6 @@ import com.wsl.login.login.WSLoginActivity
 import com.wsl.login.payments.fragments.WalletFragment
 import com.wsl.login.payments.viewmodel.WSPaymentViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.cardview_wallet_card.view.*
-import kotlinx.android.synthetic.main.fragment_wallet.*
-import kotlinx.android.synthetic.main.fragment_wallet.progress_bar_
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -153,7 +149,7 @@ class Payments : AppCompatActivity() {
             super.run()
             this@Payments.setContentView(R.layout.activity_payments)
 
-            progressBarCustom = WSProgressBarCustom.build(this@Payments, progressBar = progress_bar_)
+//            progressBarCustom = WSProgressBarCustom.build(this@Payments, progressBar = progress_bar_)
             progressBarCustom.show()
 
             buildRecycler()
@@ -175,11 +171,11 @@ class Payments : AppCompatActivity() {
                 walletDialog()
             }
 
-            recycler?.apply {
-
-                layoutManager = LinearLayoutManager( context!! )
-                this.adapter = this@BuildUI.adapter
-            }
+//            recycler?.apply {
+//
+//                layoutManager = LinearLayoutManager( context!! )
+//                this.adapter = this@BuildUI.adapter
+//            }
 
         }
 
@@ -193,7 +189,7 @@ class Payments : AppCompatActivity() {
 
                 val item = itemList[position]
 
-                holder.image.buildResource( R.drawable.google, context )
+//                holder.image.buildResource( R.drawable.google, context )
                 holder.name.text = item.name
                 holder.repeat_Every_.text = "${item.repeat_every} ${item.repeat_unit}"
                 holder.amount_.text = item.amount
@@ -214,7 +210,7 @@ class Payments : AppCompatActivity() {
 
             inner class ViewHolder( view: View ): RecyclerView.ViewHolder( view ) {
 
-                val image = view.image_card!!
+//                val image = view.image_card!!
                 val name = view.findViewById<MaterialTextView>(R.id.name_)
                 val repeat_Every_ = view.findViewById<MaterialTextView>(R.id.repeat_unit_text_)
                 val trial_days_ = view.findViewById<MaterialTextView>(R.id.trial_days_option_)

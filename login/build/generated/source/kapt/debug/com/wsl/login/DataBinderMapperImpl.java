@@ -6,6 +6,7 @@ import android.view.View;
 import androidx.databinding.DataBinderMapper;
 import androidx.databinding.DataBindingComponent;
 import androidx.databinding.ViewDataBinding;
+import com.wsl.login.databinding.ActivityLoginBindingImpl;
 import com.wsl.login.databinding.FragmentRegisterBindingImpl;
 import com.wsl.login.databinding.LoginFragmentBindingImpl;
 import java.lang.IllegalArgumentException;
@@ -21,13 +22,16 @@ import javax.annotation.Generated;
 
 @Generated("Android Data Binding")
 public class DataBinderMapperImpl extends DataBinderMapper {
-  private static final int LAYOUT_FRAGMENTREGISTER = 1;
+  private static final int LAYOUT_ACTIVITYLOGIN = 1;
 
-  private static final int LAYOUT_LOGINFRAGMENT = 2;
+  private static final int LAYOUT_FRAGMENTREGISTER = 2;
 
-  private static final SparseIntArray INTERNAL_LAYOUT_ID_LOOKUP = new SparseIntArray(2);
+  private static final int LAYOUT_LOGINFRAGMENT = 3;
+
+  private static final SparseIntArray INTERNAL_LAYOUT_ID_LOOKUP = new SparseIntArray(3);
 
   static {
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.wsl.login.R.layout.activity_login, LAYOUT_ACTIVITYLOGIN);
     INTERNAL_LAYOUT_ID_LOOKUP.put(com.wsl.login.R.layout.fragment_register, LAYOUT_FRAGMENTREGISTER);
     INTERNAL_LAYOUT_ID_LOOKUP.put(com.wsl.login.R.layout.login_fragment, LAYOUT_LOGINFRAGMENT);
   }
@@ -41,6 +45,12 @@ public class DataBinderMapperImpl extends DataBinderMapper {
         throw new RuntimeException("view must have a tag");
       }
       switch(localizedLayoutId) {
+        case  LAYOUT_ACTIVITYLOGIN: {
+          if ("layout/activity_login_0".equals(tag)) {
+            return new ActivityLoginBindingImpl(component, view);
+          }
+          throw new IllegalArgumentException("The tag for activity_login is invalid. Received: " + tag);
+        }
         case  LAYOUT_FRAGMENTREGISTER: {
           if ("layout/fragment_register_0".equals(tag)) {
             return new FragmentRegisterBindingImpl(component, view);
@@ -108,9 +118,10 @@ public class DataBinderMapperImpl extends DataBinderMapper {
   }
 
   private static class InnerLayoutIdLookup {
-    static final HashMap<String, Integer> sKeys = new HashMap<String, Integer>(2);
+    static final HashMap<String, Integer> sKeys = new HashMap<String, Integer>(3);
 
     static {
+      sKeys.put("layout/activity_login_0", com.wsl.login.R.layout.activity_login);
       sKeys.put("layout/fragment_register_0", com.wsl.login.R.layout.fragment_register);
       sKeys.put("layout/login_fragment_0", com.wsl.login.R.layout.login_fragment);
     }

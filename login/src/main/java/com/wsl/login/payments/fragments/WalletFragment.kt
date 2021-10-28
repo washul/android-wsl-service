@@ -20,10 +20,8 @@ import com.google.android.material.textview.MaterialTextView
 import com.wsl.login.R
 import com.wsl.login.database.entities.ECard
 import com.wsl.login.helpers.*
-import com.wsl.login.payments.openpay.OpenPayAddCardFragment
 import com.wsl.login.payments.viewmodel.WSPaymentViewModel
 import com.wsl.login.payments.Payments
-import kotlinx.android.synthetic.main.cardview_wallet_card.view.*
 
 class WalletFragment : DialogFragment() {
 
@@ -55,7 +53,7 @@ class WalletFragment : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         UI = inflater.inflate(R.layout.fragment_wallet, container, false)
 
-        progressBarCustom = WSProgressBarCustom.build( activity!!, progressBar = UI!!.findViewById(R.id.progress_bar_) )
+        progressBarCustom = WSProgressBarCustom.build( requireActivity(), progressBar = UI!!.findViewById(R.id.progress_bar_) )
         progressBarCustom.show()
 
         BuildData().run()
@@ -64,7 +62,7 @@ class WalletFragment : DialogFragment() {
 
     private fun optionalMessage( title: String, message: String, function: (Boolean) -> Unit ){
 
-        MaterialAlertDialogBuilder(activity!!, R.style.ThemeOverlay_App_MaterialAlertDialog)
+        MaterialAlertDialogBuilder(requireActivity(), R.style.ThemeOverlay_App_MaterialAlertDialog)
             .setTitle( title)
             .setMessage( message )
             .setNeutralButton(getString(R.string.cancel)) { _, _ ->
@@ -84,7 +82,7 @@ class WalletFragment : DialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         if ( viewModel.activityActions.isNotEmpty() && viewModel.activityActions.contains( WSL_PAYMENTS_ACTION_SHOW_WALLET ) ){
-            activity!!.finish()
+            requireActivity().finish()
         }
         super.onDismiss(dialog)
     }
@@ -139,9 +137,9 @@ class WalletFragment : DialogFragment() {
                         return@createOpenPayCustomer
                     }
 
-                    val dialog = OpenPayAddCardFragment()
+//                    val dialog = OpenPayAddCardFragment()
                     val ft = childFragmentManager.beginTransaction()
-                    dialog.show(ft, OpenPayAddCardFragment.TAG)
+//                    dialog.show(ft, OpenPayAddCardFragment.TAG)
 
                 }
 
@@ -163,9 +161,9 @@ class WalletFragment : DialogFragment() {
             /**Add payment method button*/
             addPaymentMethod?.setOnClickListener {
 
-                val dialog = OpenPayAddCardFragment()
+//                val dialog = OpenPayAddCardFragment()
                 val ft = childFragmentManager.beginTransaction()
-                dialog.show(ft, OpenPayAddCardFragment.TAG)
+//                dialog.show(ft, OpenPayAddCardFragment.TAG)
 
             }
 
@@ -340,13 +338,13 @@ class WalletFragment : DialogFragment() {
             if (item.id == ID_CASH_WALLET){
 
                 holder.title.text = item.card_number
-                holder.image.buildResource( R.drawable.money, context )
+//                holder.image.buildResource( R.drawable.money, context )
 
             }
 
             if ( item.brand == "visa" ){
 
-                holder.image.buildResource( R.drawable.visa_logo, context )
+//                holder.image.buildResource( R.drawable.visa_logo, context )
 
             }
 
@@ -374,7 +372,7 @@ class WalletFragment : DialogFragment() {
         inner class ViewHolder( view: View ): RecyclerView.ViewHolder( view ) {
 
             val title = view.findViewById<MaterialTextView>(R.id.number_card)
-            val image = view.image_card!!
+//            val image = view.image_card!!
 
         }
 

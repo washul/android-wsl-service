@@ -4,14 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.wsl.login.helpers.*
 import com.wsl.login.login.WSLoginActivity
 import com.wsl.login.payments.Payments
 import com.wsl.login.profile.ProfileActivity
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setOnClickListeners() {
+        val button_payments = findViewById<Button>(R.id.button_payments)
+        val button_wallet = findViewById<Button>(R.id.button_wallet)
+        val button_profile = findViewById<Button>(R.id.button_profile)
         button_payments.setOnClickListener {
 
             val intent = Intent(this@MainActivity, Payments()::class.java)

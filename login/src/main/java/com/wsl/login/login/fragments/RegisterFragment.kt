@@ -13,7 +13,6 @@ import com.wsl.login.database.entities.EUser
 import com.wsl.login.helpers.getDeviceID
 import com.wsl.login.login.view_model.WSLoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_register.*
 import com.wsl.login.databinding.FragmentRegisterBinding
 import java.util.*
 import javax.inject.Inject
@@ -91,7 +90,7 @@ class RegisterFragment: Fragment() {
 
         binding.registrarse.setOnClickListener { _ ->
 
-            first?.isChecked = true
+            binding.first.isChecked = true
 
             viewModel.onShowProgressDialog()
 
@@ -170,11 +169,11 @@ class RegisterFragment: Fragment() {
 
         when {
             binding.editTextPasswrdod1.text.toString() == "" -> {
-                passwordLayout1?.error = getString(R.string.campo_requerido)
+                binding.passwordLayout1.error = getString(R.string.campo_requerido)
                 return false
             }
             binding.editTextPasswrdod1.text.toString().length < 8 -> {
-                passwordLayout1?.error = getString(R.string.contraseña_8_caracteres)
+                binding.passwordLayout1.error = getString(R.string.contraseña_8_caracteres)
                 return false
             }
             binding.editTextPasswrdod1.text.toString() != binding.editTextPasswrdod2.text.toString() -> {

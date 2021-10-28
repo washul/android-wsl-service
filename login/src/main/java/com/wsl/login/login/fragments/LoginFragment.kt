@@ -32,7 +32,6 @@ import com.wsl.login.login.TAG_LOGIN
 import com.wsl.login.login.WSLoginActivity
 import com.wsl.login.login.view_model.WSLoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
 import javax.inject.Inject
 
@@ -239,17 +238,17 @@ class LoginFragment: Fragment()  {
             viewModel.isTrackingAppOut = true
         }
         LoginManager.getInstance().registerCallback(callbackManager, object: FacebookCallback<LoginResult> {
-            override fun onSuccess(result: LoginResult?) {
-                Log.d(TAG, "Result: $result")
-                result?.let { handleFacebookAccessToken(it.accessToken) }
-            }
-
             override fun onCancel() {
                 Log.d(TAG, "onCancel")
             }
 
-            override fun onError(error: FacebookException?) {
-                Log.d(TAG, "onError ${error?.stackTrace}")
+            override fun onError(error: FacebookException) {
+                Log.d(TAG, "onError ${error.stackTrace}")
+            }
+
+            override fun onSuccess(result: LoginResult) {
+                Log.d(TAG, "Result: $result")
+                result.let { handleFacebookAccessToken(it.accessToken) }
             }
         })
 
