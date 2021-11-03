@@ -1,0 +1,4 @@
+com/wsl/wsl_service/DataBindingTriggerClass.java
+ com.wsl.wsl_service.DataBindingTriggerClass
+com/wsl/wsl_service/BuildConfig.java
+ com.wsl.wsl_service.BuildConfig

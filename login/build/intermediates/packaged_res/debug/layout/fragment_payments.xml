@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWithe"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ProgressBar
+        android:id="@+id/progress_bar_"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:backgroundTint="@color/colorAccent"
+        android:max="100"
+        android:minWidth="200dp"
+        android:minHeight="50dp"
+        android:progress="0"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UnusedAttribute" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id = "@+id/bottomSheet_title"
+        android:layout_width = "0dp"
+        android:layout_height = "60dp"
+        android:layout_marginStart = "16dp"
+        android:layout_marginTop = "8dp"
+        android:layout_marginEnd = "16dp"
+        android:text = "@string/add_card"
+        android:textAlignment = "center"
+        android:textColor = "@color/colorBlack"
+        android:textSize = "25sp"
+        android:textStyle = "normal"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintStart_toStartOf = "parent"
+        app:layout_constraintTop_toTopOf = "parent" />
+
+    <LinearLayout
+        android:layout_width = "0dp"
+        android:layout_height = "2dp"
+        android:layout_marginStart = "16dp"
+        android:layout_marginEnd = "16dp"
+        android:background = "@color/colorGrayShadow"
+        android:orientation = "vertical"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintStart_toStartOf = "parent"
+        app:layout_constraintTop_toBottomOf = "@+id/bottomSheet_title" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/holder_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:hint="@string/holder_name"
+        android:textAlignment="viewStart"
+        android:textColorHint="@color/colorBlack"
+        android:textSize="20sp"
+        android:textStyle="normal"
+
+        app:helperText="@string/requerido"
+        app:hintTextColor="@color/colorBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottomSheet_title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/holder_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete"
+            android:textColor="@color/colorBlack" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="fonts/Roboto-Regular"
+        android:hint="@string/email"
+        android:textAlignment="viewStart"
+        android:textColorHint="@color/colorBlack"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        app:helperText="@string/requerido"
+        app:hintTextColor="@color/colorBlack"
+        app:layout_constraintEnd_toEndOf="@+id/holder_name"
+        app:layout_constraintStart_toStartOf="@+id/holder_name"
+        app:layout_constraintTop_toBottomOf="@+id/holder_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="fonts/Roboto-Regular"
+        android:hint="@string/card_number"
+        android:textAlignment="viewStart"
+        android:textColorHint="@color/colorBlack"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        app:counterEnabled="true"
+        app:helperText="@string/requerido"
+        app:hintTextColor="@color/colorBlack"
+        app:layout_constraintEnd_toEndOf="@+id/holder_name"
+        app:layout_constraintStart_toStartOf="@+id/holder_name"
+        app:layout_constraintTop_toBottomOf="@+id/emailLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/extiTextCardNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:maxLength="16"
+            android:textColor="@color/colorBlack" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id = "@+id/year_spinner"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:fontFamily="fonts/Roboto-Regular"
+        android:entries = "@array/year_array"
+        android:background="@color/colorGrayShadow"
+        android:padding = "6dp"
+        android:paddingStart = "40dp"
+        android:paddingEnd = "40dp"
+        app:layout_constraintBottom_toBottomOf = "@+id/month_spinner"
+        app:layout_constraintStart_toEndOf = "@+id/month_spinner"
+        app:layout_constraintTop_toTopOf = "@+id/month_spinner" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/month_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorGrayShadow"
+        android:entries="@array/month_array"
+        android:fontFamily="fonts/Roboto-Regular"
+        android:padding="6dp"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        app:layout_constraintEnd_toStartOf="@+id/year_spinner"
+        app:layout_constraintStart_toStartOf="@+id/passwordLayout"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLayout" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id = "@+id/cvv2"
+        style = "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        app:boxStrokeColor="@color/colorAccent"
+        android:layout_width = "150dp"
+        android:layout_height = "50dp"
+        android:hint = "@string/cvv"
+        app:hintTextColor="@color/colorBlack"
+        android:textColorHint="@color/colorBlack"
+        android:fontFamily="fonts/Roboto-Regular"
+        app:counterEnabled = "true"
+        app:counterMaxLength = "4"
+        app:helperText="@string/requerido"
+        app:layout_constraintBottom_toBottomOf = "@+id/year_spinner"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintStart_toEndOf = "@+id/year_spinner"
+        app:layout_constraintTop_toTopOf = "@+id/year_spinner"
+        app:passwordToggleEnabled = "true" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id = "@+id/editTextcvv2"
+            android:layout_width = "match_parent"
+            android:layout_height = "match_parent"
+            android:textColor="@color/colorBlack"
+            android:inputType = "numberPassword"
+            android:maxLength = "4"
+            android:textSize = "12sp" />
+
+    </com.google.android.material.textfield.TextInputLayout >
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGuardar"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:drawableStart="@drawable/ic_add"
+        android:text="@string/agregar"
+        android:textColor="@color/colorWhite"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout >

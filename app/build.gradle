@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "29.0.3"
+    //buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.wsl.wsl_service"
@@ -26,9 +26,6 @@ android {
     }
     buildFeatures {
         dataBinding = true
-    }
-    dataBinding {
-        enabled = true
     }
 }
 

@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.wsl.login.helpers.*
 import com.wsl.login.login.WSLoginActivity
@@ -13,13 +15,22 @@ import com.wsl.login.profile.ProfileActivity
 
 class MainActivity : AppCompatActivity() {
 
-
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val loginIntent = Intent(this@MainActivity, WSLoginActivity()::class.java)
-        loginIntent.putExtra( WSL_ACTION_PARAM_NAME, WSL_LOGIN_ACTION_AUTO_SIGN_IN )
-        startActivityForResult( loginIntent, WSL_LOGIN_VIEW_REQUEST_CODE )
+
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // There are no request codes
+                val data: Intent? = result.data
+                onActivityResultCustom(data)
+            }
+        }
+
+        val intent = Intent(this, WSLoginActivity::class.java)
+        intent.putExtra( WSL_ACTION_PARAM_NAME, WSL_LOGIN_ACTION_AUTO_SIGN_IN )
+        resultLauncher.launch(intent)
     }
 
     private fun loadUI() {
@@ -34,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         button_payments.setOnClickListener {
 
             val intent = Intent(this@MainActivity, Payments()::class.java)
-            startActivityForResult( intent, WSL_PAYMENTS_VIEW_REQUEST_CODE )
+            resultLauncher.launch( intent )
         }
 
         button_wallet.setOnClickListener {
@@ -44,25 +55,18 @@ class MainActivity : AppCompatActivity() {
 
             val intent = Intent(this@MainActivity, Payments()::class.java)
             intent.putExtra( WSL_ACTION_PARAM_NAME, arrayList )
-
-            startActivityForResult( intent, WSL_PAYMENTS_VIEW_REQUEST_CODE )
+            resultLauncher.launch(intent)
         }
 
         button_profile.setOnClickListener {
-            startActivityForResult( Intent(this@MainActivity, ProfileActivity()::class.java), WSL_PROFILE_VIEW_REQUEST_CODE )
-
+            val intent = Intent(this@MainActivity, ProfileActivity()::class.java)
+            resultLauncher.launch(intent)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if ( resultCode != Activity.RESULT_OK ){
-            return
-        }
-
+    private fun onActivityResultCustom(data: Intent?) {
         val flag = data?.extras?.getInt(WSL_FLAG_NAME)
-
-        when ( requestCode ){
+        when (data?.extras?.getInt(WSL_ACTION_PARAM_NAME)){
 
             /**Login Answers*/
             WSL_LOGIN_VIEW_REQUEST_CODE -> {

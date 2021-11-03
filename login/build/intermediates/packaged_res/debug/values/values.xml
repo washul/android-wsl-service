@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <string-array name="month_array">
+        <item>Mes</item>
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string-array name="year_array">
+        <item>Año</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+    </string-array>
+    <color name="colorAccent">#FF7800</color>
+    <color name="colorBlack">#0C0C0C</color>
+    <color name="colorBlue">#0091EA</color>
+    <color name="colorGray">#636363</color>
+    <color name="colorGrayShadow">#83C2C2C2</color>
+    <color name="colorGreenPremium">#00C853</color>
+    <color name="colorPrimary">#5F5F5F</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorRed">#FF0101</color>
+    <color name="colorSecondary">#FF3D00</color>
+    <color name="colorSecondaryTrans">#56FF3D00</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorWithe">#FFFFFF</color>
+    <color name="colorWitheShadow">#C3FFFFFF</color>
+    <color name="ic_logo_background">#FFFFFF</color>
+    <color name="mtrl_textinput_default_box_stroke_color" ns1:override="true">#fff</color>
+    <string name="_0_00">0:00</string>
+    <string name="_1234">••••1234</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="acerca_de">Acerca de</string>
+    <string name="actions">Acciones</string>
+    <string name="add_card">Guardar tarjeta</string>
+    <string name="address">Direccion</string>
+    <string name="agregar">Agregar</string>
+    <string name="agregar_metodo_de_pago">Agregar tarjeta</string>
+    <string name="agregar_tarjeta">Agregar tarjeta</string>
+    <string name="already_exists">La tarjeta ya se encuentra registrada</string>
+    <string name="alumno">Alumno</string>
+    <string name="amount">amount</string>
+    <string name="app_name">wsl-services</string>
+    <string name="bailarin_a">Bailarin(a)</string>
+    <string name="bailarina_solista">Bailarina solista</string>
+    <string name="button_save">Guardar</string>
+    <string name="campo_requerido">Campo requerido</string>
+    <string name="cancel">cancelar</string>
+    <string name="cancel_subscription">Cancelar subscripscion</string>
+    <string name="card">Tarjeta</string>
+    <string name="card_added">Tarjeta registrada</string>
+    <string name="card_created">Tarjeta registrada correctamente</string>
+    <string name="card_number">Número de tarjeta</string>
+    <string name="card_remove_succesfully">Tarjeta removida con exito!</string>
+    <string name="cartera">Cartera</string>
+    <string name="checkout">Generar</string>
+    <string name="ciudad">Ciudad</string>
+    <string name="communication_error">No se puede establecer comunicacion con el servidor</string>
+    <string name="continuar_con_google">Continuar con Google</string>
+    <string name="contraseña_8_caracteres">El password debe tener al menos 8 caracteres</string>
+    <string name="correo_electronico">Correo electronico</string>
+    <string name="correo_no_valido">Correo no valido</string>
+    <string name="crear_cuenta">Crear Cuenta</string>
+    <string name="cvv">CVV2</string>
+    <string name="decline">Decline</string>
+    <string name="declined">La tarjeta fue rechazada</string>
+    <string name="default_web_client_id" translatable="false">145424954131-edanhsdnmlr2o7ksl79n3duf046nukmh.apps.googleusercontent.com</string>
+    <string name="desea_crear_cuenta">¿Decea crear una cuenta?</string>
+    <string name="direccion_necesaria">Es necesario capturar la direccion de entrega!</string>
+    <string name="director_de_escuela_de_baile">Director de escuela de baile</string>
+    <string name="drum_leader">Drum leader</string>
+    <string name="edad">Edad:</string>
+    <string name="efectivo">Efectivo</string>
+    <string name="email">Email</string>
+    <string name="email_not_verified">Email no verificado por el proveedor</string>
+    <string name="email_ya_registrado">Este email ya fue registrado</string>
+    <string name="entrar">Entrar</string>
+    <string name="error">Error</string>
+    <string name="error_creating_card">Ocurrio un error al regitrar la tarjeta</string>
+    <string name="estado">Estado</string>
+    <string name="expired">La tarjeta ha expirado</string>
+    <string name="facebook_app_id">261278315787402</string>
+    <string name="fb_login_protocol_scheme">fb261278315787402</string>
+    <string name="felicidades">Felicidades</string>
+    <string name="firebase_database_url" translatable="false">https://wsl-services-288518.firebaseio.com</string>
+    <string name="free_version">Free version</string>
+    <string name="gcm_defaultSenderId" translatable="false">145424954131</string>
+    <string name="general">General</string>
+    <string name="getSessionId">Generar device session id</string>
+    <string name="google_api_key" translatable="false">AIzaSyDkRzAqW-Ye0_zoR-Ol1RonrYh2DvGGyjo</string>
+    <string name="google_app_id" translatable="false">1:145424954131:android:5c8c3a941b8342665ba0e6</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDkRzAqW-Ye0_zoR-Ol1RonrYh2DvGGyjo</string>
+    <string name="google_storage_bucket" translatable="false">wsl-services-288518.appspot.com</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_searchview_eventlist">Evento, Ciudad, Estado</string>
+    <string name="holder_name">Nombre completo</string>
+    <string name="hombre">Hombre</string>
+    <string name="home">Inicio</string>
+    <string name="info">Información</string>
+    <string name="iniciar_sesi_n">Iniciar Sesión</string>
+    <string name="iniciar_sesion">Iniciar Sesion</string>
+    <string name="insufficient_funds">La tarjeta no tiene fondos suficientes</string>
+    <string name="intentelo_mas_tarde">Algo sucedio durante la peticion, intentelo mas tarde</string>
+    <string name="invalid_card_number">Número inválido</string>
+    <string name="invalid_cvv">Código de seguridad inválido</string>
+    <string name="invalid_expire_date">Fecha de expiracion inválida</string>
+    <string name="invalid_holder_name">Titular es requerido</string>
+    <string name="last_name">Apellidos</string>
+    <string name="loading">Cargando</string>
+    <string name="log_out">Log out</string>
+    <string name="maestra_de_baile">Maestra de baile</string>
+    <string name="message_no_openpay_account_massage">Hemos visto que tu no has creado tarjetas, ¿deseas crear una cuenta con openPay de BBVA para manejar tus tajetas?</string>
+    <string name="message_to_plan_pay">El plan se renovara cada</string>
+    <string name="metodos_de_pago">Metodos de pago</string>
+    <string name="mis_boletos">Mis Boletos</string>
+    <string name="month">mes</string>
+    <string name="mujer">Mujer</string>
+    <string name="musico">Musico(a)</string>
+    <string name="nivel">Nivel</string>
+    <string name="no_existe_cuenta_con_este_correo">No existe una cuenta asociada con este correo</string>
+    <string name="no_hay_eventos">No hay eventos.</string>
+    <string name="no_hay_ordenes_pendientes">No hay ordenes pendientes...</string>
+    <string name="no_pay_message">No pudimos generar el pago, descuide no se a realizado ningun cobro a su cuenta.</string>
+    <string name="no_response_from_server_try_again">No se obtuvo respuesta del servidor, vuelva a intentarlo mas tarde</string>
+    <string name="no_tienes_una_cuenta">¿No tienes una cuenta?</string>
+    <string name="no_title">Sin titulo</string>
+    <string name="nombre">Nombre</string>
+    <string name="nombre_usuario">Nombre Usuario</string>
+    <string name="or">OR</string>
+    <string name="pais">Pais</string>
+    <string name="password">Password</string>
+    <string name="password_debe_ser_similar">El password debe ser similar</string>
+    <string name="perfil">Perfil</string>
+    <string name="phone">Telefono</string>
+    <string name="placehlder">Placehlder</string>
+    <string name="policy_privacy">Politica de privacidad</string>
+    <string name="postal_code">Codigo Postal</string>
+    <string name="premium">Premium</string>
+    <string name="progress_message">Procesando...</string>
+    <string name="project_id" translatable="false">wsl-services-288518</string>
+    <string name="province">Provincia</string>
+    <string name="registarme">Registrarme</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="repeat_every">repeat_every</string>
+    <string name="repita_su_password">Repita su password</string>
+    <string name="requerido">*Requerido</string>
+    <string name="save">Guardar</string>
+    <string name="sessionId">Device session id:</string>
+    <string name="sexo">Sexo:</string>
+    <string name="stolen_card">La tarjeta ha sido identificada como una tarjeta robada</string>
+    <string name="subtitle">subtitle</string>
+    <string name="subtitulo">Subtitulo</string>
+    <string name="suspected_fraud">La tarjeta ha sido identificada como una tarjeta fraudulenta.</string>
+    <string name="talla">Talla</string>
+    <string name="telefono">Telefono</string>
+    <string name="telefono_no_valido">Telefono no valido</string>
+    <string name="terminos_y_condiciones">Terminos y Condiciones</string>
+    <string name="title">Title</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_no_openpay_account_message">Wallet Account</string>
+    <string name="todaa_las_fechas">Todaa las fechas</string>
+    <string name="todas_las_fechas">Todas las fechas</string>
+    <string name="token">Token</string>
+    <string name="trial_days">trial days</string>
+    <string name="usar_email">Usar Email</string>
+    <string name="vdnder">Vender</string>
+    <string name="wallet">Wallet</string>
+    <string name="week">semana</string>
+    <string name="year">año</string>
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textColor">@color/colorWithe</item>
+
+    </style>
+    <style name="FullScreenDialogStyle" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+
+        <!-- Set this to true if you want Full Screen without status bar -->
+        <item name="android:windowFullscreen">false</item>
+
+        <item name="android:windowIsFloating">false</item>
+
+        <!-- This is important! Don't forget to set window background -->
+        <item name="android:windowBackground">@color/colorPrimary</item>
+
+        <!-- Additionally if you want animations when dialog opening -->
+        <item name="android:windowEnterAnimation">@anim/fadein</item>
+        <item name="android:windowExitAnimation">@anim/fadeout</item>
+
+    </style>
+    <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">#fff</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="hintTextColor">@color/colorWithe</item>
+    </style>
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+    </style>
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+    <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+<!--        <item name="colorPrimary">@color/shrine_pink_100</item>-->
+<!--        <item name="colorSecondary">@color/shrine_pink_100</item>-->
+<!--        <item name="colorSurface">@color/shrine_pink_light</item>-->
+<!--        <item name="colorOnSurface">@color/shrine_pink_900</item>-->
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+<!--        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text</item>-->
+<!--        <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button</item>-->
+<!--        <item name="buttonBarNeutralButtonStyle">@style/Widget.App.Button</item>-->
+    </style>
+</resources>
