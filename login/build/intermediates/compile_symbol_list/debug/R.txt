@@ -260,6 +260,8 @@ int attr com_facebook_confirm_logout 0x0
 int attr com_facebook_foreground_color 0x0
 int attr com_facebook_horizontal_alignment 0x0
 int attr com_facebook_is_cropped 0x0
+int attr com_facebook_login_button_radius 0x0
+int attr com_facebook_login_button_transparency 0x0
 int attr com_facebook_login_text 0x0
 int attr com_facebook_logout_text 0x0
 int attr com_facebook_object_id 0x0
@@ -4438,11 +4440,13 @@ int styleable com_facebook_like_view_com_facebook_horizontal_alignment 2
 int styleable com_facebook_like_view_com_facebook_object_id 3
 int styleable com_facebook_like_view_com_facebook_object_type 4
 int styleable com_facebook_like_view_com_facebook_style 5
-int[] styleable com_facebook_login_view { 0x0, 0x0, 0x0, 0x0 }
+int[] styleable com_facebook_login_view { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
 int styleable com_facebook_login_view_com_facebook_confirm_logout 0
-int styleable com_facebook_login_view_com_facebook_login_text 1
-int styleable com_facebook_login_view_com_facebook_logout_text 2
-int styleable com_facebook_login_view_com_facebook_tooltip_mode 3
+int styleable com_facebook_login_view_com_facebook_login_button_radius 1
+int styleable com_facebook_login_view_com_facebook_login_button_transparency 2
+int styleable com_facebook_login_view_com_facebook_login_text 3
+int styleable com_facebook_login_view_com_facebook_logout_text 4
+int styleable com_facebook_login_view_com_facebook_tooltip_mode 5
 int[] styleable com_facebook_profile_picture_view { 0x0, 0x0 }
 int styleable com_facebook_profile_picture_view_com_facebook_is_cropped 0
 int styleable com_facebook_profile_picture_view_com_facebook_preset_size 1

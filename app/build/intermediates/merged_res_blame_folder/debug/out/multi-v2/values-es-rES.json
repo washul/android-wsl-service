@@ -1,16 +1,16 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/Android Projects/android-wsl-service/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-es-rES/values-es-rES.xml",
+            "outputFile": "/Users/edgaralejandrocarrillomontano/StudioProjects/android-wsl-service/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-es-rES/values-es-rES.xml",
             "map": [
                 {
-                    "source": "/Users/desarrollo/.gradle/caches/transforms-3/1b940405a22a756bdfc5d198cd7d9e1d/transformed/jetified-facebook-login-12.0.1/res/values-es-rES/values-es-rES.xml",
+                    "source": "/Users/edgaralejandrocarrillomontano/.gradle/caches/transforms-3/ce4c06fb77f0881f6a16d6a15c975bfa/transformed/jetified-facebook-login-12.1.0/res/values-es-rES/values-es-rES.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,203,356,471,556,645,721,812,901,1015,1129,1218,1307,1415,1541,1623,1709,1905,1998,2101,2216,2332",
-                        "endColumns": "147,152,114,84,88,75,90,88,113,113,88,88,107,125,81,85,195,92,102,114,115,140",
-                        "endOffsets": "198,351,466,551,640,716,807,896,1010,1124,1213,1302,1410,1536,1618,1704,1900,1993,2096,2211,2327,2468"
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,224,372,525,640,725,814,890,981,1070,1184,1298,1387,1476,1584,1710,1792,1878,2074,2167,2270,2385,2501",
+                        "endColumns": "168,147,152,114,84,88,75,90,88,113,113,88,88,107,125,81,85,195,92,102,114,115,140",
+                        "endOffsets": "219,367,520,635,720,809,885,976,1065,1179,1293,1382,1471,1579,1705,1787,1873,2069,2162,2265,2380,2496,2637"
                     }
                 }
             ]

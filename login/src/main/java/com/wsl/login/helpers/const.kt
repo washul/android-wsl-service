@@ -18,7 +18,6 @@ const val WSL_LOGIN_ANSWER_NO_SIGN_IN = 12222
 const val WSL_LOGIN_ANSWER_SIGN_IN = 13333
 
 //Actions
-const val WSL_LOGIN_ACTION_AUTO_SIGN_IN = 14444
 const val WSL_LOGIN_ACTION_AUTO_LOG_OUT = 15555
 
 /**Profile Const*/

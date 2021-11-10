@@ -59,16 +59,12 @@ class WSLoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        if ( !viewModel.isNetworkAvailable() && viewModel.activityAction != WSL_LOGIN_ACTION_AUTO_SIGN_IN ){
+        if ( !viewModel.isNetworkAvailable() ){
             localSignIn()
             return
         }
 
         when( viewModel.activityAction ){
-            WSL_LOGIN_ACTION_AUTO_SIGN_IN -> {
-                if (!viewModel.isTrackingAppOut)
-                    autoSignIn()
-            }
             WSL_LOGIN_ACTION_AUTO_LOG_OUT -> {
                 viewModel.getLogOut {
                     intent.putExtra( WSL_FLAG_NAME, WSL_PROFILE_ANSWER_LOG_OUT)

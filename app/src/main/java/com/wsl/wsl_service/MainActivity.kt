@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ import com.wsl.login.profile.ProfileActivity
 class MainActivity : AppCompatActivity() {
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var wsPreferences: WSPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,13 +30,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val intent = Intent(this, WSLoginActivity::class.java)
-        intent.putExtra( WSL_ACTION_PARAM_NAME, WSL_LOGIN_ACTION_AUTO_SIGN_IN )
-        resultLauncher.launch(intent)
+        wsPreferences = WSPreferences(this)
+        if (wsPreferences.tokenUser == "") {
+            val intent = Intent(this, WSLoginActivity::class.java)
+            resultLauncher.launch(intent)
+        }
+
+        loadUI()
     }
 
     private fun loadUI() {
         setContentView(R.layout.activity_main)
+        findViewById<TextView>(R.id.name).text = "this is the name"
         setOnClickListeners()
     }
 
