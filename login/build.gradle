@@ -4,7 +4,6 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
     id 'androidx.navigation.safeargs.kotlin'
-    //id 'com.github.dcendents.android-maven'
     id 'kotlin-kapt'
 }
 group='com.github.washul'
