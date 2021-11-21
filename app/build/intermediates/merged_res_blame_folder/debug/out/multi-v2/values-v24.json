@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/edgaralejandrocarrillomontano/StudioProjects/android-wsl-service/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
+            "outputFile": "/Users/Android Projects/android-wsl-service/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "/Users/edgaralejandrocarrillomontano/.gradle/caches/transforms-3/63750b4171b6fe9830dd4a6125f8d2ec/transformed/media-1.0.0/res/values-v24/values-v24.xml",
+                    "source": "/Users/desarrollo/.gradle/caches/transforms-3/079394a53aff3af54fbec5d4d91797b1/transformed/media-1.0.0/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/edgaralejandrocarrillomontano/.gradle/caches/transforms-3/5c05e35405ba913d29db83205a396abd/transformed/appcompat-1.1.0/res/values-v24/values-v24.xml",
+                    "source": "/Users/desarrollo/.gradle/caches/transforms-3/e8a7e810d1c048a0194cfcd1e5234237/transformed/appcompat-1.1.0/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

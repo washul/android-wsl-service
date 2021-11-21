@@ -1,11 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.facebook.android:facebook-android-sdk:12.1.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/f48003bbf0f640d0ba3c5bae7b1bc6b0/transformed/jetified-facebook-android-sdk-12.1.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/fb3ba77471a314b61a86320c66a0d7c6/transformed/jetified-facebook-android-sdk-12.1.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/4f3b9e6b3d7063c004ca26c782e0204f/transformed/jetified-facebook-android-sdk-12.1.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4f3b9e6b3d7063c004ca26c782e0204f/transformed/jetified-facebook-android-sdk-12.1.0/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4f3b9e6b3d7063c004ca26c782e0204f/transformed/jetified-facebook-android-sdk-12.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/d4c76fea0e9168817b10a4d4c77e4e13/transformed/jetified-facebook-android-sdk-12.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/ba04031096855468708855634ad4c6d2/transformed/jetified-facebook-android-sdk-12.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/7a381fdf962d010f83cfd26bf645e80f/transformed/jetified-facebook-android-sdk-12.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/ebde5ce92cd19f58bcec592131b5b3d6/transformed/jetified-facebook-android-sdk-12.1.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/ebde5ce92cd19f58bcec592131b5b3d6/transformed/jetified-facebook-android-sdk-12.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/ebde5ce92cd19f58bcec592131b5b3d6/transformed/jetified-facebook-android-sdk-12.1.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.android/facebook-android-sdk/12.1.0/b05dc36ab7c38729e48351e77cf7ccbd51703d47/facebook-android-sdk-12.1.0-javadoc.jar!/" />

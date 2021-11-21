@@ -43,12 +43,14 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/background_image_circular"
-            android:tag="binding_1"      
+
             app:layout_constraintBottom_toTopOf="@+id/holder_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
+        <!--            loadImage="@{vm.projectIcon}"
+        [databinding] {"msg":"Cannot find a setter for \u003candroid.widget.ImageView loadImage\u003e that accepts parameter type \u0027androidx.lifecycle.LiveData\u003cjava.lang.String\u003e\u0027\n\nIf a binding adapter provides the setter, check that the adapter is annotated correctly and that the parameter type matches.","file":"login/src/main/res/layout/fragment_register.xml","pos":[{"line0":45,"col0":25,"line1":45,"col1":38}]}-->
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -73,7 +75,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/holder_name_text"
-                android:tag="binding_2"    
+                android:tag="binding_1"    
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
@@ -105,7 +107,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/last_name_text"
-                android:tag="binding_3"         
+                android:tag="binding_2"         
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
@@ -137,7 +139,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextEmail"
-                android:tag="binding_4"     
+                android:tag="binding_3"     
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
@@ -284,7 +286,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/country_text"
-                android:tag="binding_5"       
+                android:tag="binding_4"       
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
@@ -313,7 +315,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/state_text"
-                android:tag="binding_6"     
+                android:tag="binding_5"     
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
@@ -342,7 +344,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/city_text"
-                android:tag="binding_7"    
+                android:tag="binding_6"    
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
@@ -373,7 +375,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/address_text"
-                android:tag="binding_8"       
+                android:tag="binding_7"       
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorWithe"
@@ -404,7 +406,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/phone_text"
-                android:tag="binding_9"     
+                android:tag="binding_8"     
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"

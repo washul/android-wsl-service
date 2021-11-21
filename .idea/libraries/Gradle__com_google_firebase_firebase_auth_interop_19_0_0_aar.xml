@@ -1,11 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.firebase:firebase-auth-interop:19.0.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/05f4d38457abac4b0e794960d9b28f4e/transformed/jetified-firebase-auth-interop-19.0.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/278835625da762c88922cab5aa7e9a16/transformed/jetified-firebase-auth-interop-19.0.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/38e10024ca2db16c36459713b4213efe/transformed/jetified-firebase-auth-interop-19.0.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/38e10024ca2db16c36459713b4213efe/transformed/jetified-firebase-auth-interop-19.0.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/38e10024ca2db16c36459713b4213efe/transformed/jetified-firebase-auth-interop-19.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/df264386d5c526ac407d2fe6ea8f1062/transformed/jetified-firebase-auth-interop-19.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/ab5a55274cb7c933b2acd9b36dddbe4d/transformed/jetified-firebase-auth-interop-19.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/553e0893b3d12bedef427f31b048e353/transformed/jetified-firebase-auth-interop-19.0.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/ab1071bb4f7f705bd544161bab456627/transformed/jetified-firebase-auth-interop-19.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/ab1071bb4f7f705bd544161bab456627/transformed/jetified-firebase-auth-interop-19.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/ab1071bb4f7f705bd544161bab456627/transformed/jetified-firebase-auth-interop-19.0.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-auth-interop/19.0.0/62360008013e207bf91d5b96c09eb0b9a3067393/firebase-auth-interop-19.0.0-javadoc.jar!/" />

@@ -1,11 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.dagger:hilt-android:2.28-alpha@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/368e919f0ade4b79e511b5a2fdeb77e0/transformed/jetified-hilt-android-2.28-alpha/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/114174b658fefb09f56f9b32d4f3f998/transformed/jetified-hilt-android-2.28-alpha/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/a6fdcaf74a59bf89b1368656027b5af1/transformed/jetified-hilt-android-2.28-alpha/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a6fdcaf74a59bf89b1368656027b5af1/transformed/jetified-hilt-android-2.28-alpha/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a6fdcaf74a59bf89b1368656027b5af1/transformed/jetified-hilt-android-2.28-alpha/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/47dcecba299024cc7bdfbed72ea89ad1/transformed/jetified-hilt-android-2.28-alpha/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/bd9c9dd80f4f30739e3723080d46bb38/transformed/jetified-hilt-android-2.28-alpha/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/9a4fb17c25d8f5f65f99da25bcc33676/transformed/jetified-hilt-android-2.28-alpha/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/6c9b1b7a0bdf4ed9a914085c4a2ae41f/transformed/jetified-hilt-android-2.28-alpha/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/6c9b1b7a0bdf4ed9a914085c4a2ae41f/transformed/jetified-hilt-android-2.28-alpha/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/6c9b1b7a0bdf4ed9a914085c4a2ae41f/transformed/jetified-hilt-android-2.28-alpha/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.dagger/hilt-android/2.28-alpha/ff3f5f3cdaf69f15eb6261981ee732351eaca008/hilt-android-2.28-alpha-javadoc.jar!/" />

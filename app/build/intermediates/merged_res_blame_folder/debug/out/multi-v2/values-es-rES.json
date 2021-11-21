@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/edgaralejandrocarrillomontano/StudioProjects/android-wsl-service/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-es-rES/values-es-rES.xml",
+            "outputFile": "/Users/Android Projects/android-wsl-service/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-es-rES/values-es-rES.xml",
             "map": [
                 {
-                    "source": "/Users/edgaralejandrocarrillomontano/.gradle/caches/transforms-3/a720cf9bf75f69e1f8dcebd33e2877e6/transformed/jetified-facebook-login-12.1.0/res/values-es-rES/values-es-rES.xml",
+                    "source": "/Users/desarrollo/.gradle/caches/transforms-3/42f0b8b8530d380286dba5037bb938d6/transformed/jetified-facebook-login-12.1.0/res/values-es-rES/values-es-rES.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

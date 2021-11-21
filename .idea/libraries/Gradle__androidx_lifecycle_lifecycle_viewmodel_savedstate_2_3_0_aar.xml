@@ -1,11 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/f3c07873bcc4cafd3be2203ab18f7ff4/transformed/jetified-lifecycle-viewmodel-savedstate-2.3.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4b7e02236d1edae981c66da55d0de8c7/transformed/jetified-lifecycle-viewmodel-savedstate-2.3.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/dcd67d5e377caae14e3a076944b9e7af/transformed/jetified-lifecycle-viewmodel-savedstate-2.3.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/dcd67d5e377caae14e3a076944b9e7af/transformed/jetified-lifecycle-viewmodel-savedstate-2.3.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/dcd67d5e377caae14e3a076944b9e7af/transformed/jetified-lifecycle-viewmodel-savedstate-2.3.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/f8d7dcdcab79842521b81735549b0ba3/transformed/jetified-lifecycle-viewmodel-savedstate-2.3.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/fff036fd1c296955ff1cb51ecb8ba74f/transformed/jetified-lifecycle-viewmodel-savedstate-2.3.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/7e78aded59f394fa6650ec10e88f25a0/transformed/jetified-lifecycle-viewmodel-savedstate-2.3.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/7691c96fc79ba21c08cfcc4942b5c763/transformed/jetified-lifecycle-viewmodel-savedstate-2.3.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/7691c96fc79ba21c08cfcc4942b5c763/transformed/jetified-lifecycle-viewmodel-savedstate-2.3.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/7691c96fc79ba21c08cfcc4942b5c763/transformed/jetified-lifecycle-viewmodel-savedstate-2.3.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

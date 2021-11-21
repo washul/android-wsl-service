@@ -1,11 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.facebook.android:facebook-gamingservices:12.1.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/8d0f837d10f4fe3e39056098959c461c/transformed/jetified-facebook-gamingservices-12.1.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b11d00896851496403bc01325b484b9c/transformed/jetified-facebook-gamingservices-12.1.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/ee13a66e6260b11512c3169ff51a2861/transformed/jetified-facebook-gamingservices-12.1.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/ee13a66e6260b11512c3169ff51a2861/transformed/jetified-facebook-gamingservices-12.1.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/ee13a66e6260b11512c3169ff51a2861/transformed/jetified-facebook-gamingservices-12.1.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4e47ad3fe219887a9c798b87e451093b/transformed/jetified-facebook-gamingservices-12.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/bb7083f4f3bd8de224488f12f59210c0/transformed/jetified-facebook-gamingservices-12.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/dd9f7cbde23283782c46da9cc2aafd96/transformed/jetified-facebook-gamingservices-12.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/69490f8f12cf79e90b93c948882f26e8/transformed/jetified-facebook-gamingservices-12.1.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/69490f8f12cf79e90b93c948882f26e8/transformed/jetified-facebook-gamingservices-12.1.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/69490f8f12cf79e90b93c948882f26e8/transformed/jetified-facebook-gamingservices-12.1.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.android/facebook-gamingservices/12.1.0/884247759b86b8316a08edece72fad1f5292ddf9/facebook-gamingservices-12.1.0-javadoc.jar!/" />

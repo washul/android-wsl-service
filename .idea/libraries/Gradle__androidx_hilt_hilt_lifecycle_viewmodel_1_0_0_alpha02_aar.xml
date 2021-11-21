@@ -1,11 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/f399504bca6290578fd98ecae3fd2e49/transformed/jetified-hilt-lifecycle-viewmodel-1.0.0-alpha02/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/604dfb70f2944689858b532471177af0/transformed/jetified-hilt-lifecycle-viewmodel-1.0.0-alpha02/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/885530bff1f1409e689cb8e9fc63bfa6/transformed/jetified-hilt-lifecycle-viewmodel-1.0.0-alpha02/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/885530bff1f1409e689cb8e9fc63bfa6/transformed/jetified-hilt-lifecycle-viewmodel-1.0.0-alpha02/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/885530bff1f1409e689cb8e9fc63bfa6/transformed/jetified-hilt-lifecycle-viewmodel-1.0.0-alpha02/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4dd5b175f59f59501aede9565b9c26af/transformed/jetified-hilt-lifecycle-viewmodel-1.0.0-alpha02/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/f9cdd30e95ba899ea2cf59469f8915f0/transformed/jetified-hilt-lifecycle-viewmodel-1.0.0-alpha02/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/ab56921f9757366e2654d444a8524fad/transformed/jetified-hilt-lifecycle-viewmodel-1.0.0-alpha02/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/515572d0b65a7a7fb95234abe0183b82/transformed/jetified-hilt-lifecycle-viewmodel-1.0.0-alpha02/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/515572d0b65a7a7fb95234abe0183b82/transformed/jetified-hilt-lifecycle-viewmodel-1.0.0-alpha02/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/515572d0b65a7a7fb95234abe0183b82/transformed/jetified-hilt-lifecycle-viewmodel-1.0.0-alpha02/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

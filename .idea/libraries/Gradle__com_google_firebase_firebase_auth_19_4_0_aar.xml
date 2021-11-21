@@ -1,11 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.firebase:firebase-auth:19.4.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/2367c25168b71920290a848c01f20860/transformed/jetified-firebase-auth-19.4.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/548c72ae5d238a29c13f37a521f57519/transformed/jetified-firebase-auth-19.4.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/eb6355ed1eedab60f32e95db54e5da94/transformed/jetified-firebase-auth-19.4.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/eb6355ed1eedab60f32e95db54e5da94/transformed/jetified-firebase-auth-19.4.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/eb6355ed1eedab60f32e95db54e5da94/transformed/jetified-firebase-auth-19.4.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/cda77bf0708d80aa472e1b3621657114/transformed/jetified-firebase-auth-19.4.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/af5e289e147bb8c2cffbc2f6bba35a11/transformed/jetified-firebase-auth-19.4.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/57023d91f2f86b50703285731ee3192e/transformed/jetified-firebase-auth-19.4.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e443a9a1001c97bd6797b6ad95f3a914/transformed/jetified-firebase-auth-19.4.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e443a9a1001c97bd6797b6ad95f3a914/transformed/jetified-firebase-auth-19.4.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/e443a9a1001c97bd6797b6ad95f3a914/transformed/jetified-firebase-auth-19.4.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-auth/19.4.0/ed1a1d774472db1eeb19ba1379e823356696db23/firebase-auth-19.4.0-javadoc.jar!/" />
