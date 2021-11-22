@@ -110,6 +110,12 @@
             </intent-filter>
         </receiver>
 
+        <provider
+            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+            android:authorities="com.wsl.wsl_service.lifecycle-process"
+            android:exported="false"
+            android:multiprocess="true" />
+
         <activity
             android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
             android:excludeFromRecents="true"
@@ -156,12 +162,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
-        <provider
-            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
-            android:authorities="com.wsl.wsl_service.lifecycle-process"
-            android:exported="false"
-            android:multiprocess="true" />
 
         <service
             android:name="androidx.room.MultiInstanceInvalidationService"
