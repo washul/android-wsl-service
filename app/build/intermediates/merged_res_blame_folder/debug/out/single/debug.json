@@ -1,66 +1,66 @@
 [
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher_round.png.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/mipmap-hdpi/ic_launcher_round.png"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_wsl_logo.png.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/mipmap-xxhdpi/wsl_logo.png"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/mipmap-mdpi/ic_launcher.png"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/drawable/ic_launcher_background.xml"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/drawable-v24_ic_launcher_foreground.xml.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/drawable-v24/ic_launcher_foreground.xml"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/mipmap-xxhdpi_wsl_logo.png.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/mipmap-xxhdpi/wsl_logo.png"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher.png.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/mipmap-xhdpi/ic_launcher.png"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/drawable_ic_launcher_background.xml.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/drawable/ic_launcher_background.xml"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/layout_activity_main.xml.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/layout/activity_main.xml"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher_round.png.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/layout_activity_main.xml.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/layout/activity_main.xml"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher.png.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/mipmap-hdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher_round.png.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/drawable-v24/ic_launcher_foreground.xml"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher.png.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/mipmap-hdpi/ic_launcher.png"
     },
     {
-        "merged": "/Users/Android Projects/android-wsl-service/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher_round.png.flat",
-        "source": "/Users/Android Projects/android-wsl-service/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
+        "merged": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/alejandro/Android projects/android-wsl-service /app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
     }
 ]

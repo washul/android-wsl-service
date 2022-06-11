@@ -2,14 +2,12 @@ package com.wsl.login.config
 
 import android.content.Context
 import android.util.Log
-import com.wsl.login.database.entities.EConfig
+import com.wsl.data.db.entities.EConfig
 import org.json.JSONObject
 import java.io.*
-import java.lang.StringBuilder
-import javax.inject.Inject
 
 const val CONFIG_TAG = "WSL_CONFIG_FILE "
-class Config @Inject constructor(
+class Config constructor(
     private val context: Context
 ) {
     private var fileOutputStream: FileOutputStream =

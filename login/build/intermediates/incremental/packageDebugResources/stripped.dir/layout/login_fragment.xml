@@ -131,9 +131,7 @@
             android:textColor="@color/colorGrayShadow"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/facebook_login_"
-            app:layout_constraintStart_toStartOf="@+id/facebook_login_"
-            app:layout_constraintTop_toBottomOf="@+id/facebook_login_" />
+             />
 
         <androidx.appcompat.widget.AppCompatButton
             android:background="@drawable/background_google_signin_button"
@@ -150,16 +148,7 @@
             app:layout_constraintStart_toStartOf="@+id/iconView"
             app:layout_constraintTop_toBottomOf="@+id/iconView" />
 
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/facebook_login_"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fitsSystemWindows="true"
-            android:minHeight="48dp"
-            app:layout_constraintEnd_toEndOf="@+id/google_login_"
-            app:layout_constraintStart_toStartOf="@+id/google_login_"
-            app:layout_constraintTop_toBottomOf="@+id/google_login_" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
          

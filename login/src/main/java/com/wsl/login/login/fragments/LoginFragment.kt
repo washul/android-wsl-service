@@ -12,12 +12,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.facebook.AccessToken
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
+import com.domain.domain.login.models.User
+import com.google.android.gms.auth.api.identity.SignInPassword
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -25,32 +21,21 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.wsl.login.R
-import com.wsl.login.database.entities.EUser
 import com.wsl.login.databinding.LoginFragmentBinding
 import com.wsl.login.helpers.*
 import com.wsl.login.login.TAG_LOGIN
 import com.wsl.login.login.WSLoginActivity
 import com.wsl.login.login.view_model.WSLoginViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import javax.inject.Inject
 
-@AndroidEntryPoint
 class LoginFragment: Fragment()  {
 
-    @Inject
-    lateinit var callbackManager: CallbackManager
-
-    @Inject
     lateinit var gso: GoogleSignInOptions
 
-    @Inject
     lateinit var mGoogleSignInClient: GoogleSignInClient
 
-    @Inject
     lateinit var auth: FirebaseAuth
 
-    @Inject
     lateinit var viewModel: WSLoginViewModel
 
     private lateinit var binding: LoginFragmentBinding
@@ -81,13 +66,8 @@ class LoginFragment: Fragment()  {
         )
 
         context?.let { binding.iconView.buildResource( R.mipmap.ic_logo, it) }
-        callbackManager = (activity as WSLoginActivity).callbackManager
         loadButtonsClickListener()
         return binding.root
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun requireFirebaseAuth(task: Task<AuthResult>?) {
@@ -121,7 +101,7 @@ class LoginFragment: Fragment()  {
             }
 
             /**Data from firebase*/
-            val commonUser = EUser(
+            val commonUser = User(
                 uuid_user= UUID.randomUUID().toString(),
                 email = email,
                 password = "wsl-services:com.wsl.login",
@@ -133,7 +113,7 @@ class LoginFragment: Fragment()  {
             )
             viewModel.commonUser = commonUser
             viewModel.setUser(commonUser)
-            loginWSL(commonUser)
+            loginWSL(email.toString(), "wsl-services:com.wsl.login")
 
         } else {
             // If sign in fails, display a message to the user.
@@ -142,31 +122,19 @@ class LoginFragment: Fragment()  {
         }
     }
 
-    private fun handleFacebookAccessToken(token: AccessToken) {
-        Log.d(TAG, TAG_LOGIN +"handleFacebookAccessToken:$token")
-        firebaseAuth(FacebookAuthProvider.getCredential(token.token))
-    }
+    private fun loginWSL(email: String, password: String){
 
-    private fun loginWSL(user: EUser){
+        viewModel.login(email, password) { isLogged ->
 
-        viewModel.login(user){ loginResponse ->
+//            if (loginResponse.uuid_user == "") {
+//                /**Register user with data provided from Google/Facebook*/
+//                viewModel.setUserToRegister(user)
+//                return@login
+//            }
 
-            if ( loginResponse == null ){
-                viewModel.onShowErrorMessage(getString(R.string.intentelo_mas_tarde))
-                return@login
-            }
+//            viewModel.tokenDevice = user.tokendevice ?: context?.getDeviceID() ?: ""
 
-            if ( loginResponse.uuid_user == "" ){
-                /**Register user with data provided from Google/Facebook*/
-                viewModel.setUserToRegister(user)
-                return@login
-            }
-
-            viewModel.tokenDevice = user.tokendevice ?: context?.getDeviceID() ?: ""
-            viewModel.userID = user.uuid_user
-            viewModel.saveUserOrUpdate(loginResponse)
-
-            viewModel.setUserSignInCorrectly(loginResponse)
+            viewModel.setUserSignInCorrectly(isLogged)
             viewModel.onShowProgressDialogDone()
         }
     }
@@ -223,7 +191,7 @@ class LoginFragment: Fragment()  {
             viewModel.commonUser.email = email
             viewModel.commonUser.password = password
 
-            loginWSL( viewModel.commonUser )
+            loginWSL( email, password )
 
         }
 
@@ -232,25 +200,6 @@ class LoginFragment: Fragment()  {
             this.findNavController().navigate(LoginFragmentDirections.loginFragmentToRegisterFragment())
         }
 
-        binding.facebookLogin.setPermissions(listOf("email"))
-        binding.facebookLogin.fragment = this
-        binding.facebookLogin.setOnClickListener {
-            viewModel.isTrackingAppOut = true
-        }
-        LoginManager.getInstance().registerCallback(callbackManager, object: FacebookCallback<LoginResult> {
-            override fun onCancel() {
-                Log.d(TAG, "onCancel")
-            }
-
-            override fun onError(error: FacebookException) {
-                Log.d(TAG, "onError ${error.stackTrace}")
-            }
-
-            override fun onSuccess(result: LoginResult) {
-                Log.d(TAG, "Result: $result")
-                result.let { handleFacebookAccessToken(it.accessToken) }
-            }
-        })
 
         binding.googleLogin.setOnClickListener {
             viewModel.isTrackingAppOut = true

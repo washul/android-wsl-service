@@ -4,7 +4,25 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/wsl-service.iml" filepath="$PROJECT_DIR$/.idea/modules/wsl-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/wsl-service.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/wsl-service.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/wsl-service.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/wsl-service.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/wsl-service.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/wsl-service.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/wsl-service.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/wsl-service.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/wsl-service.data.iml" filepath="$PROJECT_DIR$/.idea/modules/data/wsl-service.data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/wsl-service.data.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/data/wsl-service.data.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/wsl-service.data.main.iml" filepath="$PROJECT_DIR$/.idea/modules/data/wsl-service.data.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/wsl-service.data.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/data/wsl-service.data.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/wsl-service.domain.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/wsl-service.domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/wsl-service.domain.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/wsl-service.domain.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/wsl-service.domain.main.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/wsl-service.domain.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/wsl-service.domain.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/wsl-service.domain.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/login/wsl-service.login.iml" filepath="$PROJECT_DIR$/.idea/modules/login/wsl-service.login.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/login/wsl-service.login.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/login/wsl-service.login.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/login/wsl-service.login.main.iml" filepath="$PROJECT_DIR$/.idea/modules/login/wsl-service.login.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/login/wsl-service.login.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/login/wsl-service.login.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/wsl-service.utils.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/wsl-service.utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/wsl-service.utils.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/wsl-service.utils.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/wsl-service.utils.main.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/wsl-service.utils.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/wsl-service.utils.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/wsl-service.utils.unitTest.iml" />
     </modules>
   </component>
 </project>

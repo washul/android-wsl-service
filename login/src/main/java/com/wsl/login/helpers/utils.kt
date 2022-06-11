@@ -13,7 +13,6 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.fragment.app.FragmentActivity
-import com.facebook.FacebookSdk
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.wsl.login.R
@@ -137,8 +136,6 @@ class WSProgressBarCustom {
         activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 }
-
-fun WSLoginActivity.initFacebookSDK() = FacebookSdk.sdkInitialize(applicationContext)
 
 
 

@@ -1,3 +1,6 @@
 include ':login'
 include ':app'
 rootProject.name = "wsl-service"
+include ':data'
+include ':domain'
+include ':utils'

@@ -15,12 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.databinding.Bindable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import com.domain.domain.login.models.User;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.wsl.login.R;
-import com.wsl.login.database.entities.EUser;
 import com.wsl.login.login.view_model.WSLoginViewModel;
 import java.lang.Deprecated;
 import java.lang.Object;
@@ -117,7 +117,7 @@ public abstract class FragmentRegisterBinding extends ViewDataBinding {
   public final TextView textView3;
 
   @Bindable
-  protected EUser mUser;
+  protected User mUser;
 
   @Bindable
   protected WSLoginViewModel mVm;
@@ -167,10 +167,10 @@ public abstract class FragmentRegisterBinding extends ViewDataBinding {
     this.textView3 = textView3;
   }
 
-  public abstract void setUser(@Nullable EUser user);
+  public abstract void setUser(@Nullable User user);
 
   @Nullable
-  public EUser getUser() {
+  public User getUser() {
     return mUser;
   }
 

@@ -7,7 +7,7 @@
     <data>
         <variable
             name="user"
-            type="com.wsl.login.database.entities.EUser" />
+            type="com.domain.domain.login.models.User" />
         <variable
             name="vm"
             type="com.wsl.login.login.view_model.WSLoginViewModel" />

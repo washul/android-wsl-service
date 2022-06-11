@@ -13,7 +13,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.databinding.Bindable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.wsl.login.R;
@@ -30,9 +29,6 @@ public abstract class LoginFragmentBinding extends ViewDataBinding {
 
   @NonNull
   public final TextInputEditText extiTextPassword;
-
-  @NonNull
-  public final LoginButton facebookLogin;
 
   @NonNull
   public final AppCompatButton googleLogin;
@@ -57,13 +53,12 @@ public abstract class LoginFragmentBinding extends ViewDataBinding {
 
   protected LoginFragmentBinding(Object _bindingComponent, View _root, int _localFieldCount,
       TextInputEditText editTextEmail, TextInputLayout email, TextInputEditText extiTextPassword,
-      LoginButton facebookLogin, AppCompatButton googleLogin, ImageView iconView,
-      Button iniciarSesion, TextInputLayout passwordLayout, Button registrarme, TextView textView) {
+      AppCompatButton googleLogin, ImageView iconView, Button iniciarSesion,
+      TextInputLayout passwordLayout, Button registrarme, TextView textView) {
     super(_bindingComponent, _root, _localFieldCount);
     this.editTextEmail = editTextEmail;
     this.email = email;
     this.extiTextPassword = extiTextPassword;
-    this.facebookLogin = facebookLogin;
     this.googleLogin = googleLogin;
     this.iconView = iconView;
     this.iniciarSesion = iniciarSesion;

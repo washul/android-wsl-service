@@ -1,10 +1,20 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/Android Projects/android-wsl-service/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
+            "outputFile": "/Users/alejandro/Android projects/android-wsl-service /app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "/Users/desarrollo/.gradle/caches/transforms-3/079394a53aff3af54fbec5d4d91797b1/transformed/media-1.0.0/res/values-v24/values-v24.xml",
+                    "source": "/Users/alejandro/.gradle/caches/transforms-3/a08890f797f280d6aa4624f43584d5e2/transformed/appcompat-1.4.1/res/values-v24/values-v24.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,212",
+                        "endColumns": "156,134",
+                        "endOffsets": "207,342"
+                    }
+                },
+                {
+                    "source": "/Users/alejandro/.gradle/caches/transforms-3/af157a38c930aca8e0c669216a888d2d/transformed/media-1.0.0/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -13,21 +23,30 @@
                         "endOffsets": "116,177,243,310"
                     },
                     "to": {
-                        "startLines": "4,5,6,7",
+                        "startLines": "20,21,22,23",
                         "startColumns": "4,4,4,4",
-                        "startOffsets": "347,413,474,540",
+                        "startOffsets": "1547,1613,1674,1740",
                         "endColumns": "65,60,65,66",
-                        "endOffsets": "408,469,535,602"
+                        "endOffsets": "1608,1669,1735,1802"
                     }
                 },
                 {
-                    "source": "/Users/desarrollo/.gradle/caches/transforms-3/e8a7e810d1c048a0194cfcd1e5234237/transformed/appcompat-1.1.0/res/values-v24/values-v24.xml",
+                    "source": "/Users/alejandro/.gradle/caches/transforms-3/5c5e6030b8b7881da728f66775df91a2/transformed/material-1.6.0/res/values-v24/values-v24.xml",
                     "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,212",
-                        "endColumns": "156,134",
-                        "endOffsets": "207,342"
+                        "startLines": "2,3,4,5,6,9,12,15",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,140,239,326,427,626,839,1040",
+                        "endLines": "2,3,4,5,8,11,14,17",
+                        "endColumns": "84,98,86,100,10,10,10,10",
+                        "endOffsets": "135,234,321,422,621,834,1035,1250"
+                    },
+                    "to": {
+                        "startLines": "4,5,6,7,8,11,14,17",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "347,432,531,618,719,918,1131,1332",
+                        "endLines": "4,5,6,7,10,13,16,19",
+                        "endColumns": "84,98,86,100,10,10,10,10",
+                        "endOffsets": "427,526,613,714,913,1126,1327,1542"
                     }
                 }
             ]

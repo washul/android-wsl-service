@@ -6,43 +6,35 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.facebook.CallbackManager
+import com.domain.domain.login.models.User
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.wsl.login.R
 import com.wsl.login.config.Config
-import com.wsl.login.database.entities.EUser
+
 import com.wsl.login.helpers.*
 import com.wsl.login.login.view_model.WSLoginViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import com.wsl.login.databinding.ActivityLoginBinding
+import org.koin.android.ext.android.inject
+
 
 const val TAG_LOGIN = "WSLoginActivity "
-@AndroidEntryPoint
+
 class WSLoginActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityLoginBinding
 
-    @Inject
-    lateinit var callbackManager: CallbackManager
+    val viewModel: WSLoginViewModel by inject()
 
-    @Inject
-    lateinit var viewModel: WSLoginViewModel
+    val gso: GoogleSignInOptions by inject()
 
-    @Inject
-    lateinit var gso: GoogleSignInOptions
+    val mGoogleSignInClient: GoogleSignInClient by inject()
 
-    @Inject
-    lateinit var mGoogleSignInClient: GoogleSignInClient
+    val auth: FirebaseAuth by inject()
 
-    @Inject
-    lateinit var auth: FirebaseAuth
-
-    @Inject
-    lateinit var configClass: Config
+    val configClass: Config by inject()
 
     private lateinit var progressBarCustom: WSProgressBarCustom
 
@@ -59,11 +51,6 @@ class WSLoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        if ( !viewModel.isNetworkAvailable() ){
-            localSignIn()
-            return
-        }
-
         when( viewModel.activityAction ){
             WSL_LOGIN_ACTION_AUTO_LOG_OUT -> {
                 viewModel.getLogOut {
@@ -77,11 +64,6 @@ class WSLoginActivity : AppCompatActivity() {
                 signInWithNetworkAvailable()
             }
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private fun loadLoginUI() {
@@ -102,9 +84,7 @@ class WSLoginActivity : AppCompatActivity() {
         })
 
         viewModel.onUserSignInCorrectly.observe(this, Observer {
-            if(it == null) return@Observer
-
-            userLoggedCorrectly(it.uuid_user)
+            userLoggedCorrectly(it)
             viewModel.setOnUserSignInCorrectlyDone()
         })
 
@@ -114,18 +94,18 @@ class WSLoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun autoSignIn(){
-        viewModel.loginAuto { userID ->
-            if(userID == null) {
-                logOut()
-                runOnUiThread {loadLoginUI()}
-                return@loginAuto
-            }
-
-            Log.e(TAG_LOGIN, "Auto login response ->$userID")
-            userLoggedCorrectly(userID)
-        }
-    }
+//    private fun autoSignIn(){
+//        viewModel.loginAuto { userID ->
+//            if(userID == null) {
+//                logOut()
+//                runOnUiThread {loadLoginUI()}
+//                return@loginAuto
+//            }
+//
+//            Log.e(TAG_LOGIN, "Auto login response ->$userID")
+//            userLoggedCorrectly(userID)
+//        }
+//    }
 
     private fun signInWithNetworkAvailable(){
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -134,16 +114,16 @@ class WSLoginActivity : AppCompatActivity() {
         if ( viewModel.tokenUser == "" && currentUser == null  ){
             runOnUiThread { loadLoginUI() }
         }else {
-            if (!viewModel.isTrackingAppOut)
-                autoSignIn()
+//            if (!viewModel.isTrackingAppOut)
+//                autoSignIn()
         }
     }
 
     @Suppress("LABEL_NAME_CLASH")
     private fun localSignIn(){
 
-        viewModel.localSignIn { user ->
-            if ( user == null ){
+        viewModel.localSignIn { response ->
+            if ( !response ){
                 viewModel.onShowErrorMessage("No se encontro usuario")
                 return@localSignIn
             }
@@ -156,15 +136,14 @@ class WSLoginActivity : AppCompatActivity() {
                 return@localSignIn
             }
 
-            userLoggedCorrectly(user.uuid_user)
+            userLoggedCorrectly(response)
         }
     }
 
-    private fun userLoggedCorrectly(userID: String? = null ){
+    private fun userLoggedCorrectly(isSignedIn: Boolean){
 
-        if ( userID != null ) {
+        if ( isSignedIn ) {
             this.intent.putExtra(WSL_FLAG_NAME, WSL_LOGIN_ANSWER_SIGN_IN)
-            this.intent.putExtra(WSL_ACTION_PARAM_NAME, userID)
         } else {
             this.intent.putExtra(WSL_FLAG_NAME, WSL_LOGIN_ANSWER_NO_SIGN_IN)
         }
@@ -173,7 +152,7 @@ class WSLoginActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun dialogNoAccountRegistered(user: EUser? = null ){
+    private fun dialogNoAccountRegistered(user: User? = null ){
 
         MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_App_MaterialAlertDialog)
             .setTitle(getString(R.string.desea_crear_cuenta))
@@ -192,19 +171,9 @@ class WSLoginActivity : AppCompatActivity() {
                     }
 
                     viewModel.onShowProgressDialogDone()
+                    //todo: verificar que el usuario se guarde en la nube y local
 
-                    if ( registerResponse.uuid_user == "" ){
-                        viewModel.onShowErrorMessage( registerResponse.message )
-                        return@register
-                    }
-
-                    user.uuid_user = registerResponse.uuid_user
-                    viewModel.tokenUser = registerResponse.token
-                    viewModel.tokenDevice = user.tokendevice ?: ""
-
-                    viewModel.saveUserOrUpdate( user )
-
-                    viewModel.setUserSignInCorrectly(user)
+                    viewModel.setUserSignInCorrectly(true)
                 }
             }
             .show()

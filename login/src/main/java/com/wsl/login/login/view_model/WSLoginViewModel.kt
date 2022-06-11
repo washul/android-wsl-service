@@ -1,18 +1,15 @@
 package com.wsl.login.login.view_model
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
-import com.wsl.login.database.entities.EConfig
-import com.wsl.login.database.entities.EUser
-import com.wsl.login.retrofit.LoginResponse
-import com.wsl.login.retrofit.RegisterResponse
+import com.domain.domain.login.models.User
+import com.utils.utils.*
+import com.wsl.data.db.entities.EConfig
+import com.wsl.login.login.CommonAuthenticationManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class WSLoginViewModel @ViewModelInject constructor(
-    private var repository: RepositoryLogin
+class WSLoginViewModel constructor(
+    private val authenticationManager: CommonAuthenticationManager
     ) : ViewModel() {
 
     var isTrackingAppOut = false
@@ -32,50 +29,76 @@ class WSLoginViewModel @ViewModelInject constructor(
     var userID: String = ""
         set(value) {
             field = value
-            repository.prefs.userID = value
+            setUserID()
         }
         get(){
             if ( field == "" ){
-                field = repository.prefs.userID
+                field = authenticationManager.userID ?: ""
             }
             return field
         }
     var tokenUser: String = ""
         set(value) {
             field = value
-            repository.prefs.tokenUser = value
+            setTokenUser()
         }
         get(){
             if ( field == "" ){
-                field = repository.prefs.tokenUser
+                field = authenticationManager.tokenUser ?: ""
             }
             return field
         }
     var tokenDevice: String = ""
         set(value) {
             field = value
-            repository.prefs.tokenDevice = value
+            setDeviceID()
         }
         get(){
             if ( field == "" ){
-                field = repository.prefs.tokenDevice
+                field = authenticationManager.deviceID ?: ""
             }
             return field
         }
 
-    var commonUser = EUser(uuid_user = "")
+    init {
+        authenticationManager.getSensitiveTokens()
+    }
 
-    private val _mutableUser = MutableLiveData<EUser>()
+    private fun setUserID() =
+        viewModelScope.launch(Dispatchers.IO) {
+            authenticationManager.setUserID(userID)
+                .onFailure {
+                    //Handle error
+                }
+        }
+
+    private fun setTokenUser() = viewModelScope.launch(Dispatchers.IO) {
+        authenticationManager.setTokenUSer(tokenUser)
+            .onFailure {
+                //Handle error
+
+            }
+    }
+
+    private fun setDeviceID() = viewModelScope.launch(Dispatchers.IO) {
+        authenticationManager.setTokenDevice(tokenDevice)
+            .onFailure {
+                //Handle error
+            }
+    }
+
+
+    var commonUser = User(uuid_user = "")
+
+    private val _mutableUser = MutableLiveData<User>()
     val mutableUser = _mutableUser
-    fun setUser(user: EUser) {
+    fun setUser(user: User) {
         _mutableUser.postValue(user)
     }
 
 
-    val userRegister = MutableLiveData<EUser>()
+    val userRegister = MutableLiveData<User>()
 
-    fun isNetworkAvailable()
-            = repository.isNetworkAvailable
     var activityAction = -1
 
     /**
@@ -104,64 +127,92 @@ class WSLoginViewModel @ViewModelInject constructor(
      * _onUserLoginCorrectly ->
      * Notify to the activity that the user is sign in
      * */
-    private val _onUserSignInCorrectly = MutableLiveData<EUser?>()
-    val onUserSignInCorrectly: LiveData<EUser?> = _onUserSignInCorrectly
-    fun setUserSignInCorrectly(user: EUser?){ _onUserSignInCorrectly.postValue(user) }
-    fun setOnUserSignInCorrectlyDone(){ _onUserSignInCorrectly.postValue(null) }
+    private val _onUserSignInCorrectly = MutableLiveData<Boolean>()
+    val onUserSignInCorrectly: LiveData<Boolean> = _onUserSignInCorrectly
+    fun setUserSignInCorrectly(isLogged: Boolean){ _onUserSignInCorrectly.postValue(isLogged) }
+    fun setOnUserSignInCorrectlyDone(){ _onUserSignInCorrectly.postValue(false) }
 
     /**
      * _requireRegisterUser ->
      * Require a register by a dialog, and request to the activity this dialog
      * */
-    private val _requireRegisterUser = MutableLiveData<EUser?>()
-    val requireRegisterUser: LiveData<EUser?> = _requireRegisterUser
-    fun setUserToRegister(user: EUser?){ _requireRegisterUser.postValue(user) }
+    private val _requireRegisterUser = MutableLiveData<User?>()
+    val requireRegisterUser: LiveData<User?> = _requireRegisterUser
+    fun setUserToRegister(user: User?){ _requireRegisterUser.postValue(user) }
     fun setUserToRegisterDone(){ _requireRegisterUser.postValue(null) }
 
 
 //    LOCAL METHODS
-    fun localSignIn( function: (EUser?) -> Unit ) {
+    fun localSignIn( response: (Boolean) -> Unit ) {
         viewModelScope.launch(Dispatchers.IO) {
-            function(repository.localSignIn())
+            authenticationManager.localSignIn()
+                .onSuccess {
+                    response(it)
+                }
+                .onFailure {
+                    //send to handle error
+                    response(false)
+                }
         }
     }
 
-    fun saveUserOrUpdate(user: EUser) {
+    fun saveUserOrUpdate(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.saveUserOrUpdate( user )
+            authenticationManager.saveUserOrUpdate(user)
+                .onFailure {
+                    //Handle error
+                }
         }
     }
-
-    fun getUserLiveData() = repository.getUserLiveData()
-
-    fun getLocalUserAsync(function: (EUser?) -> Unit) = repository.getLocalUserAsync(function)
 
 //    CLOUD METHODS
     fun login(
-        user: EUser,
-        function: (EUser?) -> Unit
-    ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.login( user, function )
-        }
+        email: String,
+        password: String,
+        response: (Boolean) -> Unit
+    )  = viewModelScope.launch(Dispatchers.IO) {
+        authenticationManager.login(email, password)
+            .onSuccess {
+                response(it)
+            }
+            .onFailure {
+                //Handle error
+                //TODO: need to identify if this error is about network connection
+                response(false)
+                onShowErrorMessage(locateErrorMessage(it))
+            }
     }
 
-    fun loginAuto( function: (String?) -> Unit ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.loginAuto(function)
-        }
+
+//    fun loginAuto(
+//        function: (String?) -> Unit
+//    ) = viewModelScope.launch(Dispatchers.IO) {
+//
+//    }
+
+
+    fun getLogOut(
+        function: (Boolean) -> Unit
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        authenticationManager.logOut()
+            .onSuccess(function)
+            .onFailure {
+                //Handle error
+            }
     }
 
-    fun getLogOut(function: (Boolean) -> Unit) = repository.logOut(function)
-
-    fun register(user: EUser, function: (RegisterResponse?) -> Unit ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.registerUser( user, function )
-        }
+    fun register(
+        user: User,
+        function: (Boolean?) -> Unit
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        authenticationManager.registerUser(user)
+            .onSuccess(function)
+            .onFailure {
+                //Handle error
+            }
     }
 
-    fun logOut(){
-        repository.logOut{}
-    }
+
+    fun logOut() = viewModelScope.launch(Dispatchers.IO) {authenticationManager.logOut()}
 
 }

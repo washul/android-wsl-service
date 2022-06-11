@@ -8,19 +8,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.domain.domain.login.models.User
 import com.wsl.login.R
-import com.wsl.login.database.entities.EUser
 import com.wsl.login.helpers.getDeviceID
 import com.wsl.login.login.view_model.WSLoginViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import com.wsl.login.databinding.FragmentRegisterBinding
 import java.util.*
-import javax.inject.Inject
 
-@AndroidEntryPoint
 class RegisterFragment: Fragment() {
 
-    @Inject
     lateinit var viewModel: WSLoginViewModel
 
     private lateinit var binding: FragmentRegisterBinding
@@ -33,7 +29,7 @@ class RegisterFragment: Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false)
 
         //            Tmp just for testing
-        val userTemp = EUser(
+        val userTemp = User(
             uuid_user = "",
             name="Alejandro",
             last_name = "Carrillo",
@@ -64,13 +60,13 @@ class RegisterFragment: Fragment() {
                     return@register
                 }
 
-                if ( registerResponse.uuid_user == "0" ){
-                    viewModel.onShowErrorMessage( registerResponse.message )
-                    return@register
-                }
-
-                user.uuid_user = registerResponse.uuid_user
-                viewModel.tokenUser = registerResponse.token
+//                if ( registerResponse.uuid_user == "0" ){
+//                    viewModel.onShowErrorMessage( registerResponse.message )
+//                    return@register
+//                }
+//
+//                user.uuid_user = registerResponse.uuid_user
+//                viewModel.tokenUser = registerResponse.token
                 viewModel.tokenDevice = user.tokendevice ?: context?.getDeviceID() ?: ""
 
                 viewModel.saveUserOrUpdate( user )

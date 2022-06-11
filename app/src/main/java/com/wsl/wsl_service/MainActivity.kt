@@ -3,26 +3,31 @@ package com.wsl.wsl_service
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
 import com.wsl.login.helpers.*
 import com.wsl.login.login.WSLoginActivity
-import com.wsl.login.payments.Payments
-import com.wsl.login.profile.ProfileActivity
+//import com.wsl.login.payments.Payments
+//import com.wsl.login.profile.ProfileActivity
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
-    private lateinit var wsPreferences: WSPreferences
+//    private lateinit var wsPreferences: com.wsl.data.WSPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        resultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 // There are no request codes
                 val data: Intent? = result.data
@@ -30,11 +35,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        wsPreferences = WSPreferences(this)
-        if (wsPreferences.tokenUser == "") {
-            val intent = Intent(this, WSLoginActivity::class.java)
-            resultLauncher.launch(intent)
-        }
+//        wsPreferences = com.wsl.data.WSPreferences(this)
+//        if (wsPreferences.tokenUser == "") {
+//            val intent = Intent(this, WSLoginActivity::class.java)
+//            resultLauncher.launch(intent)
+//        }
 
         loadUI()
     }
@@ -49,10 +54,11 @@ class MainActivity : AppCompatActivity() {
         val button_payments = findViewById<Button>(R.id.button_payments)
         val button_wallet = findViewById<Button>(R.id.button_wallet)
         val button_profile = findViewById<Button>(R.id.button_profile)
+        val button_login = findViewById<Button>(R.id.button_login)
         button_payments.setOnClickListener {
 
-            val intent = Intent(this@MainActivity, Payments()::class.java)
-            resultLauncher.launch( intent )
+//            val intent = Intent(this@MainActivity, Payments()::class.java)
+//            resultLauncher.launch( intent )
         }
 
         button_wallet.setOnClickListener {
@@ -60,15 +66,21 @@ class MainActivity : AppCompatActivity() {
             val arrayList = ArrayList<Int>()
             arrayList.add(WSL_PAYMENTS_ACTION_SHOW_WALLET)
 
-            val intent = Intent(this@MainActivity, Payments()::class.java)
-            intent.putExtra( WSL_ACTION_PARAM_NAME, arrayList )
-            resultLauncher.launch(intent)
+//            val intent = Intent(this@MainActivity, Payments()::class.java)
+//            intent.putExtra( WSL_ACTION_PARAM_NAME, arrayList )
+//            resultLauncher.launch(intent)
         }
 
         button_profile.setOnClickListener {
-            val intent = Intent(this@MainActivity, ProfileActivity()::class.java)
+//            val intent = Intent(this@MainActivity, ProfileActivity()::class.java)
+//            resultLauncher.launch(intent)
+        }
+
+        button_login.setOnClickListener {
+            val intent = Intent(this, WSLoginActivity::class.java)
             resultLauncher.launch(intent)
         }
+
     }
 
     private fun onActivityResultCustom(data: Intent?) {
